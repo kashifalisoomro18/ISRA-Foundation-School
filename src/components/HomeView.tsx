@@ -65,7 +65,7 @@ export default function HomeView({
       subtitle: "MORAL LEADERSHIP",
       description:
         "Grooming well-rounded, responsible future citizens anchored in integrity, cooperative empathy, and academic precision.",
-      bgImage:"assets/slider/slide5.jpg",
+      bgImage:"assets/slider/slide5.jpeg",
     },
     {
       title: "PREPARING FUTURE CAMBRIDGE",
@@ -133,7 +133,7 @@ export default function HomeView({
                 {/* Left Arrow */}
                 <button 
                   onClick={() => setActiveSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length)}
-                  className="absolute left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-black/45 hover:bg-primary text-white hover:text-slate-950 flex items-center justify-center transition-all cursor-pointer"
+                  className="absolute left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full border-2 border-white bg-black/40 hover:bg-primary text-white hover:text-slate-950 flex items-center justify-center transition-all duration-300 cursor-pointer shadow-lg"
                   id="carousel-prev-arrow"
                 >
                   <span className="text-xl font-bold">&lsaquo;</span>
@@ -142,7 +142,7 @@ export default function HomeView({
                 {/* Right Arrow */}
                 <button 
                   onClick={() => setActiveSlide((prev) => (prev + 1) % heroSlides.length)}
-                  className="absolute right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-black/45 hover:bg-primary text-white hover:text-slate-950 flex items-center justify-center transition-all cursor-pointer"
+                  className="absolute right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full border-2 border-white bg-black/40 hover:bg-primary hover:border-white text-white hover:text-slate-950 flex items-center justify-center transition-all duration-300 cursor-pointer shadow-lg"
                   id="carousel-next-arrow"
                 >
                   <span className="text-xl font-bold">&rsaquo;</span>
@@ -188,9 +188,9 @@ export default function HomeView({
                     >
                       <button
                         onClick={handleApplyNow}
-                        className="bg-white hover:bg-primary text-slate-950 px-8 py-3 rounded-none font-bold text-xs uppercase tracking-widest transition-all cursor-pointer shadow-md flex items-center gap-2 hover:scale-105 active:scale-95"
+                        className="bg-white hover:bg-[#60badc] text-slate-950 px-8 py-3 rounded-none font-bold text-xs uppercase tracking-widest transition-all cursor-pointer shadow-md flex items-center gap-2 hover:scale-105 active:scale-95"
                       >
-                        Details <ChevronRight className="w-4 h-4" />
+                        Apply Now <ChevronRight className="w-4 h-4" />
                       </button>
                     </motion.div>
                   </div>
@@ -206,8 +206,8 @@ export default function HomeView({
             <button
               key={idx}
               onClick={() => setActiveSlide(idx)}
-              className={`w-3.5 h-3.5 rounded-full transition-all border border-white/60 cursor-pointer ${
-                idx === activeSlide ? "bg-white scale-125" : "bg-white/40 hover:bg-white/70"
+              className={`w-2.5 h-2.5 rounded-full transition-all border border-white/60 cursor-pointer ${
+                idx === activeSlide ? "bg-[#60badc] scale-125" : "bg-white/40 hover:bg-white/70"
               }`}
               aria-label={`Go to slide ${idx + 1}`}
             />
