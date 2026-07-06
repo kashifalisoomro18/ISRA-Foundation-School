@@ -301,7 +301,7 @@ export default function HomeView({
                   animate={{ x: "0%", opacity: 1 }}
                   exit={{ x: "-100%", opacity: 0 }}
                   transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute inset-y-0 left-0 w-full lg:w-[50%] bg-gradient-to-r from-slate-950 via-slate-950 to-slate-900/95 z-20 flex items-center clip-left-panel"
+                  className="absolute inset-y-0 left-0 w-full lg:w-[50%]  from-slate-950 via-slate-950 to-slate-900/95 z-20 flex items-center clip-left-panel"
                 >
                   {/* Overlay matching the high-contrast professional presentation */}
                   <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-900/40 to-transparent lg:hidden z-10" />
@@ -506,7 +506,7 @@ export default function HomeView({
               </h2>
             </div>
 
-            <p className="text-slate-700 text-sm sm:text-base leading-relaxed font-normal">
+            <p className="text-slate-700 text-sm sm:text-base leading-relaxed font-normal ">
               Welcome to Isra Foundation Schools, where
               academic excellence meets holistic character
               development. We provide a modern, value-driven
@@ -614,17 +614,16 @@ export default function HomeView({
               <motion.span
                 animate={{ scale: [1, 1.4, 1], opacity: [1, 0.6, 1] }}
                 transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-                className="w-1.5 h-1.5 rounded-full bg-[#f5c330]"
               />
-              <span className="text-[#f5c330] font-sans text-xs uppercase tracking-[0.15em] font-extrabold">
-                WHY FPS
+              <span className="text-[#383A4D] font-mono text-xs uppercase tracking-[0.15em] font-extrabold ">
+                WHY IFS
               </span>
             </motion.div>
             <motion.h2
               variants={fadeUp}
               className="font-sans font-black text-slate-900 text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-[1.1]"
             >
-              Why Choose Isra Foundation <span className="text-[#60badc]">School</span>
+              Why Choose Isra Foundation <span className="text-primary">School</span>
             </motion.h2>
             <motion.p
               variants={fadeUp}
@@ -677,13 +676,12 @@ export default function HomeView({
             className="max-w-3xl mx-auto text-center space-y-4 mb-12"
           >
             <div className="flex items-center justify-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#f5c330]" />
-              <span className="text-[#f5c330] font-sans text-xs uppercase tracking-[0.15em] font-extrabold">
+              <span className="text-[#383A4D] font-mono text-xs uppercase tracking-[0.15em] font-extrabold ">
                 OUR PRIDE
               </span>
             </div>
             <h2 className="font-sans font-black text-slate-900 text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-[1.1]">
-              Student Achievement <span className="text-[#60badc]">Highlights</span>
+              Student Achievement <span className="text-[#60badc]"> <br />Highlights</span>
             </h2>
             <p className="text-slate-500 text-sm sm:text-base leading-relaxed font-normal max-w-2xl mx-auto">
               Celebrating the remarkable accomplishments of our students in academics, sports,
@@ -757,7 +755,7 @@ export default function HomeView({
           className="flex justify-between items-end border-b border-slate-200 pb-4"
         >
           <h3 className="font-sans font-extrabold text-slate-900 text-2xl tracking-wider uppercase">
-            NEWS & EVENTS
+            NEWS & <span class="text-primary"> EVENTS </span>
           </h3>
           <button
             onClick={() => handleSubNav("news-events", "")}
