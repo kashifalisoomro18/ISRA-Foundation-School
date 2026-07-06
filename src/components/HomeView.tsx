@@ -265,7 +265,7 @@ export default function HomeView({
     <div className="space-y-24 pb-24 bg-white text-slate-900 font-sans">
 
       {/* SECTION 1: Carousel / Hero Slider (Pristine Slider with Criss-Cross Transitions) */}
-      <section className="relative h-[700px] w-full overflow-hidden bg-slate-950 text-white" id="fps-hero-slider">
+      <section className="relative h-[700px] w-full overflow-hidden bg-slate-950 text-white" id="fps-hero-slider ">
         <AnimatePresence mode="sync">
           {heroSlides.map((slide, index) => (
             index === activeSlide && (
@@ -410,8 +410,8 @@ export default function HomeView({
 
 
       {/* SECTION 2: Welcome Section with Video Overlap and Grid Collage (Pristine Layout Matching Image 2) */}
-      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 py-8 overflow-hidden" id="fps-welcome-section">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 py-8 overflow-hidden" id="fps-welcome-section " >
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center my-20">
 
           {/* Left Side: Overlapping Collage of Video and 2x2 Images */}
           <motion.div
@@ -545,15 +545,15 @@ export default function HomeView({
           </motion.div>
 
         </div>
-      </section>
+      </section >
 
 
       {/* SECTION 2.5: Premium Highlights (Stats + Why Choose Us + Achievements) */}
-      <section className="bg-white" id="fps-premium-highlights">
+      <section className="bg-white" id="fps-premium-highlights ">
 
         {/* --- Statistics / Achievement Counters (full-width colored banner) --- */}
-        <div className="w-full bg-[#0f172b]">
-          <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 py-14 sm:py-16">
+        <div className="w-full bg-[#0f172b] ">
+          <div className="max-w-7x2 mx-auto px-6 sm:px-12 lg:px-16 py-14 sm:py-20 my-20">
             <motion.div
               variants={staggerContainer}
               initial="hidden"
@@ -667,7 +667,7 @@ export default function HomeView({
         </div>
 
         {/* --- Student Achievement Highlights --- */}
-        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 pt-24">
+        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 pt-24 my-30">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -746,15 +746,15 @@ export default function HomeView({
 
 
       {/* SECTION 3: News & Events Masonry Grid (Prisinte Layout Matching Image 3) */}
-      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 space-y-8 overflow-hidden" id="fps-news-events-grid">
+      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 space-y-8 overflow-hidden my-50" id="fps-news-events-grid ">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="flex justify-between items-end border-b border-slate-200 pb-4"
+          className="flex justify-between items-end border-b border-slate-200 pb-4 "
         >
-          <h3 className="font-sans font-extrabold text-slate-900 text-2xl tracking-wider uppercase">
+          <h3 className="font-sans font-extrabold text-slate-900 text-2xl tracking-wider uppercase ">
             NEWS & <span class="text-primary"> EVENTS </span>
           </h3>
           <button
