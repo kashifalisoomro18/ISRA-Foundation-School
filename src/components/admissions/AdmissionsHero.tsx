@@ -74,7 +74,7 @@
                   className="text-primary shrink-0"
                 />
 
-                <div className="text-white">
+                <div className="text-[white]">
                   <p className="text-[15px] leading-5 font-medium">
                     Quality
                   </p>
@@ -208,7 +208,7 @@
 
             <div className="flex items-center gap-4">
 
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#76A93C]/20 text-[#10172b]">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#60badc]/20 text-[#10172b]">
                 <Users size={28} />
               </div>
 

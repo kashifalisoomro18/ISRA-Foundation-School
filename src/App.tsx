@@ -4,6 +4,7 @@
  */
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { MainView, AboutSubView, AdmissionsSubView, AcademicsSubView } from "./types";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -38,32 +39,42 @@ export default function App() {
         setAcademicsSubView={setAcademicsSubView}
       />
 
-      {/* Main Content View Port */}
-      <main className="flex-1">
-        {currentView === "home" && (
-          <HomeView
-            setView={setView}
-            setAboutSubView={setAboutSubView}
-            setAdmissionsSubView={setAdmissionsSubView}
-            setAcademicsSubView={setAcademicsSubView}
-          />
-        )}
-        {currentView === "about" && (
-          <AboutView subView={aboutSubView} setSubView={setAboutSubView} />
-        )}
-        {currentView === "admissions" && (
-          <AdmissionsView subView={admissionsSubView} setSubView={setAdmissionsSubView} />
-        )}
-        {currentView === "academics" && (
-          <AcademicsView subView={academicsSubView} setSubView={setAcademicsSubView} />
-        )}
-        {currentView === "facilities" && <FacilitiesView />}
-        {currentView === "activities" && <ActivitiesView />}
-        {currentView === "news-events" && <NewsEventsView />}
-        {currentView === "gallery" && <GalleryView />}
-        {currentView === "careers" && <CareersView />}
-        {currentView === "contact" && <ContactView />}
-        {currentView === "lms-portal" && <StudentPortalView />}
+      {/* Main Content View Port with AnimatePresence */}
+      <main className="flex-1 overflow-hidden">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentView}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+          >
+            {currentView === "home" && (
+              <HomeView
+                setView={setView}
+                setAboutSubView={setAboutSubView}
+                setAdmissionsSubView={setAdmissionsSubView}
+                setAcademicsSubView={setAcademicsSubView}
+              />
+            )}
+            {currentView === "about" && (
+              <AboutView subView={aboutSubView} setSubView={setAboutSubView} />
+            )}
+            {currentView === "admissions" && (
+              <AdmissionsView subView={admissionsSubView} />
+            )}
+            {currentView === "academics" && (
+              <AcademicsView subView={academicsSubView} setSubView={setAcademicsSubView} />
+            )}
+            {currentView === "facilities" && <FacilitiesView />}
+            {currentView === "activities" && <ActivitiesView />}
+            {currentView === "news-events" && <NewsEventsView />}
+            {currentView === "gallery" && <GalleryView />}
+            {currentView === "careers" && <CareersView />}
+            {currentView === "contact" && <ContactView />}
+            {currentView === "lms-portal" && <StudentPortalView />}
+          </motion.div>
+        </AnimatePresence>
       </main>
 
       {/* Premium Educational Footer */}
