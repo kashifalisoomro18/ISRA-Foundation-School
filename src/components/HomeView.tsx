@@ -604,25 +604,35 @@ export default function HomeView({
         {/* --- Why Choose Isra Foundation School --- */}
         <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 pt-24">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-80px" }}
             className="max-w-3xl mx-auto text-center space-y-4 mb-12"
           >
-            <div className="flex items-center justify-center gap-2">
-              {/* <span className="w-1.5 h-1.5 rounded-full bg-[#f5c330]" /> */}
-              <span className=" font-sans text-xs uppercase tracking-[0.15em] font-extrabold">
+            <motion.div variants={fadeUp} className="flex items-center justify-center gap-2">
+              <motion.span
+                animate={{ scale: [1, 1.4, 1], opacity: [1, 0.6, 1] }}
+                transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+                className="w-1.5 h-1.5 rounded-full bg-[#f5c330]"
+              />
+              <span className="text-[#f5c330] font-sans text-xs uppercase tracking-[0.15em] font-extrabold">
                 WHY FPS
               </span>
-            </div>
-            <h2 className="font-sans font-black text-slate-900 text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-[1.1]">
-              Why Choose Isra Foundation <span className="text-primary">School</span>
-            </h2>
-            <p className="text-slate-500 text-sm sm:text-base leading-relaxed font-normal max-w-2xl mx-auto">
+            </motion.div>
+            <motion.h2
+              variants={fadeUp}
+              className="font-sans font-black text-slate-900 text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-[1.1]"
+            >
+              Why Choose Isra Foundation <span className="text-[#60badc]">School</span>
+            </motion.h2>
+            <motion.p
+              variants={fadeUp}
+              className="text-slate-500 text-sm sm:text-base leading-relaxed font-normal max-w-2xl mx-auto"
+            >
               We combine dedicated mentorship, strong character formation, and modern learning
               tools to give every student a well-rounded foundation for lifelong success.
-            </p>
+            </motion.p>
           </motion.div>
 
           <motion.div
@@ -664,15 +674,18 @@ export default function HomeView({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="max-w-3xl space-y-4 mb-12"
+            className="max-w-3xl mx-auto text-center space-y-4 mb-12"
           >
-            <span className="text-[#383a4d] font-mono text-xs uppercase tracking-[0.25em] font-extrabold block">
-              OUR PRIDE
-            </span>
+            <div className="flex items-center justify-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#f5c330]" />
+              <span className="text-[#f5c330] font-sans text-xs uppercase tracking-[0.15em] font-extrabold">
+                OUR PRIDE
+              </span>
+            </div>
             <h2 className="font-sans font-black text-slate-900 text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-[1.1]">
               Student Achievement <span className="text-[#60badc]">Highlights</span>
             </h2>
-            <p className="text-slate-500 text-xs sm:text-sm font-normal">
+            <p className="text-slate-500 text-sm sm:text-base leading-relaxed font-normal max-w-2xl mx-auto">
               Celebrating the remarkable accomplishments of our students in academics, sports,
               competitions, leadership, and community service.
             </p>
