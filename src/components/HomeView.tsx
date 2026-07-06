@@ -552,51 +552,43 @@ export default function HomeView({
       <section className="bg-white" id="fps-premium-highlights ">
 
         {/* --- Statistics / Achievement Counters (full-width colored banner) --- */}
-        <div className="w-full bg-[#0f172b] ">
-          <div className="max-w-7x2 mx-auto px-6 sm:px-12 lg:px-16 py-14 sm:py-20 my-20">
+        <div className="w-full bg-[#0f172b] border-y border-slate-200 my-40">
+          <div className="max-w-7x2 mx-auto px-6 sm:px-12 lg:px-16 py-14 sm:py-20">
             <motion.div
               variants={staggerContainer}
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, margin: "-80px" }}
-              className="grid grid-cols-2 lg:grid-cols-4 divide-y divide-white/25 lg:divide-y-0 lg:divide-x lg:divide-white/25"
+              className="grid grid-cols-2 lg:grid-cols-4 divide-y divide-slate-200 lg:divide-y-0 lg:divide-x lg:divide-slate-200"
             >
-              {STATS_DATA.map((stat, idx) => (
+            {STATS_DATA.map((stat) => (
+              <motion.div
+                key={stat.label}
+                variants={fadeUp}
+                className="group flex flex-col items-center text-center gap-3 py-6 lg:py-0 lg:px-8 cursor-pointer"
+              >
                 <motion.div
-                  key={stat.label}
-                  variants={fadeUp}
-                  className={`flex flex-col items-center text-center gap-3 py-6 lg:py-0 ${
-                    idx === 0
-                      ? "lg:pr-8"
-                      : idx === STATS_DATA.length - 1
-                      ? "lg:pl-8"
-                      : "lg:px-8"
-                  }`}
+                  whileHover={{ scale: 1.1, rotate: 6 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 12 }}
                 >
-                  <motion.div
-                    whileHover={{ scale: 1.15, rotate: stat.highlight ? -8 : 8 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 12 }}
-                    className={`group w-14 h-14 rounded-xl flex items-center justify-center transition-colors duration-300 hover:bg-[#f5c330] ${
-                      stat.highlight ? "bg-[#f5c330]" : "bg-white/15"
-                    }`}
-                  >
-                    <stat.icon
-                      className={`w-6 h-6 transition-colors duration-300 group-hover:text-[#0f172b] ${
-                        stat.highlight ? "text-[#0f172b]" : "text-white"
-                      }`}
-                    />
-                  </motion.div>
-                  <AnimatedCounter
-                    value={stat.value}
-                    suffix={stat.suffix}
-                    numberClassName="text-white"
-                    suffixClassName="text-[#f5c330]"
+                  <stat.icon
+                    strokeWidth={1.25}
+                    className="w-12 h-12 text-[#ffffff] transition-colors duration-300 group-hover:text-[#f5c330]"
                   />
-                  <p className="text-white/80 text-[11px] sm:text-xs uppercase tracking-widest font-mono font-extrabold">
-                    {stat.label}
-                  </p>
                 </motion.div>
-              ))}
+
+                <AnimatedCounter
+                  value={stat.value}
+                  suffix={stat.suffix}
+                  numberClassName="text-[#ffffff]"
+                  suffixClassName="text-primary"
+                />
+
+                <p className="text-[#ffffff] text-[11px] sm:text-xs uppercase tracking-widest font-mono font-bold">
+                  {stat.label}
+                </p>
+              </motion.div>
+            ))}
             </motion.div>
           </div>
         </div>
@@ -1268,7 +1260,7 @@ export default function HomeView({
 
           </div>
         </div>
-
+        
       </section>
 
 
