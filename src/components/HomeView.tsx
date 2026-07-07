@@ -265,7 +265,7 @@ export default function HomeView({
     <div className="space-y-24 pb-24 bg-white text-slate-900 font-sans">
 
       {/* SECTION 1: Carousel / Hero Slider (Pristine Slider with Criss-Cross Transitions) */}
-      <section className="relative h-[700px] w-full overflow-hidden bg-slate-950 text-white" id="fps-hero-slider ">
+      <section className="relative h-[700px] w-full overflow-hidden bg-slate-950 text-white" id="IFS-hero-slider ">
         <AnimatePresence mode="sync">
           {heroSlides.map((slide, index) => (
             index === activeSlide && (
@@ -410,7 +410,7 @@ export default function HomeView({
 
 
       {/* SECTION 2: Welcome Section with Video Overlap and Grid Collage (Pristine Layout Matching Image 2) */}
-      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 py-8 overflow-hidden" id="fps-welcome-section " >
+      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 py-8 overflow-hidden" id="IFS-welcome-section " >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center my-20">
 
           {/* Left Side: Overlapping Collage of Video and 2x2 Images */}
@@ -549,10 +549,10 @@ export default function HomeView({
 
 
       {/* SECTION 2.5: Premium Highlights (Stats + Why Choose Us + Achievements) */}
-      <section className="bg-white" id="fps-premium-highlights ">
+      <section className="bg-white" id="IFS-premium-highlights ">
 
         {/* --- Statistics / Achievement Counters (full-width colored banner) --- */}
-        <div className="w-full bg-[#0f172b] border-y border-slate-200 my-40">
+        <div className="w-full bg-[#0f172b] border-y border-slate-200 my-20">
           <div className="max-w-7x2 mx-auto px-6 sm:px-12 lg:px-16 py-14 sm:py-20">
             <motion.div
               variants={staggerContainer}
@@ -659,7 +659,7 @@ export default function HomeView({
         </div>
 
         {/* --- Student Achievement Highlights --- */}
-        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 pt-24 my-30">
+        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 pt-24 my-25">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -737,289 +737,11 @@ export default function HomeView({
       </section>
 
 
-      {/* SECTION 3: News & Events Masonry Grid (Prisinte Layout Matching Image 3) */}
-      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 space-y-8 overflow-hidden my-50" id="fps-news-events-grid ">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="flex justify-between items-end border-b border-slate-200 pb-4 "
-        >
-          <h3 className="font-sans font-extrabold text-slate-900 text-2xl tracking-wider uppercase ">
-            NEWS & <span class="text-primary"> EVENTS </span>
-          </h3>
-          <button
-            onClick={() => handleSubNav("news-events", "")}
-            className="text-xs font-extrabold text-rose-700 hover:text-rose-800 tracking-wider uppercase border-b-2 border-rose-700 pb-0.5"
-          >
-            View All
-          </button>
-        </motion.div>
 
-        {/* Grid Structure */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-
-          {/* Big Featured Card on the Left */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            onClick={() => handleSubNav("news-events", "")}
-            className="lg:col-span-7 h-[420px] bg-slate-950 rounded-sm overflow-hidden relative shadow-lg group cursor-pointer"
-          >
-            <img
-              src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1000&q=80"
-              alt="Young Authors"
-              className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
-            />
-            {/* Ambient Shadow overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/35 to-transparent z-10" />
-
-            {/* Title text overlaid perfectly inside container footer */}
-            <div className="absolute bottom-6 left-6 right-6 z-20 space-y-2">
-              <span className="bg-rose-700 text-white font-mono text-[9px] uppercase tracking-widest font-extrabold px-2 py-0.5 rounded-sm">
-                FEATURED EVENT
-              </span>
-              <h4 className="font-sans font-extrabold text-white text-2xl sm:text-3xl leading-snug tracking-tight">
-                Young Authors 2.0
-              </h4>
-              <p className="text-slate-200 text-xs sm:text-sm line-clamp-1">
-                Celebrating outstanding young literary talents from our community of future change makers.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Right Side: 2x2 grid of smaller overlay cards */}
-          <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-            {/* Card 1 */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              onClick={() => handleSubNav("news-events", "")}
-              className="h-[202px] bg-slate-950 rounded-sm overflow-hidden relative shadow-md group cursor-pointer"
-            >
-              <img
-                src="https://images.unsplash.com/photo-1541339907198-e08756ebafe3?auto=format&fit=crop&w=400&q=80"
-                alt="Teachers Session"
-                className="w-full h-full object-cover opacity-75 group-hover:scale-105 transition-transform duration-500"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-transparent z-10" />
-              <div className="absolute bottom-4 left-4 right-4 z-20">
-                <h5 className="font-sans font-extrabold text-white text-sm leading-snug">
-                  Celebrating You! Teachers Session with the Management
-                </h5>
-              </div>
-            </motion.div>
-
-            {/* Card 2 */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              onClick={() => handleSubNav("news-events", "")}
-              className="h-[202px] bg-slate-950 rounded-sm overflow-hidden relative shadow-md group cursor-pointer"
-            >
-              <img
-                src="https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?auto=format&fit=crop&w=400&q=80"
-                alt="Fathers Padel"
-                className="w-full h-full object-cover opacity-75 group-hover:scale-105 transition-transform duration-500"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-transparent z-10" />
-              <div className="absolute bottom-4 left-4 right-4 z-20">
-                <h5 className="font-sans font-extrabold text-white text-sm leading-snug">
-                  Inter-Campus Fathers' Padel Cup
-                </h5>
-              </div>
-            </motion.div>
-
-            {/* Card 3 */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              onClick={() => handleSubNav("news-events", "")}
-              className="h-[202px] bg-slate-950 rounded-sm overflow-hidden relative shadow-md group cursor-pointer"
-            >
-              <img
-                src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=400&q=80"
-                alt="Graduation Ceremony"
-                className="w-full h-full object-cover opacity-75 group-hover:scale-105 transition-transform duration-500"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-transparent z-10" />
-              <div className="absolute bottom-4 left-4 right-4 z-20">
-                <h5 className="font-sans font-extrabold text-white text-sm leading-snug">
-                  A'level Graduation Ceremony
-                </h5>
-              </div>
-            </motion.div>
-
-            {/* Card 4 */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              onClick={() => handleSubNav("news-events", "")}
-              className="h-[202px] bg-slate-950 rounded-sm overflow-hidden relative shadow-md group cursor-pointer"
-            >
-              <img
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80"
-                alt="Teachers Award"
-                className="w-full h-full object-cover opacity-75 group-hover:scale-105 transition-transform duration-500"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-transparent z-10" />
-              <div className="absolute bottom-4 left-4 right-4 z-20">
-                <h5 className="font-sans font-extrabold text-white text-sm leading-snug">
-                  Teachers Award Ceremonies
-                </h5>
-              </div>
-            </motion.div>
-
-          </div>
-
-        </div>
-      </section>
-
-
-      {/* SECTION 4: Events Calendar Grid with Calendar Page Icon (Prisinte Layout Matching Image 4) */}
-      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 space-y-8 overflow-hidden" id="fps-events-calendar">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="flex justify-between items-end border-b border-slate-200 pb-4"
-        >
-          <h3 className="font-sans font-extrabold text-slate-900 text-2xl tracking-wider uppercase">
-            Events
-          </h3>
-          <button
-            onClick={() => handleSubNav("news-events", "")}
-            className="text-xs font-extrabold text-rose-700 hover:text-rose-800 tracking-wider uppercase border-b-2 border-rose-700 pb-0.5"
-          >
-            View All
-          </button>
-        </motion.div>
-
-        {/* 2x2 Clean Gray Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-          {/* Card 1 */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="bg-slate-100 rounded-sm p-6 flex items-center gap-6 shadow-sm border border-slate-200/40 hover:shadow-md transition-shadow duration-300"
-          >
-            {/* Calendar Page Icon */}
-            <div className="w-[84px] h-[94px] bg-white border border-slate-200 shadow-sm flex flex-col overflow-hidden rounded-sm flex-shrink-0">
-              <div className="bg-rose-700 h-[10px] w-full" />
-              <div className="flex-1 flex flex-col items-center justify-center">
-                <span className="text-secondary font-black text-3xl leading-none font-mono">27</span>
-                <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest mt-1">July</span>
-              </div>
-            </div>
-            <div>
-              <h4 className="font-sans font-bold text-slate-800 text-base sm:text-lg leading-snug">
-                Back to School for Teachers
-              </h4>
-              <p className="text-slate-500 text-xs mt-1.5 flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-primary" /> Professional development and alignment sessions.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Card 2 */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="bg-slate-100 rounded-sm p-6 flex items-center gap-6 shadow-sm border border-slate-200/40 hover:shadow-md transition-shadow duration-300"
-          >
-            {/* Calendar Page Icon */}
-            <div className="w-[84px] h-[94px] bg-white border border-slate-200 shadow-sm flex flex-col overflow-hidden rounded-sm flex-shrink-0">
-              <div className="bg-rose-700 h-[10px] w-full" />
-              <div className="flex-1 flex flex-col items-center justify-center">
-                <span className="text-secondary font-black text-3xl leading-none font-mono">10</span>
-                <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest mt-1">August</span>
-              </div>
-            </div>
-            <div>
-              <h4 className="font-sans font-bold text-slate-800 text-base sm:text-lg leading-snug">
-                Back to School for Students
-              </h4>
-              <p className="text-slate-500 text-xs mt-1.5 flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-primary" /> Welcoming our brilliant scholars back to campuses.
-              </p>
-            </div>
-          </motion.div>
-          {/* Card 3 */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-            className="bg-slate-100 rounded-sm p-6 flex items-center gap-6 shadow-sm border border-slate-200/40 hover:shadow-md transition-shadow duration-300"
-          >
-            {/* Calendar Page Icon */}
-            <div className="w-[84px] h-[94px] bg-white border border-slate-200 shadow-sm flex flex-col overflow-hidden rounded-sm flex-shrink-0">
-              <div className="bg-rose-700 h-[10px] w-full" />
-              <div className="flex-1 flex flex-col items-center justify-center">
-                <span className="text-secondary font-black text-3xl leading-none font-mono">14</span>
-                <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest mt-1">August</span>
-              </div>
-            </div>
-            <div>
-              <h4 className="font-sans font-bold text-slate-800 text-base sm:text-lg leading-snug">
-                Independence Day
-              </h4>
-              <p className="text-slate-500 text-xs mt-1.5 flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-primary" /> National anthem ceremonies and student showcases.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Card 4 */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-            className="bg-slate-100 rounded-sm p-6 flex items-center gap-6 shadow-sm border border-slate-200/40 hover:shadow-md transition-shadow duration-300"
-          >
-            {/* Calendar Page Icon */}
-            <div className="w-[84px] h-[94px] bg-white border border-slate-200 shadow-sm flex flex-col overflow-hidden rounded-sm flex-shrink-0">
-              <div className="bg-rose-700 h-[10px] w-full" />
-              <div className="flex-1 flex flex-col items-center justify-center">
-                <span className="text-secondary font-black text-3xl leading-none font-mono">24</span>
-                <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest mt-1">August</span>
-              </div>
-            </div>
-            <div>
-              <h4 className="font-sans font-bold text-slate-800 text-base sm:text-lg leading-snug">
-                Fresher's Week Orientation at A'level
-              </h4>
-              <p className="text-slate-500 text-xs mt-1.5 flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-primary" /> Guiding senior entries towards university pipelines.
-              </p>
-            </div>
-          </motion.div>
-
-        </div>
-      </section>
 
 
       {/* SECTION 5: Admission Banner Section (Prisinte Layout Matching Image 5) */}
-      <section className="relative h-[480px] w-full overflow-hidden flex items-center justify-center text-center px-6" id="fps-admission-banner">
+      <section className="relative h-[480px] w-full overflow-hidden flex items-center justify-center text-center px-6" id="IFS-admission-banner">
         {/* Shadowy background layer with active student crowd overlay */}
         <motion.div
           initial={{ scale: 1.15 }}
@@ -1027,7 +749,9 @@ export default function HomeView({
           viewport={{ once: true }}
           transition={{ duration: 2.0 }}
           className="absolute inset-0 bg-cover bg-center opacity-90"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1541339907198-e08756ebafe3?auto=format&fit=crop&w=1400&q=80')" }}
+          style={{
+            backgroundImage: "url('/assets/slider/admission.png')",
+          }}
         />
         {/* Dark overlay matching the pristine blue-gray mood of Image 5 */}
         <div className="absolute inset-0 bg-slate-950/85 mix-blend-multiply z-10" />
@@ -1044,14 +768,20 @@ export default function HomeView({
             Admission
           </h2>
           <p className="text-slate-200 text-sm sm:text-base lg:text-lg leading-relaxed font-normal max-w-3xl mx-auto">
-            Admissions at FPS are <strong className="text-white font-bold">extremely competitive</strong>. We encourage all applicants to apply as early as possible and to carefully review the admissions page before applying. To visit the admissions page and to apply online please click below.
+            Admissions at IFS are <strong className="text-[#60badc] font-bold">extremely competitive</strong>. We encourage all applicants to apply as early as possible and to carefully review the admissions page before applying. To visit the admissions page and to apply online please click below.
           </p>
           <div className="pt-4">
             <button
               onClick={handleApplyNow}
-              className="bg-white hover:bg-primary text-slate-950 font-bold text-xs uppercase tracking-widest px-10 py-4 transition-all cursor-pointer shadow-lg rounded-none hover:scale-105 active:scale-95"
+              className="group relative overflow-hidden bg-white   text-slate-950 font-bold text-xs uppercase tracking-widest px-10 py-4 rounded-none shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
             >
-              APPLY NOW
+              {/* Hover Background */}
+              <span className="absolute inset-0 bg-primary origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
+
+              {/* Button Text */}
+              <span className="relative z-10 transition-colors duration-300 group-hover:text-slate-950">
+                APPLY NOW
+              </span>
             </button>
           </div>
         </motion.div>
@@ -1059,213 +789,342 @@ export default function HomeView({
 
 
       {/* SECTION 6: School Levels Overlapping Blocks (Pristine Layout Matching Reference Images) */}
-      <section className="space-y-24 overflow-hidden" id="fps-school-levels-showcase">
+      <section className="space-y-24 overflow-hidden" id="IFS-school-levels-showcase">
 
-        {/* 1. Elementary School Block (Mint Theme - Match Reference Image 1) */}
+        {/* 1. Elementary School Block (Mint Theme - Premium Collage Style) */}
         <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16" id="elementary-level-card">
-          <div className="bg-[#B9F3E4] rounded-sm p-8 sm:p-12 lg:p-16 relative overflow-hidden shadow-lg grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px]">
+          <div className="relative">
 
-            {/* Left Column: Tilted Card Collage with overlapping text on the bottom-left */}
+            {/* Background depth layers — right side, matches Junior/Senior pattern */}
             <motion.div
-              initial={{ opacity: 0, x: -60 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="lg:col-span-6 relative h-[360px] flex items-center justify-start z-10 w-full"
+              transition={{ duration: 0.8 }}
+              className="pointer-events-none absolute -top-6 right-0 w-[38%] h-[16%] rounded-sm bg-[#B9F3E4]/50 hidden sm:block"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.12 }}
+              className="pointer-events-none absolute top-[16%] right-0 w-[38%] h-[82%] rounded-sm bg-[#7FEBD3] hidden sm:block"
+            />
+
+            {/* Main front card */}
+            <motion.div
+              whileHover={{ y: -10 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="bg-[#B9F3E4] rounded-sm p-8 sm:p-12 lg:p-16 relative overflow-visible shadow-lg hover:shadow-2xl transition-shadow duration-500 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px] w-full sm:w-[92%]"
             >
-              {/* Background mint offset layers to match the collage aesthetic */}
-              <div className="absolute left-[5%] top-[10%] w-[50%] h-[75%] bg-[#9DF7E5]/60 rounded-sm -rotate-6 pointer-events-none" />
-              <div className="absolute right-[15%] top-[5%] w-[45%] h-[80%] bg-[#A7ECE0]/40 rounded-sm rotate-3 pointer-events-none" />
 
-              {/* Tilted Photo Cards */}
-              <div className="absolute left-2 w-[190px] sm:w-[220px] aspect-[4/5] bg-white p-1 rounded-sm -rotate-12 overflow-hidden shadow-lg border-2 border-white">
-                <img
-                  src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=400&q=80"
-                  alt="Elementary Girl"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="absolute left-[130px] sm:left-[160px] top-[15px] w-[240px] sm:w-[270px] aspect-[4/3] bg-white p-1 rounded-sm rotate-6 overflow-hidden shadow-xl border-2 border-white z-20">
-                <img
-                  src="https://images.unsplash.com/photo-1541339907198-e08756ebafe3?auto=format&fit=crop&w=400&q=80"
-                  alt="Rainbow Staircase Bridge"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+              {/* Left Column: Image collage + heading */}
+              <div className="lg:col-span-6 relative flex flex-col justify-end min-h-[380px] sm:min-h-[440px] z-10 w-full">
 
-              {/* Overlapping Typography exactly matching Reference Image 1 */}
-              <div className="absolute left-[40px] sm:left-[50px] bottom-[2px] z-30 drop-shadow-sm select-none">
-                <h3 className="font-sans font-black text-slate-800 text-5xl sm:text-6xl lg:text-7xl leading-[0.85] tracking-tight">
-                  Elementary
-                  <span className="block font-sans font-light text-slate-600 text-4xl sm:text-5xl mt-1.5">School</span>
-                </h3>
-                <div className="mt-4 space-y-0.5">
-                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-widest block font-mono">Grade Levels</span>
-                  <span className="text-sm sm:text-base font-black text-slate-900">Pre Nursery to Grade II</span>
+                {/* Image stack wrapper */}
+                <div className="relative w-full h-[280px] sm:h-[320px]">
+
+                  {/* Top polygon image */}
+                  <motion.div
+                    initial={{ opacity: 0, y: -60 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.35, ease: "easeOut" }}
+                    whileHover={{ scale: 1.04 }}
+                    className="absolute left-[20%] sm:left-[24%] -top-6 w-[60%] sm:w-[56%] h-[85%] overflow-hidden shadow-[0_20px_45px_rgba(16,24,40,0.22)] z-10"
+                    style={{ clipPath: "polygon(10% 0%, 100% 4%, 88% 100%, 0% 90%)" }}
+                  >
+                    <img
+                      src="assets/slider/slide2.jpg"
+                      alt="School building"
+                      className="w-full h-full object-cover object-center"
+                    />
+                    <div className="absolute inset-0 bg-[#2dd4bf]/40 mix-blend-color" />
+                  </motion.div>
+
+                  {/* Tilted side photo */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -50, rotate: -12 }}
+                    whileInView={{ opacity: 1, x: 0, rotate: -8 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
+                    whileHover={{ scale: 1.05, rotate: -4 }}
+                    className="absolute left-0 bottom-[8%] w-[34%] sm:w-[30%] aspect-[4/5] rounded-sm overflow-hidden bg-white p-1 shadow-[0_16px_35px_rgba(16,24,40,0.20)] border border-white z-20"
+                  >
+                    <img
+                      src="assets/slider/g1.jpg"
+                      alt="Elementary student"
+                      className="w-full h-full object-cover object-top"
+                    />
+                  </motion.div>
                 </div>
-              </div>
-            </motion.div>
 
-            {/* Right Column: Narrative details and button */}
-            <motion.div
-              initial={{ opacity: 0, x: 60 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.15 }}
-              className="lg:col-span-6 lg:pl-16 z-20 space-y-6"
-            >
-              <p className="text-slate-800 text-base sm:text-lg leading-relaxed font-normal">
-                At <strong className="text-slate-950 font-bold">FPS Elementary</strong>, we nurture the development of each child emotionally, academically, physically, socially, and artistically during their formative years.
-              </p>
-              <div className="pt-2">
-                <button
-                  onClick={() => handleSubNav("academics", "curriculum")}
-                  className="bg-white hover:bg-slate-950 hover:text-white text-slate-800 font-bold text-xs uppercase tracking-widest px-8 py-3.5 transition-all shadow-md cursor-pointer border-none hover:scale-105 active:scale-95 duration-300"
+                {/* Heading — sits directly under image stack */}
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, delay: 0.5 }}
+                  className="relative z-30 mt-4 select-none"
                 >
-                  More Details
-                </button>
+                  <h3 className="font-sans font-black text-slate-800 text-5xl sm:text-6xl lg:text-7xl leading-[0.85] tracking-tight">
+                    Elementary
+                    <span className="block font-sans font-light text-slate-500 text-4xl sm:text-5xl mt-1">
+                      School
+                    </span>
+                  </h3>
+                  <div className="mt-5 space-y-0.5">
+                    <span className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-widest block font-mono">
+                      Grade Levels
+                    </span>
+                    <span className="text-sm sm:text-base font-black text-slate-900">
+                      Pre Nursery to Grade II
+                    </span>
+                  </div>
+                </motion.div>
               </div>
-            </motion.div>
 
+              {/* Right Column: Narrative + button */}
+              <motion.div
+                initial={{ opacity: 0, x: 60 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+                className="lg:col-span-6 lg:pl-16 z-20 space-y-6"
+              >
+                <p className="text-slate-800 text-base sm:text-lg leading-relaxed font-normal max-w-md">
+                  At <strong className="text-slate-950 font-bold">IFS Elementary</strong>, we nurture the development of each child emotionally, academically, physically, socially, and artistically during their formative years.
+                </p>
+                <div className="pt-2">
+                  <button
+                    onClick={() => handleSubNav("academics", "curriculum")}
+                    className="bg-white hover:bg-slate-50 text-slate-700 font-medium text-sm px-7 py-3 rounded-sm shadow-sm transition-all cursor-pointer hover:shadow-md"
+                  >
+                    More Details
+                  </button>
+                </div>
+              </motion.div>
+
+            </motion.div>
           </div>
         </div>
 
         {/* 2. Junior School Block (Yellow Theme - Match Reference Image 2) */}
         <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16" id="junior-level-card">
-          <div className="bg-[#FDE047] rounded-sm p-8 sm:p-12 lg:p-16 relative overflow-hidden shadow-lg grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px]">
+          <div className="relative">
 
-            {/* Left Column: Narrative details and button */}
+            {/* Background depth layers behind the whole card */}
             <motion.div
-              initial={{ opacity: 0, x: -60 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="lg:col-span-6 z-20 space-y-6 lg:pr-12"
-            >
-              <p className="text-slate-900 text-base sm:text-lg leading-relaxed font-normal">
-                At <strong className="text-slate-950 font-extrabold">FPS, we consider Junior schools</strong> as an opportunity for students to explore and develop their cognitive, social, and physical skills.
-              </p>
-              <div className="pt-2">
-                <button
-                  onClick={() => handleSubNav("academics", "curriculum")}
-                  className="bg-white hover:bg-slate-950 hover:text-white text-slate-800 font-bold text-xs uppercase tracking-widest px-8 py-3.5 transition-all shadow-md cursor-pointer border-none hover:scale-105 active:scale-95 duration-300"
-                >
-                  More Details
-                </button>
-              </div>
-            </motion.div>
-
-            {/* Right Column: Image block with golden filter and overlaid text */}
+              transition={{ duration: 0.8 }}
+              className="pointer-events-none absolute -top-4 left-2 sm:left-6 w-[70%] sm:w-[42%] h-[85%] rounded-sm bg-[#FEF08A]/70 hidden sm:block"
+            />
             <motion.div
-              initial={{ opacity: 0, x: 60 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.15 }}
-              className="lg:col-span-6 relative h-[360px] flex items-center justify-center w-full"
+              transition={{ duration: 0.8, delay: 0.12 }}
+              className="pointer-events-none absolute top-6 left-8 sm:left-14 w-[65%] sm:w-[38%] h-[75%] rounded-sm bg-[#FDE047]/50 hidden sm:block"
+            />
+
+            <motion.div
+              whileHover={{ y: -10 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="bg-[#FDE047] rounded-sm p-8 sm:p-12 lg:p-16 relative overflow-visible shadow-lg hover:shadow-2xl transition-shadow duration-500 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px] w-full sm:w-[92%] ml-auto"
             >
-              {/* Yellow background sheets to mimic the layered card look */}
-              <div className="absolute -left-3 top-2 w-[95%] h-[90%] bg-[#FEF08A]/60 rounded-sm z-0 pointer-events-none" />
-              <div className="absolute left-2 -top-3 w-[95%] h-[90%] bg-[#FEF08A] rounded-sm z-5 pointer-events-none" />
 
-              <div className="absolute inset-0 bg-slate-950 rounded-sm overflow-hidden shadow-xl border-4 border-white z-10 group">
-                <img
-                  src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=800&q=80"
-                  alt="Junior Lab"
-                  className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
-                />
-                {/* Yellow color screen filter exactly like Reference Image 2 */}
-                <div className="absolute inset-0 bg-[#FCD34D]/35 mix-blend-color z-15" />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/25 to-transparent z-20" />
+              {/* Left Column: Narrative details and button */}
+              <motion.div
+                initial={{ opacity: 0, x: -60 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="lg:col-span-6 z-20 space-y-6 lg:pr-12"
+              >
+                <p className="text-slate-900 text-base sm:text-lg leading-relaxed font-normal max-w-md">
+                  At <strong className="text-slate-950 font-extrabold">IFS, we consider Junior schools</strong> as an opportunity for students to explore and develop their cognitive, social, and physical skills.
+                </p>
+                <div className="pt-2">
+                  <button
+                    onClick={() => handleSubNav("academics", "curriculum")}
+                    className="bg-white hover:bg-slate-50 text-slate-700 font-medium text-sm px-7 py-3 rounded-sm shadow-sm transition-all cursor-pointer hover:shadow-md"
+                  >
+                    More Details
+                  </button>
+                </div>
+              </motion.div>
 
-                {/* Text overlaid inside the image on bottom left */}
-                <div className="absolute bottom-6 left-6 z-30 space-y-1 select-none">
-                  <h3 className="font-sans font-black text-white text-4xl sm:text-5xl leading-none tracking-tight">
-                    Junior School
-                  </h3>
-                  <div className="text-[#FEF08A] font-mono text-[11px] uppercase tracking-wider font-extrabold">
-                    Grade levels <span className="text-white">Grade III - Grade VII</span>
+              {/* Right Column: Large image block with golden tint and overlaid text */}
+              <motion.div
+                initial={{ opacity: 0, x: 60 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.15 }}
+                className="lg:col-span-6 relative h-[400px] sm:h-[440px] flex items-center justify-center w-full"
+              >
+                <div className="absolute inset-0 -top-6 sm:-top-10 bg-slate-950 rounded-sm overflow-hidden shadow-xl z-10 group">
+                  <img
+                    src="assets/slider/slide4.jpg"
+                    alt="Junior school students in lab"
+                    className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
+                  />
+                  {/* Golden color-wash overlay */}
+                  <div className="absolute inset-0 bg-[#FCD34D]/45 mix-blend-color z-15" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent z-20" />
+
+                  {/* Heading — bold + light on two lines, like Elementary card */}
+                  <div className="absolute bottom-20 sm:bottom-24 left-6 z-30 select-none">
+                    <h3 className="font-sans font-black text-white text-4xl sm:text-5xl leading-[0.9] tracking-tight">
+                      Junior
+                      <span className="block font-light text-white/90 text-3xl sm:text-4xl mt-0.5">
+                        School
+                      </span>
+                    </h3>
+                  </div>
+
+                  {/* Grade levels — separate, dark charcoal text, below heading */}
+                  <div className="absolute bottom-6 left-6 z-30 space-y-0.5 select-none">
+                    <span className="text-[10px] sm:text-[11px] font-bold text-slate-800 uppercase tracking-widest block font-mono">
+                      Grade Levels
+                    </span>
+                    <span className="text-sm sm:text-base font-black text-slate-900">
+                      Grade III - Grade VII
+                    </span>
                   </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
 
+            </motion.div>
           </div>
         </div>
 
         {/* 3. Senior School Block (Sky Blue Theme - Match Reference Image 3) */}
         <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16" id="senior-level-card">
-          <div className="bg-[#BAE6FD] rounded-sm p-8 sm:p-12 lg:p-16 relative overflow-hidden shadow-lg grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px]">
+          <div className="relative">
 
-            {/* Left Column: Tilted Card Collage with overlapping text on the bottom-left */}
+            {/* Background depth layers behind the card — right side, like reference */}
             <motion.div
-              initial={{ opacity: 0, x: -60 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="lg:col-span-6 relative h-[360px] flex items-center justify-start z-10 w-full"
+              transition={{ duration: 0.8 }}
+              className="pointer-events-none absolute -top-6 right-0 w-[38%] h-[16%] rounded-sm bg-[#BAE6FD]/50 hidden sm:block"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.12 }}
+              className="pointer-events-none absolute top-[16%] right-0 w-[38%] h-[82%] rounded-sm bg-[#7DD3FC] hidden sm:block"
+            />
+
+            {/* Main front card */}
+            <motion.div
+              whileHover={{ y: -10 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="bg-[#BAE6FD] rounded-sm p-8 sm:p-12 lg:p-16 relative overflow-visible shadow-lg hover:shadow-2xl transition-shadow duration-500 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px] w-full sm:w-[92%]"
             >
-              {/* Background blue offset layers to match the collage aesthetic */}
-              <div className="absolute left-[5%] top-[10%] w-[50%] h-[75%] bg-[#7DD3FC]/50 rounded-sm -rotate-6 pointer-events-none" />
-              <div className="absolute right-[15%] top-[5%] w-[45%] h-[80%] bg-[#38BDF8]/20 rounded-sm rotate-3 pointer-events-none" />
 
-              {/* Tilted Photo Cards */}
-              <div className="absolute left-2 w-[190px] sm:w-[220px] aspect-[4/5] bg-white p-1 rounded-sm -rotate-12 overflow-hidden shadow-lg border-2 border-white">
-                <img
-                  src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=400&q=80"
-                  alt="Graduates"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="absolute left-[130px] sm:left-[160px] top-[15px] w-[240px] sm:w-[270px] aspect-[4/3] bg-white p-1 rounded-sm rotate-6 overflow-hidden shadow-xl border-2 border-white z-20">
-                <img
-                  src="https://images.unsplash.com/photo-1541339907198-e08756ebafe3?auto=format&fit=crop&w=400&q=80"
-                  alt="High School Collabs"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+              {/* Left Column: Image collage + heading */}
+              <div className="lg:col-span-6 relative flex flex-col justify-end min-h-[380px] sm:min-h-[440px] z-10 w-full">
 
-              {/* Overlapping Typography exactly matching Reference Image 3 */}
-              <div className="absolute left-[40px] sm:left-[50px] bottom-[2px] z-30 drop-shadow-sm select-none">
-                <h3 className="font-sans font-black text-[#0f172a] text-5xl sm:text-6xl lg:text-7xl leading-[0.85] tracking-tight">
-                  Senior
-                  <span className="block font-sans font-light text-slate-800 text-4xl sm:text-5xl mt-1.5">School</span>
-                </h3>
-                <div className="mt-4 space-y-0.5">
-                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-600 uppercase tracking-widest block font-mono">Grade Levels</span>
-                  <span className="text-sm sm:text-base font-black text-slate-950">Grade VIII - Grade XI</span>
+                {/* Image stack wrapper */}
+                <div className="relative w-full h-[280px] sm:h-[320px]">
+
+                  {/* Top polygon image — blue-tinted graduation photo */}
+                  <motion.div
+                    initial={{ opacity: 0, y: -60 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.35, ease: "easeOut" }}
+                    whileHover={{ scale: 1.04 }}
+                    className="absolute left-[20%] sm:left-[24%] -top-6 w-[60%] sm:w-[56%] h-[85%] overflow-hidden shadow-[0_20px_45px_rgba(16,24,40,0.22)] z-10"
+                    style={{ clipPath: "polygon(10% 0%, 100% 4%, 88% 100%, 0% 90%)" }}
+                  >
+                    <img
+                      src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=600&q=80"
+                      alt="Senior school graduates"
+                      className="w-full h-full object-cover object-center"
+                    />
+                    {/* Blue color-wash overlay to match reference tint */}
+                    <div className="absolute inset-0 bg-[#1d4ed8]/50 mix-blend-color" />
+                  </motion.div>
+
+                  {/* Tilted side photo — group graduation shot */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -50, rotate: -12 }}
+                    whileInView={{ opacity: 1, x: 0, rotate: -8 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
+                    whileHover={{ scale: 1.05, rotate: -4 }}
+                    className="absolute left-0 bottom-[8%] w-[34%] sm:w-[30%] aspect-[4/5] rounded-sm overflow-hidden bg-white p-1 shadow-[0_16px_35px_rgba(16,24,40,0.20)] border border-white z-20"
+                  >
+                    <img
+                      src="https://images.unsplash.com/photo-1541339907198-e08756ebafe3?auto=format&fit=crop&w=400&q=80"
+                      alt="Graduation ceremony group"
+                      className="w-full h-full object-cover object-top"
+                    />
+                  </motion.div>
                 </div>
-              </div>
-            </motion.div>
 
-            {/* Right Column: Narrative details and button */}
-            <motion.div
-              initial={{ opacity: 0, x: 60 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.15 }}
-              className="lg:col-span-6 lg:pl-16 z-20 space-y-6"
-            >
-              <p className="text-slate-800 text-base sm:text-lg leading-relaxed font-normal">
-                <strong className="text-slate-950 font-bold">FPS Senior</strong> schools strike a perfect harmony between a rigorous curriculum and an active co-curricular program. The aim of the senior school is to prepare our students for A Level, university and beyond.
-              </p>
-              <div className="pt-2">
-                <button
-                  onClick={() => handleSubNav("academics", "curriculum")}
-                  className="bg-white hover:bg-slate-950 hover:text-white text-slate-800 font-bold text-xs uppercase tracking-widest px-8 py-3.5 transition-all shadow-md cursor-pointer border-none hover:scale-105 active:scale-95 duration-300"
+                {/* Heading — sits directly under image stack */}
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, delay: 0.5 }}
+                  className="relative z-30 mt-4 select-none"
                 >
-                  More Details
-                </button>
+                  <h3 className="font-sans font-black text-[#0f172a] text-5xl sm:text-6xl lg:text-7xl leading-[0.85] tracking-tight">
+                    Senior
+                    <span className="block font-sans font-light text-slate-500 text-4xl sm:text-5xl mt-1">
+                      School
+                    </span>
+                  </h3>
+                  <div className="mt-5 space-y-0.5">
+                    <span className="text-[10px] sm:text-[11px] font-bold text-slate-600 uppercase tracking-widest block font-mono">
+                      Grade Levels
+                    </span>
+                    <span className="text-sm sm:text-base font-black text-slate-950">
+                      Grade VIII - Grade XI
+                    </span>
+                  </div>
+                </motion.div>
               </div>
-            </motion.div>
 
+              {/* Right Column: Narrative details and button */}
+              <motion.div
+                initial={{ opacity: 0, x: 60 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.15 }}
+                className="lg:col-span-6 lg:pl-16 z-20 space-y-6"
+              >
+                <p className="text-slate-800 text-base sm:text-lg leading-relaxed font-normal max-w-md">
+                  <strong className="text-slate-950 font-bold">IFS Senior</strong> schools strike a perfect harmony between a rigorous curriculum and an active co-curricular program. The aim of the senior school is to prepare our students for A Level, university and beyond.
+                </p>
+                <div className="pt-2">
+                  <button
+                    onClick={() => handleSubNav("academics", "curriculum")}
+                    className="bg-white hover:bg-slate-50 text-slate-700 font-medium text-sm px-7 py-3 rounded-sm shadow-sm transition-all cursor-pointer hover:shadow-md"
+                  >
+                    More Details
+                  </button>
+                </div>
+              </motion.div>
+
+            </motion.div>
           </div>
         </div>
-        
+                
       </section>
 
 
+
       {/* SECTION 7: Alumni Wall Collage Section (Prisinte Layout Matching Images 9, 10) */}
-      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 space-y-6 overflow-hidden" id="fps-alumni-section">
+      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 space-y-6 overflow-hidden" id="IFS-alumni-section">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -1277,7 +1136,7 @@ export default function HomeView({
             Alumni
           </h3>
           <p className="text-slate-500 text-xs sm:text-sm font-normal">
-            Draw on the power of the vast and global FPS alumni network.
+            Draw on the power of the vast and global IFS alumni network.
           </p>
         </motion.div>
 
@@ -1446,6 +1305,9 @@ export default function HomeView({
 
         </div>
       </section>
+
+
+      
 
     </div>
   );
