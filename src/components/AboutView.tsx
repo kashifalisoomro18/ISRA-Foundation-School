@@ -5,10 +5,13 @@
 
 import { AboutSubView } from "../types";
 import React, { useState, useEffect, useRef } from "react";
-import { 
-  Users, 
-  BookOpen, 
-  Award, 
+import VerticalCardSlider, { SliderMember } from "./VerticalCardSlider";
+import ManagementBoardSlider, { BoardMember } from "./ManagementBoardSlider";
+import BenefitsServices from "./BenefitsServices";
+import {
+  Users,
+  BookOpen,
+  Award,
   Globe,
   Monitor,
   CheckCircle,
@@ -28,7 +31,13 @@ import {
   Beaker,
   Telescope,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  ArrowRight,
+  Star,
+  MapPin,
+  Phone,
+  Mail,
+  ExternalLink
 } from "lucide-react";
 import { motion, AnimatePresence, useInView } from "motion/react";
 
@@ -62,73 +71,31 @@ const getIcon = (iconName: string) => {
   }
 };
 
-const TypewriterText = ({ text, prefersReducedMotion }: { text: string; prefersReducedMotion: boolean }) => {
-  const [displayedText, setDisplayedText] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
-  const containerRef = useRef(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-100px" });
+// Animated counter component
+const AnimatedCounter = ({ value, suffix = "" }: { value: number; suffix?: string }) => {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true });
 
   useEffect(() => {
-    if (prefersReducedMotion) {
-      setDisplayedText(text);
-      return;
-    }
-    if (isInView && !isTyping && displayedText.length < text.length) {
-      setIsTyping(true);
-      let i = 0;
-      const interval = setInterval(() => {
-        setDisplayedText(text.slice(0, i + 1));
-        i++;
-        if (i >= text.length) {
-          clearInterval(interval);
-          setIsTyping(false);
-        }
-      }, 50);
-      return () => clearInterval(interval);
-    }
-  }, [isInView, text, prefersReducedMotion]);
+    if (!isInView) return;
+    let start = 0;
+    const end = value;
+    const duration = 1500;
+    const stepTime = Math.abs(Math.floor(duration / end));
+    const timer = setInterval(() => {
+      start += Math.ceil(end / 60);
+      if (start >= end) {
+        setCount(end);
+        clearInterval(timer);
+      } else {
+        setCount(start);
+      }
+    }, stepTime);
+    return () => clearInterval(timer);
+  }, [isInView, value]);
 
-  return (
-    <span ref={containerRef}>
-      {displayedText}
-      {!prefersReducedMotion && isTyping && <span className="typewriter-cursor"></span>}
-    </span>
-  );
-};
-
-/* GradientTypewriterText — types text while showing an animated gold→blue gradient shimmer */
-const GradientTypewriterText = ({ text, prefersReducedMotion }: { text: string; prefersReducedMotion: boolean }) => {
-  const [displayedText, setDisplayedText] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
-  const containerRef = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-80px" });
-
-  useEffect(() => {
-    if (prefersReducedMotion) {
-      setDisplayedText(text);
-      return;
-    }
-    if (isInView && !isTyping && displayedText.length < text.length) {
-      setIsTyping(true);
-      let i = 0;
-      const interval = setInterval(() => {
-        setDisplayedText(text.slice(0, i + 1));
-        i++;
-        if (i >= text.length) {
-          clearInterval(interval);
-          setIsTyping(false);
-        }
-      }, 45);
-      return () => clearInterval(interval);
-    }
-  }, [isInView, text, prefersReducedMotion]);
-
-  return (
-    <span ref={containerRef} className="gradient-typing-text">
-      {displayedText}
-      {!prefersReducedMotion && isTyping && <span className="gradient-typewriter-cursor"></span>}
-    </span>
-  );
+  return <span ref={ref}>{count}{suffix}</span>;
 };
 
 const TeamCarousel = ({ members, prefersReducedMotion, isMobile }: { members: CustomFacultyMember[], prefersReducedMotion: boolean, isMobile: boolean }) => {
@@ -170,10 +137,10 @@ const TeamCarousel = ({ members, prefersReducedMotion, isMobile }: { members: Cu
             const zIndex = members.length - Math.abs(offset);
             const scale = isActive ? 1.0 : 0.72;
             const xPos = offset * (isMobile ? 110 : 150);
-            
+
             const isPrimaryColor = idx % 2 === 0;
             const ringColor = isPrimaryColor ? '#F5C330' : '#60BADC';
-            
+
             if (Math.abs(offset) > (isMobile ? 2 : 3)) return null;
 
             return (
@@ -189,9 +156,9 @@ const TeamCarousel = ({ members, prefersReducedMotion, isMobile }: { members: Cu
                   backgroundColor: isActive ? 'white' : '#f1f5f9',
                   boxShadow: isActive ? `0 0 0 8px ${ringColor}33, 0 20px 60px rgba(0,0,0,0.18)` : '0 4px 16px rgba(0,0,0,0.08)'
                 }}
-                initial={prefersReducedMotion ? false : { x: xPos, scale, opacity: 0 }}
+                initial={prefersReducedMotion ? undefined : { x: xPos, scale, opacity: 0 }}
                 animate={prefersReducedMotion ? { x: xPos, scale: isActive ? 1 : 0.8, opacity: 1 } : { x: xPos, scale, opacity: 1 }}
-                exit={prefersReducedMotion ? false : { opacity: 0, scale: 0.5 }}
+                exit={prefersReducedMotion ? undefined : { opacity: 0, scale: 0.5 }}
                 transition={prefersReducedMotion ? { duration: 0 } : {
                   type: "tween",
                   ease: [0.2, 0.8, 0.2, 1],
@@ -245,177 +212,243 @@ const TeamCarousel = ({ members, prefersReducedMotion, isMobile }: { members: Cu
   );
 };
 
-const managementMembers: CustomFacultyMember[] = [
+/* ── MANAGEMENT & BOARD (Swiper parallax slider) ─────────────── */
+const boardMembers: BoardMember[] = [
   {
     name: "Dr. Ahmed Waliullah Kazi",
-    roleLabel: "CHAIRPERSON",
-    department: "Executive Board",
+    title: "Chairperson — Executive Board",
+    description: "Guiding IFS with a long-term vision for academic and instructional excellence. Dr. Kazi brings decades of experience in higher education and institutional leadership to steer the school towards its mission of empowering learners.",
     photo: "/principal.jpg",
     initials: "AW",
-    quote: "Guiding IFS with a long-term vision for academic and instructional excellence.",
-    badgeIcon: "crown"
   },
   {
     name: "Mrs. Sadia Rehman",
-    roleLabel: "HEAD OF PRIMARY SECTION",
-    department: "Management",
-    photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200",
+    title: "Head of Primary Section",
+    description: "Nurturing curiosity and strong foundations in our youngest learners. Mrs. Rehman has dedicated over 15 years to early childhood pedagogy, crafting a warm and stimulating environment where children discover the joy of learning.",
+    photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800",
     initials: "SR",
-    quote: "Nurturing curiosity and strong foundations in our youngest learners.",
-    badgeIcon: "users"
   },
   {
     name: "Mr. Muhammad Bilal Shah",
-    roleLabel: "HEAD OF SECONDARY SECTION",
-    department: "Management",
-    photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200",
+    title: "Head of Secondary Section",
+    description: "Preparing students for rigorous academics and responsible leadership. With a firm belief in discipline paired with creativity, Mr. Shah oversees a dynamic secondary curriculum that balances international standards with local relevance.",
+    photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=800",
     initials: "BS",
-    quote: "Preparing students for rigorous academics and responsible leadership.",
-    badgeIcon: "users"
   },
   {
     name: "Ms. Elina Virtanen",
-    roleLabel: "HEAD OF ACADEMICS",
-    department: "Management",
-    photo: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200",
+    title: "Head of Academics",
+    description: "Ensuring every program meets the high standards our students deserve. Ms. Virtanen spearheads curriculum development, teacher training initiatives, and quality assurance protocols aligned with CAIE and HEI benchmarks.",
+    photo: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=800",
     initials: "EV",
-    quote: "Ensuring every program meets the standards our students deserve.",
-    badgeIcon: "graduation-cap"
-  }
+  },
+
+  {
+    name: "Ms. Hafsa Qamar",
+    title: "Head of Academics",
+    description: "Ensuring every program meets the high standards our students deserve. Ms. Virtanen spearheads curriculum development, teacher training initiatives, and quality assurance protocols aligned with CAIE and HEI benchmarks.",
+    photo: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=800",
+    initials: "HQ",
+  },
 ];
 
-const oLevelFaculty: CustomFacultyMember[] = [
+/* ── FACULTY & STAFF (GSAP vertical slider) ──────────────────── */
+const facultyStaffMembers: SliderMember[] = [
+  {
+    name: "Mr. Arif Hussain",
+    designation: "Senior Faculty Coordinator",
+    subject: "Administration",
+    bio: "Orchestrating seamless academic operations and faculty well-being. Mr. Hussain brings 18 years of administrative experience ensuring every educator at IFS has the tools and support needed to excel in the classroom.",
+    photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=800",
+    initials: "AH",
+    accentColor: "gold",
+  },
+  {
+    name: "Mrs. Fatima Naqvi",
+    designation: "Student Counsellor & Welfare Lead",
+    subject: "Student Welfare",
+    bio: "Championing the mental health and personal growth of every student. Mrs. Naqvi runs evidence-based counselling programmes and pastoral care initiatives that help students navigate academic pressures and thrive socially.",
+    photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800",
+    initials: "FN",
+    accentColor: "blue",
+  },
+  {
+    name: "Mr. Shahid Baloch",
+    designation: "Head of Sports & Physical Education",
+    subject: "Sports & PE",
+    bio: "Building character through sport, discipline, and teamwork. Mr. Baloch has coached national-level athletes and believes physical education is as essential to a complete education as mathematics or literature.",
+    photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=800",
+    initials: "SB",
+    accentColor: "gold",
+  },
+  {
+    name: "Ms. Huma Afridi",
+    designation: "Library & Resource Centre Manager",
+    subject: "Library & Media",
+    bio: "Curating a world of knowledge at students' fingertips. Ms. Afridi manages IFS's extensive library and digital resource centre, running reading programmes and research-skills workshops that ignite lifelong curiosity.",
+    initials: "HA",
+    accentColor: "blue",
+  },
+];
+
+/* ── O-LEVEL FACULTY (GSAP vertical slider) ──────────────────── */
+const oLevelSliderMembers: SliderMember[] = [
   {
     name: "Mrs. Nida Almani",
-    roleLabel: "SENIOR MATHEMATICS COORDINATOR",
-    department: "Mathematics",
-    photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
+    designation: "Senior Mathematics Coordinator",
+    subject: "Mathematics — O Level",
+    bio: "Making mathematics logical, accessible, and exciting for all. Mrs. Almani's problem-solving workshops have consistently produced top scorers in CAIE O Level Mathematics across three consecutive academic years.",
+    photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800",
     initials: "NA",
-    quote: "Making mathematics logical, accessible, and exciting for all.",
-    badgeIcon: "calculator"
+    accentColor: "gold",
   },
   {
     name: "Mr. Farhan Ali Soomro",
-    roleLabel: "CHEMISTRY INSTRUCTOR & LAB SUPERVISOR",
-    department: "Sciences",
+    designation: "Chemistry Instructor & Lab Supervisor",
+    subject: "Sciences — O Level",
+    bio: "Exploring the elements of life through safe and stimulating laboratory discovery. Mr. Soomro's hands-on lab sessions turn abstract chemical concepts into memorable, real-world experiments that students genuinely love.",
     initials: "FS",
-    quote: "Exploring the elements of life through safe laboratory discovery.",
-    badgeIcon: "flask"
+    accentColor: "blue",
   },
   {
     name: "Mr. Zeeshan Haider",
-    roleLabel: "COMPUTER SCIENCE SPECIALIST",
-    department: "Computer Science",
-    photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=200",
+    designation: "Computer Science Specialist",
+    subject: "Computer Science — O Level",
+    bio: "Empowering students to write the future with code and logic. Mr. Haider integrates project-based learning and coding competitions into his curriculum, producing students ready for tomorrow's digital economy.",
+    photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=800",
     initials: "ZH",
-    quote: "Empowering students to write the future with code and logic.",
-    badgeIcon: "monitor"
+    accentColor: "gold",
   },
   {
     name: "Mrs. Ayesha Lodhi",
-    roleLabel: "ENGLISH LITERATURE LECTURER",
-    department: "Languages",
+    designation: "English Literature Lecturer",
+    subject: "Languages — O Level",
+    bio: "Unlocking critical thinking and empathy through classical and contemporary literature. Mrs. Lodhi's engaging discussion-led classes build both analytical skills and a lifelong appreciation for the written word.",
     initials: "AL",
-    quote: "Unlocking critical thinking and empathy through classical literature.",
-    badgeIcon: "languages"
+    accentColor: "blue",
   },
   {
     name: "Mr. Imran Khan",
-    roleLabel: "PAKISTAN STUDIES INSTRUCTOR",
-    department: "Humanities",
-    photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200",
+    designation: "Pakistan Studies Instructor",
+    subject: "Humanities — O Level",
+    bio: "Connecting past heritages to prepare citizens for future civic actions. Mr. Khan brings history alive through primary sources, debates, and field trips that deepen students' understanding of national identity.",
+    photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800",
     initials: "IK",
-    quote: "Connecting past heritages to prepare citizens for future civic actions.",
-    badgeIcon: "globe"
+    accentColor: "gold",
   },
   {
     name: "Ms. Sarah Ahmed",
-    roleLabel: "BIOLOGY SPECIALIST",
-    department: "Sciences",
+    designation: "Biology Specialist",
+    subject: "Sciences — O Level",
+    bio: "Investigating biological structures and the intricacies of living organisms. Ms. Ahmed blends laboratory investigations with visual storytelling to make cell biology, genetics, and ecology genuinely accessible.",
     initials: "SA",
-    quote: "Investigating biological structures and the intricacies of living organisms.",
-    badgeIcon: "flask"
-  }
+    accentColor: "blue",
+  },
 ];
 
-const aLevelFaculty: CustomFacultyMember[] = [
+/* ── A-LEVEL FACULTY (GSAP vertical slider) ──────────────────── */
+const aLevelSliderMembers: SliderMember[] = [
   {
     name: "Mr. Asif Jahangir",
-    roleLabel: "A-LEVEL PHYSICS SPECIALIST",
-    department: "Sciences",
-    photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
+    designation: "A-Level Physics Specialist",
+    subject: "Sciences — A Level",
+    bio: "Bridging theoretical physics with real-world engineering concepts. Mr. Jahangir's rigorous yet approachable teaching style has produced multiple CAIE top-scorers in AS and A2 Physics over successive years.",
+    photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800",
     initials: "AJ",
-    quote: "Bridging theoretical physics with real-world engineering concepts.",
-    badgeIcon: "flask"
+    accentColor: "gold",
   },
   {
     name: "Mrs. Hina Shah",
-    roleLabel: "A-LEVEL ECONOMICS EXPERT",
-    department: "Humanities",
+    designation: "A-Level Economics Expert",
+    subject: "Humanities — A Level",
+    bio: "Analyzing global markets to cultivate smart fiscal understanding in tomorrow's leaders. Mrs. Shah uses real-world case studies, policy debates, and econometric data to bring macroeconomics to life.",
     initials: "HS",
-    quote: "Analyzing global markets to cultivate smart fiscal understanding.",
-    badgeIcon: "globe"
+    accentColor: "blue",
   },
   {
     name: "Mr. Raheel Siddiqui",
-    roleLabel: "A-LEVEL CHEMISTRY SPECIALIST",
-    department: "Sciences",
-    photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200",
+    designation: "A-Level Chemistry Specialist",
+    subject: "Sciences — A Level",
+    bio: "Deconstructing chemical equations to explore molecular structures and reactions. Mr. Siddiqui's advanced lab sessions and exam-technique workshops consistently push students to distinction grades.",
+    photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=800",
     initials: "RS",
-    quote: "Deconstructing chemical equations to explore molecular structures.",
-    badgeIcon: "flask"
+    accentColor: "gold",
   },
   {
     name: "Mr. Tariq Aziz",
-    roleLabel: "A-LEVEL MATHEMATICS INSTRUCTOR",
-    department: "Mathematics",
+    designation: "A-Level Mathematics Instructor",
+    subject: "Mathematics — A Level",
+    bio: "Advanced calculus, statistics, and pure mathematics simplified for sustained academic success. Mr. Aziz's methodical approach demystifies complex topics and builds confidence in even the most challenging syllabus areas.",
     initials: "TA",
-    quote: "Advanced calculus and logic simplified for academic success.",
-    badgeIcon: "calculator"
+    accentColor: "blue",
   },
   {
     name: "Dr. Kamran Malik",
-    roleLabel: "A-LEVEL BUSINESS STUDIES LECTURER",
-    department: "Humanities",
-    photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=200",
+    designation: "A-Level Business Studies Lecturer",
+    subject: "Humanities — A Level",
+    bio: "Fostering entrepreneurial mindsets through core enterprise, strategy, and finance concepts. Dr. Malik incorporates live case studies, startup simulations, and guest industry speakers into every module.",
+    photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=800",
     initials: "KM",
-    quote: "Fostering entrepreneurial mindsets through core enterprise concepts.",
-    badgeIcon: "book"
+    accentColor: "gold",
   },
   {
     name: "Ms. Maria Khan",
-    roleLabel: "A-LEVEL ENGLISH LANGUAGE GUIDE",
-    department: "Languages",
+    designation: "A-Level English Language Guide",
+    subject: "Languages — A Level",
+    bio: "Mastering advanced communication skills, stylistic analysis, and language structures. Ms. Khan's workshops on discursive writing and comparative textual analysis have helped students excel across all paper components.",
     initials: "MK",
-    quote: "Mastering advanced communication skills and language structures.",
-    badgeIcon: "languages"
-  }
+    accentColor: "blue",
+  },
 ];
+
+/* ── Principal's Message expand/collapse ──────────────────────── */
+const PRINCIPAL_FULL_MESSAGE = `We are committed to fostering a culture of curiosity, discipline, and compassion — values that are woven into every lesson, every interaction, and every programme we offer. Our teachers are not merely instructors; they are mentors who invest deeply in every child's holistic development.\n\nAt IFS, we challenge our students to think critically, to question, to innovate, and to lead with integrity. Whether your child is in Primary, O Level, or A Level, they will find here an environment that takes their potential seriously.\n\nI invite parents, students, and the wider community to walk this journey of excellence with us. Together, we will build a generation that is equipped not just for examinations, but for life.`;
+
+function PrincipalExpandCollapse() {
+  const [expanded, setExpanded] = React.useState(false);
+  return (
+    <>
+      {expanded && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
+          className="overflow-hidden"
+        >
+          {PRINCIPAL_FULL_MESSAGE.split('\n\n').map((para, i) => (
+            <p key={i} className="text-slate-600 leading-relaxed text-base mt-4 text-justify">{para}</p>
+          ))}
+        </motion.div>
+      )}
+      <button
+  className="pm-expand-btn"
+  onClick={() => setExpanded((v) => !v)}
+  aria-expanded={expanded}
+>
+  <span className="pm-expand-bg"></span>
+
+  <span className="pm-expand-content">
+    {expanded ? "Collapse Message" : "Read Full Message"}
+
+    <ArrowRight
+      size={14}
+      style={{
+        transform: expanded ? "rotate(90deg)" : "none",
+        transition: "transform 0.25s ease",
+      }}
+    />
+  </span>
+</button>
+    </>
+  );
+}
 
 export default function AboutView({ subView, setSubView }: AboutViewProps) {
   const [activeTab, setActiveTab] = useState<'olevel' | 'alevel'>('olevel');
-  const [isMobile, setIsMobile] = useState(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 480);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mediaQuery.matches);
-    const listener = (e: MediaQueryListEvent) => {
-      setPrefersReducedMotion(e.matches);
-    };
-    mediaQuery.addEventListener("change", listener);
-    return () => mediaQuery.removeEventListener("change", listener);
-  }, []);
-  
+
   const missionPoints = [
     "Fostering social and emotional growth.",
     "Involving schools, families, and community.",
@@ -452,481 +485,1029 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
   ];
 
   return (
-    <div className="w-full bg-[#FFFFFF] text-slate-800 font-sans fade-in" id="about-view-container">
+    <div className="w-full bg-white text-slate-800 font-sans" id="about-view-container">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap');
+
+        #about-view-container * {
+          font-family: 'Inter', sans-serif;
+        }
+
+        .about-hero-bg {
+          position: relative;
+          overflow: hidden;
+        }
+
+        .success-btn {
+        position: relative;
+        overflow: hidden;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px 34px;
+        background: #ffffffff;
+        color: #020618;
+        border: 2px solid #0d1f3c;
+        border-radius: 0;          /* Sharp corners */
+        box-sizing: border-box;
+
+
+        font-weight: 700;
+        font-size: 16px;
+
+        border: none;
+        cursor: pointer;
+        transition: color .35s ease;
+      }
+
+            .success-btn-bg {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: #60BADC;
+
+        transition: left 0.45s ease;
+        z-index: 0;
+      }
+
+
+
+        .success-btn-content {
+          position: relative;
+          z-index: 2;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          transition: color .35s ease;
+        }
+
+        .success-btn:hover .success-btn-bg {
+           left: 0;
+        }
+
+        .success-btn:hover .success-btn-content {
+          color: white;
+        }
+
+        .success-btn:hover svg {
+          color: white;
+          transform: translateX(4px);
+          transition: .3s;
+        }
+
+        .event-card {
+          position: relative;
+          border-radius: 10px;
+          overflow: hidden;
+          aspect-ratio: 4/3;
+          cursor: pointer;
+        }
+
+        .event-card img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.4s ease;
+        }
+
+        .event-card:hover img {
+          transform: scale(1.06);
+        }
+
+        .event-card-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to top, rgba(13,31,60,0.85) 0%, rgba(13,31,60,0.1) 60%);
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          padding: 16px;
+        }
+
+        .event-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background: #F5C330;
+          color: #0d1f3c;
+          font-size: 0.65rem;
+          font-weight: 800;
+          padding: 4px 10px;
+          border-radius: 10px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          margin-bottom: 8px;
+          width: fit-content;
+        }
+
+        .stats-section {
+          background: linear-gradient(135deg, #0d1f3c 0%, #1a3a6b 100%);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .stats-section::before {
+          content: '';
+          position: absolute;
+          top: -60px;
+          right: -60px;
+          width: 300px;
+          height: 300px;
+          border-radius: 50%;
+          background: rgba(245,195,48,0.08);
+        }
+
+        .stats-section::after {
+          content: '';
+          position: absolute;
+          bottom: -80px;
+          left: -40px;
+          width: 260px;
+          height: 260px;
+          border-radius: 50%;
+          background: rgba(96,186,220,0.08);
+        }
+
+        .stat-item {
+          text-align: center;
+          position: relative;
+          z-index: 1;
+        }
+
+        .stat-item .stat-number {
+          font-size: 2.8rem;
+          font-weight: 900;
+          color: #F5C330;
+          line-height: 1;
+          font-family: 'Inter', sans-serif;
+        }
+
+        .stat-item .stat-label {
+          font-size: 0.8rem;
+          color: rgba(255,255,255,0.7);
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          margin-top: 6px;
+        }
+
+        .vision-split {
+          background: #f8fafc;
+        }
+
+        .mission-strip {
+          background: linear-gradient(to right, #F5C330 0%, #f0b800 100%);
+        }
+
+        .accred-banner {
+            background: #020618;
+}
+
+        .photo-strip-item {
+          position: relative;
+          overflow: hidden;
+          border-radius: 10px;
+          aspect-ratio: 4/3;
+          flex: 1;
+          min-width: 0;
+        }
+
+        .photo-strip-item img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.4s ease;
+          filter: brightness(0.92);
+        }
+
+        .photo-strip-item:hover img {
+          transform: scale(1.05);
+          filter: brightness(1);
+        }
+
+      .bottom-stats-bar{
+    background:#132443;
+    padding:55px 0;
+    border-top:3px solid #F5C330;
+}
+
+.stat-card{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    min-height:180px;
+}
+
+.stat-icon{
+    width:54px;
+    height:54px;
+    border-radius:14px;
+    background:rgba(255,255,255,.12);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    margin-bottom:24px;
+    transform:rotate(4deg);
+    transition:.3s;
+}
+
+.stat-icon.active{
+    background:#F5C330;
+    color:#132443;
+}
+
+.stat-card:hover .stat-icon{
+    transform:translateY(-6px) rotate(0deg);
+}
+
+.stat-number{
+    font-size:56px;
+    font-weight:900;
+    color:#fff;
+    line-height:1;
+}
+
+.stat-number span{
+    color:#F5C330;
+}
+
+.stat-label{
+    margin-top:12px;
+    color:rgba(255,255,255,.75);
+    text-transform:uppercase;
+    letter-spacing:3px;
+    font-size:12px;
+    font-weight:700;
+}
+
+        .bottom-cta {
+          background: linear-gradient(135deg, #1a3a6b 0%, #0f2d55 100%);
+        }
+
         
-        .text-gradient-clip {
-          background-image: linear-gradient(135deg, #F5C330 0%, #60BADC 100%);
-          background-size: 200% auto;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          animation: shimmerGradient 4s ease-in-out infinite alternate;
+
+        .section-divider {
+           width: 64px;
+          height: 4px;
+          background: #F5C330;
+          border-radius: 9999px;
+          margin-top: 16px;
+}
+
+  .about-nav-tab {
+  padding: 10px 28px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 1px;   /* was 10px */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: none;
+  outline: none;
+}
+
+.about-nav-tab.active {
+  background: #F5C330;
+  color: #0d1f3c;
+}
+
+.about-nav-tab:not(.active) {
+  background: transparent;
+  color: rgba(255,255,255,0.7);
+}
+
+.about-nav-tab:not(.active):hover {
+  color: #F5C330;
+}
+
+        @keyframes fadeSlideIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes shimmerGradient {
-          0% { background-position: 0% 50%; }
-          100% { background-position: 100% 50%; }
-        }
-
-        .typewriter-cursor {
-          display: inline-block;
-          width: 3px;
-          height: 1em;
-          background-color: #0f172a;
-          margin-left: 2px;
-          animation: blink 1s step-end infinite;
-          vertical-align: text-bottom;
-        }
-
-        @keyframes blink {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .text-gradient-clip {
-            animation: none;
-            background-image: linear-gradient(135deg, #F5C330 0%, #60BADC 100%);
-          }
-        }
-
-        /* Hero text mask gradient */
-        .hero-text-mask {
-          background: linear-gradient(90deg, #F5C330 0%, #ffffff 40%, #60BADC 100%);
-          background-size: 200% auto;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          animation: heroTextShimmer 4s linear infinite;
-        }
-
-        @keyframes heroTextShimmer {
-          0%   { background-position: 200% center; }
-          100% { background-position: -200% center; }
-        }
-
-        /* Gradient typewriter cursor (white on yellow bg) */
-        .gradient-typewriter-cursor {
-          display: inline-block;
-          width: 3px;
-          height: 1em;
-          background: linear-gradient(180deg, #F5C330 0%, #60BADC 100%);
-          margin-left: 3px;
-          animation: blink 1s step-end infinite;
-          vertical-align: text-bottom;
-          border-radius: 2px;
-        }
-
-        /* Gradient text wrapper used by GradientTypewriterText */
-        .gradient-typing-text {
-          background: linear-gradient(90deg, #F5C330 0%, #60BADC 60%, #F5C330 100%);
-          background-size: 200% auto;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          animation: shimmerGradient 3s linear infinite;
+        .fade-slide-in {
+          animation: fadeSlideIn 0.5s ease both;
         }
       `}</style>
-      
-      {/* 1. Hero Section (Campus Image) */}
-      <div className="relative h-[90vh] min-h-[400px] w-full bg-slate-900 overflow-hidden flex flex-col justify-center items-center">
-        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/building-image.jpg')" }}></div>
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-black/55"></div>
-        {/* Bottom gradient: yellow-to-blue, same as old CTA */}
-        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-r from-[#F5C330]/80 to-[#60BADC]/80 mix-blend-multiply"></div>
-        <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#F5C330]/60 to-transparent"></div>
-        
-        {/* 4-corner frame effect */}
-        {!prefersReducedMotion && (
-          <>
-            <motion.div initial={{ top: -50, left: -50 }} animate={{ top: 24, left: 24 }} transition={{ duration: 0.4, delay: 0.0, ease: "easeOut" }} className="absolute w-8 h-8 sm:w-10 sm:h-10 border-t-2 border-l-2 border-[#60BADC] z-10" />
-            <motion.div initial={{ top: -50, right: -50 }} animate={{ top: 24, right: 24 }} transition={{ duration: 0.4, delay: 0.08, ease: "easeOut" }} className="absolute w-8 h-8 sm:w-10 sm:h-10 border-t-2 border-r-2 border-[#60BADC] z-10" />
-            <motion.div initial={{ bottom: -50, right: -50 }} animate={{ bottom: 24, right: 24 }} transition={{ duration: 0.4, delay: 0.16, ease: "easeOut" }} className="absolute w-8 h-8 sm:w-10 sm:h-10 border-b-2 border-r-2 border-[#60BADC] z-10" />
-            <motion.div initial={{ bottom: -50, left: -50 }} animate={{ bottom: 24, left: 24 }} transition={{ duration: 0.4, delay: 0.24, ease: "easeOut" }} className="absolute w-8 h-8 sm:w-10 sm:h-10 border-b-2 border-l-2 border-[#60BADC] z-10" />
-          </>
-        )}
-        {prefersReducedMotion && (
-          <>
-            <div className="absolute top-6 left-6 w-8 h-8 sm:w-10 sm:h-10 border-t-2 border-l-2 border-[#60BADC] z-10" />
-            <div className="absolute top-6 right-6 w-8 h-8 sm:w-10 sm:h-10 border-t-2 border-r-2 border-[#60BADC] z-10" />
-            <div className="absolute bottom-6 right-6 w-8 h-8 sm:w-10 sm:h-10 border-b-2 border-r-2 border-[#60BADC] z-10" />
-            <div className="absolute bottom-6 left-6 w-8 h-8 sm:w-10 sm:h-10 border-b-2 border-l-2 border-[#60BADC] z-10" />
-          </>
-        )}
 
-        <div className="relative z-10 text-center space-y-4 px-6 max-w-4xl mt-12 flex flex-col items-center">
-          <h1 className="text-5xl sm:text-7xl lg:text-8xl tracking-tight drop-shadow-lg hero-text-mask" style={{ fontFamily: "'Archivo Black', sans-serif" }}>
-            <TypewriterText text="YOUR CHILD'S FUTURE " prefersReducedMotion={prefersReducedMotion} />
-          </h1>
-          <div className="bg-[#F5C330] inline-block px-6 py-2 shadow-lg mt-2">
-            <h2 className="text-black text-2xl sm:text-4xl lg:text-5xl font-black uppercase tracking-[0.1em]">
-              < TypewriterText text="BEGINS HERE " prefersReducedMotion={prefersReducedMotion} /> 
-            </h2>
-          </div>
-        </div>
-      </div>
+      {/* ============================================================
+          1. HERO SECTION
+      ============================================================ */}
+       <section
+    className="relative h-[420px] lg:h-[430px] overflow-hidden"
+    style={{
+      backgroundImage: "url('building-image.jpeg')",
+      backgroundAttachment: "fixed",
+      backgroundPosition: "center",
+      backgroundSize: "contain",
+    }}>
+          {/* Theme overlay: dark navy with subtle yellow accent at bottom */}`
+        <div
+          className="absolute inset-0 z-[1]"
+          style={{
+            background: "linear-gradient(160deg, rgba(10,24,58,0.88) 0%, rgba(10,24,58,0.72) 60%, rgba(10,24,58,0.82) 100%)",
+          }}
+        />
+        {/* Yellow bottom accent line */}
+        <div className="absolute bottom-0 left-0 right-0 h-[4px] z-[2]" style={{ background: "linear-gradient(90deg, transparent 0%, #F5C330 30%, #F5C330 70%, transparent 100%)" }} />
 
-      {/* Alternating section backgrounds wrapper */}
-      <div className="w-full">
-
-        {/* Section 2 - Our Foundation & History — BG: Yellow */}
-        <div className="bg-[#FFF9E6] py-20 px-4 sm:px-8 lg:px-16">
-        <div className="max-w-6xl mx-auto">
-        <section id="about-story" className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <motion.div 
+        <div className="relative z-[3] max-w-7xl mx-auto h-full flex items-end px-8 lg:px-16 pb-12 lg:pb-16">
+          <motion.div
+            className="-ml-20"
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="space-y-6"
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
           >
-            <h2 className="text-4xl sm:text-5xl font-serif font-bold pb-2">
-              <GradientTypewriterText text="Our Foundation & History" prefersReducedMotion={prefersReducedMotion} />
-            </h2>
-            
-            <div className="flex flex-col space-y-4 pt-4">
-              <div className="flex items-center gap-4">
-                <div className="px-4 py-1.5 rounded-full bg-[#f1f5f9] border border-slate-200 text-sm font-bold text-slate-600">
-                  2016
-                </div>
-                <div className="text-xl font-bold text-slate-900">
-                  Founded in 2016
-                </div>
-              </div>
-              <p className="text-slate-600 leading-relaxed text-lg">
-                Founded in 2016 to bridge the gap between premium international education and value-driven local roots.
-              </p>
-            </div>
+            <h1
+              style={{
+                fontSize: "clamp(56px, 7vw, 80px)",
+                fontWeight: 750,
+                lineHeight: "1",
+                letterSpacing: "-3px",
+                color: "#ffffffff",
+                fontFamily: "Inter, sans-serif",
+                margin: 0,
+              }} > ABOUT US </h1>
+            {/*<span className="mt-3 block bg-[#F5C330] text-[#10172b] px-4 py-3">
+            Begins here
+          </span> */}
           </motion.div>
+        </div>
 
-          <motion.div 
-            initial={{ opacity: 0, x: 30 }}
+      </section>
+
+      {/* ============================================================
+          2. ABOUT IFS — 2-column image + text
+      ============================================================ */}
+      <section id="about-story" className="py-16 sm:py-20 px-6 lg:px-12 bg-white">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Image */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="relative"
           >
-            <div className="rounded-[24px] overflow-hidden shadow-xl relative aspect-square sm:aspect-video lg:aspect-square">
-              <img src="/building-history.jpg" alt="Students in classroom" className="w-full h-full object-cover" />
+            <div className="rounded-xl overflow-hidden shadow-2xl aspect-[4/3]">
+              <img src="/about.jpeg" alt="IFS Campus Building" className="w-full h-full object-cover" />
+            </div>
+            {/* Floating badge */}
+            <div className="absolute -bottom-5 -right-5 bg-[#F5C330] text-[#0d1f3c] rounded-xl px-6 py-4 shadow-xl">
+              <p className="text-2xl font-black leading-none">2016</p>
+              <p className="text-xs font-bold uppercase tracking-wider mt-1">Est. Year</p>
             </div>
           </motion.div>
-        </section>
-        </div></div>
 
-        {/* Section 3 - Quick Facts — BG: Blue */}
-        <div className="bg-[#EAF6FD] py-20 px-4 sm:px-8 lg:px-16">
-        <div className="max-w-6xl mx-auto">
-        <section id="quick-facts" className="space-y-8">
-          <div className="text-center">
-            <h2 className="text-3xl font-serif font-bold text-slate-900">Quick Facts</h2>
-          </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {quickFacts.map((fact, idx) => {
-              const Icon = fact.icon;
-              const isPrimary = idx % 2 === 0;
-              const accentColor = isPrimary ? '#F5C330' : '#60BADC';
-              const bgCircle = isPrimary ? 'bg-[#F5C330]/10' : 'bg-[#60BADC]/10';
-
-              return (
-                <motion.div 
-                  key={idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: idx * 0.08 }}
-                  className="bg-white rounded-[16px] p-8 shadow-sm border border-slate-100 flex flex-col items-center text-center space-y-4 hover:-translate-y-2 hover:shadow-md transition-all duration-200"
-                  style={{ '--hover-border': accentColor } as React.CSSProperties}
-                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = accentColor; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#f1f5f9'; }}
-                >
-                  <div className={`w-14 h-14 rounded-full ${bgCircle} flex items-center justify-center mb-2`}>
-                    <Icon className="w-7 h-7" style={{ color: accentColor }} strokeWidth={2} />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-900">{fact.title}</h3>
-                    <p className="text-sm text-slate-500 mt-1">{fact.label}</p>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </section>
-        </div></div>
-
-        {/* Section 4 - Vision & Mission — BG: Yellow */}
-        <div className="bg-[#FFF9E6] py-20 px-4 sm:px-8 lg:px-16">
-        <div className="max-w-6xl mx-auto">
-        <section id="vision-mission" className="space-y-12">
-          <div className="text-center">
-            <h2 className="text-4xl sm:text-5xl font-serif font-bold text-slate-900 min-h-[60px]">
-              <TypewriterText text="Vision & Mission" prefersReducedMotion={prefersReducedMotion} />
+          {/* Text */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="space-y-5"
+          >
+            {/* <span style={{ display: "inline-block", color: "#00000098", fontSize: "0.7rem", fontWeight: 800, padding: "4px 12px", borderRadius: "10px", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "10px", textAlign: "left" }}>
+              Our Foundation & History </span> */}
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0d1f3c] leading-tight">
+              About <span className="text-[#F5C330]">IFS</span>
             </h2>
-          </div>
+            <div className="section-divider" />
+            <p className="text-slate-600 leading-relaxed text-base">
+              The Isra Foundation School (IFS) was established in 2016 to bridge the gap between premium international education and value-driven local roots. Operating under the banner of Isra Islamic Foundation and affiliated with Isra University, IFS represents a vibrant and ever-growing academic community.
+            </p>
+            <p className="text-slate-600 leading-relaxed text-base">
+              IFS is firmly committed to serve as a vital bridge connecting international educational standards with our global community of students. This platform is designed to foster lifelong connections, celebrate student achievements, and involve graduates in the university's academic, research, and entrepreneurial initiatives.
+            </p>
+            <p className="text-slate-600 leading-relaxed text-base">
+              Our students are not only the ambassadors of Isra University but also strategic partners who support innovation, leadership development, and societal impact across diverse professional sectors.
+            </p>
+          </motion.div>
+        </div>
+      </section>
 
-          <motion.div 
+      {/* ============================================================
+          3. BENEFITS & SERVICES — Shield-badge card grid
+      ============================================================ */}
+      <BenefitsServices items={whyChooseItems} />
+
+      {/* White divider between Benefits & Principal */}
+      <div style={{ background: "#ffffff", height: "48px" }} />
+
+      {/* ============================================================
+          8. ACCREDITATIONS BANNER
+      ============================================================ */}
+      <div>
+        <section id="accreditations" className="accred-banner py-20 px-6 lg:px-12 min-h-[340px] flex items-center my-10">
+          <div className="max-w-7xl mx-auto w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+              <div className="lg:col-span-1 flex justify-center">
+                <Shield className="w-10 h-10 text-[#F5C330]" />
+              </div>
+              <div className="lg:col-span-6">
+                <h3 className="text-lg font-extrabold text-white mb-1">Accreditations & Affiliations</h3>
+                <p className="text-white/90 text-lg">
+                  Helps us maintain and update your institutional information so our data remains accurate and up-to-date. We partner with globally recognized educational organizations.
+                </p>
+              </div>
+              <div className="lg:col-span-5">
+                <div className="flex flex-wrap gap-3 justify-center lg:justify-end">
+                  {accreditations.map((item, idx) => {
+                    const Icon = item.icon;
+                    return (
+                      <div key={idx} className="flex items-center gap-2 bg-white/10 border border-white/20 rounded-lg px-4 py-2">
+                        <Icon className="w-4 h-4 text-[#F5C330] flex-shrink-0" />
+                        <span className="text-white text-xs font-semibold">{item.title}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      {/* ============================================================
+          4. PRINCIPAL'S MESSAGE — Redesigned two-column layout
+      ============================================================ */}
+      <section id="principal-message" className="py-0 bg-white overflow-hidden my-20">
+        <style>{`
+          .pm-square-wrap {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+          }
+          .pm-square-img {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+            border-radius: 4px;
+          }
+          @media (max-width: 767px) {
+            .pm-square-img { height: 280px; }
+          }
+          /* Yellow top-left corner accent */
+          .pm-corner-tl {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 52px;
+            height: 52px;
+            border-top: 5px solid #F5C330;
+            border-left: 5px solid #F5C330;
+            z-index: 3;
+          }
+          /* Blue bottom-right corner accent */
+          .pm-corner-br {
+            position: absolute;
+            bottom: -10px;
+            right: -10px;
+            width: 52px;
+            height: 52px;
+            border-bottom: 5px solid #60BADC;
+            border-right: 5px solid #60BADC;
+            z-index: 3;
+          }
+          .pm-expand-btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  padding: 14px 28px;
+  border: 2px solid #0d1f3c;
+  background: transparent;
+  color: #0d1f3c;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  transition: color .35s ease;
+}
+
+.pm-expand-bg {
+  position: absolute;
+  inset: 0;
+  background: #60BADC;   /* Hover color */
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .45s ease;
+  z-index: 0;
+}
+
+.pm-expand-content {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  transition: color .35s ease;
+}
+
+.pm-expand-btn:hover .pm-expand-bg {
+  transform: scaleX(1);
+}
+
+.pm-expand-btn:hover .pm-expand-content {
+  color: #ffffff;
+}
+
+/* Arrow inherits text color */
+.pm-expand-content svg {
+  transition: color .35s ease, transform .25s ease;
+}
+        `}</style>
+
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16 sm:py-24">
+          <motion.div
+            className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+          >
+            {/* LEFT — Square Photo with theme accents */}
+            <motion.div
+              className="flex flex-col items-center gap-6"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.65, delay: 0.1 }}
+            >
+              {/* Image wrapper */}
+              <div style={{ position: "relative", width: "100%", maxWidth: "420px" }}>
+                <div className="pm-corner-tl" />
+                <div className="pm-corner-br" />
+                <img
+                  src="/principal.jpg"
+                  alt="Dr. Ahmed Waliullah Kazi — Chairperson & Principal"
+                  className="pm-square-img"
+                  style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.14)" }}
+                />
+                {/* Yellow bottom strip / nameplate overlay */}
+                <div style={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  background: "linear-gradient(to top, rgba(10,24,58,0.92) 0%, rgba(10,24,58,0.6) 60%, transparent 100%)",
+                  padding: "28px 20px 16px",
+                  borderRadius: "0 0 4px 4px",
+                }}>
+                  <p style={{ color: "#ffffff", fontWeight: 800, fontSize: "1.05rem", margin: 0 }}>
+                    Dr. Ahmed Waliullah Kazi
+                  </p>
+                  <span style={{
+                    display: "inline-block",
+                    marginTop: "6px",
+                    background: "#F5C330",
+                    color: "#0d1f3c",
+                    fontWeight: 800,
+                    fontSize: "0.68rem",
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                    padding: "3px 10px",
+                    borderRadius: "2px",
+                  }}>
+                    Chairperson &amp; Principal
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* RIGHT — Message */}
+            <motion.div
+              className="space-y-5"
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.65, delay: 0.15 }}
+            >
+              {/* Eyebrow */}
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
+                <div style={{ width: "32px", height: "3px", background: "#F5C330", borderRadius: "9999px" }} />
+                <span style={{ color: "#60BADC", fontSize: "0.72rem", fontWeight: 800, letterSpacing: "0.18em", textTransform: "uppercase" }}>
+                  From the Principal's Desk
+                </span>
+              </div>
+
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0d1f3c] leading-tight">
+                A Message from<br />
+                <span className="text-[#F5C330]">Our Principal</span>
+              </h2>
+
+              {/* Themed left-border quote block */}
+              <div style={{
+                borderLeft: "4px solid #F5C330",
+                paddingLeft: "20px",
+                margin: "8px 0",
+              }}>
+                <p className="text-slate-600 leading-relaxed text-base text-justify">
+                  At Isra Foundation School, we believe that education is not merely the transmission of knowledge — it is the cultivation of character, the ignition of curiosity, and the forging of responsible, compassionate citizens.
+                </p>
+              </div>
+
+              {/* Secondary quote */}
+              <p className="text-slate-600 text-base leading-relaxed text-justify">
+                  We are committed to providing an environment where every student is empowered to discover their potential, embrace global values, and contribute meaningfully to society.
+              </p>
+
+              <PrincipalExpandCollapse />
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* White divider between Principal & Stats */}
+      <div style={{ background: "#ffffff", height: "48px" }} />
+
+
+
+      {/* ============================================================
+          7. QUICK FACTS STATS BAR (like bottom stats bar)
+      ============================================================ */}
+     <div className="bg-[#11182B] py-14 my-20">
+  <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4">
+
+    {[
+      {
+        icon: Calendar,
+        value: "2016",
+        suffix: "",
+        label: "YEAR FOUNDED",
+      },
+      {
+        icon: Users,
+        value: "1,200",
+        suffix: "+",
+        label: "STUDENTS ENROLLED",
+      },
+      {
+        icon: Globe,
+        value: "2",
+        suffix: "",
+        label: "AFFILIATIONS",
+      },
+      {
+        icon: Star,
+        value: "10",
+        suffix: "+",
+        label: "EVENTS & PROGRAMS",
+      },
+    ].map((item, index) => {
+      const Icon = item.icon;
+
+      return (
+        <div
+          key={index}
+          className={`
+            group
+            flex
+            flex-col
+            items-center
+            justify-center
+            py-6
+            transition-all
+            duration-300
+            ${
+              index !== 3
+                ? "border-r border-white/20"
+                : ""
+            }
+          `}
+        >
+          {/* Icon */}
+         <Icon
+  className="
+    w-11
+    h-11
+    text-white
+    transition-all
+    duration-500
+    ease-out
+    group-hover:text-[#F5C330]
+    group-hover:-translate-y-1
+    group-hover:scale-110
+  "
+/>
+          {/* Number */}
+<h2
+  className="
+  mt-5
+  text-6xl
+  font-extrabold
+  text-white
+  leading-none
+  transition-transform
+  duration-300
+  ease-out
+  group-hover:scale-110
+"
+>
+  {item.value}
+  <span className="text-[#F5C330]">
+    {item.suffix}
+  </span>
+</h2>
+          {/* Label */}
+          <p className="mt-4 text-[12px] uppercase tracking-[0.35em] font-bold text-white/80 text-center">
+            {item.label}
+          </p>
+        </div>
+      );
+    })}
+  </div>
+</div>
+
+
+      {/* ============================================================
+          6a. MANAGEMENT & BOARD — Swiper Parallax Slider
+      ============================================================ */}
+      <section id="management-board" className="py-16 sm:py-20 px-6 lg:px-12 bg-white my-10">
+        <div className="max-w-7xl mx-auto my-10">
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="flex items-center justify-center gap-2">
+            <span className="w-8 h-px bg-[#020618]" />
+            <span style={{ display: "inline-block", color: "#00000098", fontSize: "0.7rem", fontWeight: 800, padding: "2px 14px", borderRadius: "10px", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "6px", }}>
+              Leadership</span>
+            <span className="w-8 h-px bg-[#020618]" />
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0d1f3c] mt-2">Management &amp; Board</h2>
+            <div className="section-divider mx-auto mt-2" />
+            <p className="text-slate-500 text-sm mt-4 max-w-xl mx-auto leading-relaxed">
+              Meet the visionary leaders who shape the direction, values, and academic standards of Isra Foundation School.
+            </p>
+          </motion.div>
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+            transition={{ duration: 0.6, delay: 0.1 }}
           >
-            {/* Vision */}
-            <div className="bg-white rounded-[24px] p-8 sm:p-12 shadow-sm border border-slate-100 border-t-4 border-t-[#F5C330] hover:-translate-y-1 hover:border-t-[6px] transition-all duration-200 flex flex-col h-full group">
-              <div className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-12 rounded-full bg-[#F5C330]/20 flex items-center justify-center">
-                  <Telescope className="w-6 h-6 text-[#F5C330]" />
-                </div>
-                <h3 className="text-2xl font-bold text-slate-900 uppercase tracking-wide">Our Vision</h3>
-              </div>
-              <div className="flex-grow flex items-center justify-center">
-                <p className="text-3xl font-serif text-slate-700 leading-relaxed italic text-center">
-                  "Empowering Learners to be Productive Change Agents as Future Citizens."
-                </p>
-              </div>
-            </div>
-
-            {/* Mission */}
-            <div className="bg-white rounded-[24px] p-8 sm:p-12 shadow-sm border border-slate-100 border-t-4 border-t-[#60BADC] hover:-translate-y-1 hover:border-t-[6px] transition-all duration-200 flex flex-col h-full group">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full bg-[#60BADC]/20 flex items-center justify-center">
-                  <Target className="w-6 h-6 text-[#60BADC]" />
-                </div>
-                <h3 className="text-2xl font-bold text-slate-900 uppercase tracking-wide">Our Mission</h3>
-              </div>
-              <p className="text-slate-600 mb-6">
-                Our mission is to cultivate an environment that fosters comprehensive development and academic excellence by:
-              </p>
-              <div className="space-y-4 flex-grow">
-                {missionPoints.map((pt, idx) => (
-                  <div key={idx} className="flex items-start gap-3">
-                    <div className="mt-1 flex-shrink-0">
-                      <ChevronRight className="w-5 h-5 text-[#60BADC]" />
-                    </div>
-                    <span className="text-slate-700 font-medium leading-snug">{pt}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <ManagementBoardSlider members={boardMembers} />
           </motion.div>
-        </section>
-        </div></div>
+        </div>
+      </section>
+      {/* ============================================================
+          5. ACHIEVEMENT STATS — Dark section with counters
+      ============================================================ */}
+      <section className="stats-section relative py-16 sm:py-20 px-6 lg:px-12 overflow-hidden my-10">
+        {/* Background image */}
+        <div className="absolute inset-0">
+          <img
+            src="/Academic Achievement.jpg"
+            alt="Academic Achievement"
+            className="w-full h-full object-cover"
+          />
+          {/* Overlay for text readability — adjust opacity/color to match your theme */}
+          <div className="absolute inset-0 bg-[#0d1f3c]/80" />
+          {/* Optional: subtle gradient so bottom/top blend with adjacent sections */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0d1f3c]/40 via-transparent to-[#0d1f3c]/60" />
+        </div>
 
-        {/* 5. Principal's Message — BG: Blue */}
-        <div className="bg-[#EAF6FD] py-20 px-4 sm:px-8 lg:px-16">
-        <div className="max-w-6xl mx-auto">
-        <section id="principal-message" className="space-y-12">
-          <div className="text-center space-y-4">
-             <span className="text-[#1a3a6b] font-bold text-xs uppercase tracking-widest block">IN HIS WORDS</span>
-             <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900">
-               Principal's Message
-             </h2>
-             <div className="h-1 w-16 bg-[#F5C330] mx-auto rounded-full"></div>
+        {/* Content sits above the background */}
+        <div className="relative z-10 max-w-7xl mx-auto ">
+          <div className="text-center mb-12">
+            <span style={{ display: "inline-block", color: "#F5C330", fontSize: "0.7rem", fontWeight: 800, padding: "4px 14px", borderRadius: "10px", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "14px", }}>
+              Track Record</span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-2">
+              Academic Achievement & Recognition Program
+            </h2>
+            <p className="text-white/60 mt-4 max-w-2xl mx-auto text-sm leading-relaxed">
+              Celebrating distinguished students across various fields through awards and public recognition.
+              Highlighting their achievements and success stories via newsletters, social media, and
+              institutional events to strengthen pride and engagement.
+            </p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 sm:p-12">
-             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-                <div className="lg:col-span-4">
-                   <div className="relative rounded-2xl overflow-hidden aspect-[4/5] shadow-2xl border-4 border-white group">
-                      {/* Principal Image */}
-                      <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: "url('/principal.jpg')" }}></div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#1a3a6b]/90 via-[#1a3a6b]/20 to-transparent"></div>
-                      <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                        <div className="w-10 h-10 rounded-full bg-[#F5C330] flex items-center justify-center mb-3 shadow-lg">
-                          <Quote className="w-5 h-5 text-[#1a3a6b]" />
-                        </div>
-                      </div>
-                   </div>
-                </div>
-                <div className="lg:col-span-8 space-y-8">
-                   <div>
-                     <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">EXECUTIVE DIRECTOR</p>
-                     <h3 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900">Dr. Ahmed Waliullah Kazi</h3>
-                   </div>
-                   
-                   <div className="bg-slate-50 rounded-xl p-8 border border-slate-100 relative">
-                     <Quote className="absolute top-6 left-6 w-10 h-10 text-slate-200" />
-                     <p className="text-slate-700 text-sm sm:text-base leading-relaxed relative z-10 indent-6">
-                        At Isra Foundation Schools, our mission is to inspire every learner to achieve academic excellence while developing integrity, leadership, creativity, and compassion. We believe education should prepare students not only for examinations but for life — empowering them to become responsible global citizens capable of creating positive change in society.
-                     </p>
-                   </div>
-
-                   <div className="flex flex-wrap gap-2">
-                     {["Excellence", "Integrity", "Leadership", "Innovation", "Character"].map(tag => (
-                       <span key={tag} className="px-4 py-1.5 rounded-full border border-slate-200 text-xs font-bold text-slate-600 bg-white shadow-sm">
-                         {tag}
-                       </span>
-                     ))}
-                   </div>
-                </div>
-             </div>
-          </div>
-        </section>
-        </div></div>
-
-        {/* 6. Management & Board — BG: Yellow */}
-        <div className="bg-[#FFF9E6] py-20 px-4 sm:px-8 lg:px-16">
-        <div className="max-w-6xl mx-auto">
-        <section id="management-board" className="space-y-12">
-          <div className="text-center space-y-4">
-             <span className="text-[#60BADC] font-bold text-xs uppercase tracking-widest block">GOVERNANCE</span>
-             <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900">
-               Management & Board
-             </h2>
-             <div className="h-1 w-16 bg-[#F5C330] mx-auto rounded-full"></div>
-             <p className="text-sm text-slate-500 max-w-2xl mx-auto pt-2">
-               Guided by a dedicated Board of Governors and section heads who oversee academic quality, student wellbeing, and the day-to-day life of IFS.
-             </p>
-          </div>
-
-          <div className="mt-8">
-            <TeamCarousel members={managementMembers} prefersReducedMotion={prefersReducedMotion} isMobile={isMobile} />
-          </div>
-        </section>
-        </div></div>
-
-        {/* 7. Faculty & Staff — BG: Blue */}
-        <div className="bg-[#EAF6FD] py-20 px-4 sm:px-8 lg:px-16">
-        <div className="max-w-6xl mx-auto">
-        <section id="faculty-staff" className="space-y-12">
-          <div className="text-center space-y-4">
-             <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900">
-               Faculty & Staff
-             </h2>
-             <div className="h-1 w-16 bg-[#F5C330] mx-auto rounded-full"></div>
-          </div>
-          
-          <div className="flex justify-center mb-12">
-            <div 
-              className="relative inline-flex bg-slate-100 p-1.5 rounded-full border border-slate-200 focus-within:ring-2 focus-within:ring-[#60BADC] transition-shadow duration-200"
-              role="tablist"
-              aria-label="Faculty Section Selection"
-              onKeyDown={(e) => {
-                if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-                  e.preventDefault();
-                  setActiveTab("olevel");
-                  document.getElementById("tab-olevel")?.focus();
-                } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-                  e.preventDefault();
-                  setActiveTab("alevel");
-                  document.getElementById("tab-alevel")?.focus();
-                }
-              }}
-            >
-              {/* Sliding background pill */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
+            {[
+              { value: 8, suffix: "+", label: "Years of Excellence" },
+              { value: 1200, suffix: "+", label: "Students Enrolled" },
+              { value: 15, suffix: "+", label: "Award Programs" },
+              { value: 50, suffix: "+", label: "Qualified Faculty" },
+            ].map((stat, idx) => (
               <motion.div
-                className="absolute bg-[#F5C330] rounded-full shadow-sm"
-                initial={false}
-                animate={{
-                  x: activeTab === 'olevel' ? 0 : '100%',
-                }}
-                transition={{ type: "tween", duration: 0.25, ease: "easeOut" }}
-                style={{
-                  top: '6px',
-                  bottom: '6px',
-                  left: '6px',
-                  width: 'calc(50% - 6px)',
-                  height: 'calc(100% - 12px)',
-                }}
-              />
-
-              <button
-                id="tab-olevel"
-                role="tab"
-                aria-selected={activeTab === 'olevel'}
-                tabIndex={0}
-                onClick={() => setActiveTab('olevel')}
-                className={`relative z-10 w-[140px] sm:w-[170px] py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-colors duration-200 select-none outline-none focus:ring-2 focus:ring-[#60BADC]/50 ${
-                  activeTab === 'olevel' 
-                    ? 'text-black font-bold' 
-                    : 'text-black/60 hover:text-black/80'
-                }`}
+                key={idx}
+                className="stat-item"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
               >
-                O Level Faculty
+                <div className="stat-number">
+                  <AnimatedCounter value={stat.value} suffix={stat.suffix} />
+                </div>
+                <div className="stat-label">{stat.label}</div>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="text-center mt-10">
+          <button className="success-btn">
+            <span className="success-btn-bg"></span>
+            <span className="success-btn-content">
+              Explore Success Stories
+              <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
+            </span>
+            </button>
+          </div>
+        </div>
+      </section>
+      {/* White divider between Stats & Management */}
+      <div style={{ background: "#ffffff", height: "48px" }} />
+
+      {/* ============================================================
+          6b. O/A LEVEL ACADEMIC FACULTY — GSAP Vertical Card Slider
+      ============================================================ */}
+      <section id="academic-faculty" className="py-16 sm:py-20 px-6 lg:px-12 bg-white">
+        <div className="max-w-7xl mx-auto my-10">
+          <motion.div
+            className="text-center mb-14"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+
+            <div className="flex items-center justify-center gap-2">
+            <span className="w-8 h-px bg-[#020618]" />
+            <span style={{ display: "inline-block", color: "#00000098", fontSize: "0.7rem", fontWeight: 800, padding: "2px 14px", borderRadius: "10px", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "6px", }}>
+              Academic Faculty</span>
+            <span className="w-8 h-px bg-[#020618]" />
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0d1f3c] mt-2">Faculty / Staff </h2>
+            <div className="section-divider mx-auto mt-2" />
+            <p className="text-slate-500 text-sm mt-4 max-w-xl mx-auto leading-relaxed">
+              Specialist subject teachers for Cambridge O Level and A Level programmes. Scroll or swipe to explore.
+            </p>
+          </motion.div>
+
+          {/* Tab switcher */}
+          <div className="flex justify-center mb-10">
+            <div className="flex gap-2 bg-[#0d1f3c] p-1.5 rounded-none">
+              <button
+                className={`about-nav-tab ${activeTab === 'olevel' ? 'active' : ''}`}
+                onClick={() => setActiveTab('olevel')}
+                aria-selected={activeTab === 'olevel'}
+                role="tab"
+                id="tab-olevel"
+              >
+                O Level
               </button>
               <button
-                id="tab-alevel"
-                role="tab"
-                aria-selected={activeTab === 'alevel'}
-                tabIndex={0}
+                className={`about-nav-tab ${activeTab === 'alevel' ? 'active' : ''}`}
                 onClick={() => setActiveTab('alevel')}
-                className={`relative z-10 w-[140px] sm:w-[170px] py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-colors duration-200 select-none outline-none focus:ring-2 focus:ring-[#60BADC]/50 ${
-                  activeTab === 'alevel' 
-                    ? 'text-black font-bold' 
-                    : 'text-black/60 hover:text-black/80'
-                }`}
+                aria-selected={activeTab === 'alevel'}
+                role="tab"
+                id="tab-alevel"
               >
-                A Level Faculty
+                A Level
               </button>
             </div>
           </div>
 
-          <div className="relative min-h-[300px]">
-            <AnimatePresence mode="wait">
-              {activeTab === 'olevel' ? (
-                <motion.div
-                  key="olevel-grid"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <TeamCarousel members={oLevelFaculty} prefersReducedMotion={prefersReducedMotion} isMobile={isMobile} />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="alevel-grid"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <TeamCarousel members={aLevelFaculty} prefersReducedMotion={prefersReducedMotion} isMobile={isMobile} />
-                </motion.div>
-              )}
-            </AnimatePresence>
+          <AnimatePresence mode="wait">
+            {activeTab === 'olevel' ? (
+              <motion.div
+                key="olevel-slider"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25 }}
+                className="px-0 sm:px-8 lg:px-16"
+              >
+                <VerticalCardSlider
+                  members={oLevelSliderMembers}
+                  sectionLabel="O Level Faculty"
+                  heading="O Level Faculty"
+                />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="alevel-slider"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25 }}
+                className="px-0 sm:px-8 lg:px-16"
+              >
+                <VerticalCardSlider
+                  members={aLevelSliderMembers}
+                  sectionLabel="A Level Faculty"
+                  heading="A Level Faculty"
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </section>
+      {/* ============================================================
+          9. CAMPUS MOMENTS — Photo strip (like Alumni Moments)
+      ============================================================ */}
+      {/*<section className="py-16 sm:py-20 px-6 lg:px-12 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-10">
+            <span className="section-label">Gallery</span>
+            <h2 className="text-3xl font-extrabold text-[#0d1f3c] mt-2">Campus Moments</h2>
+            <div className="section-divider mx-auto mt-2" />
           </div>
-        </section>
-        </div></div>
 
-        {/* Section 8 - Accreditations & Affiliations — BG: Yellow */}
-        <div className="bg-[#FFF9E6] py-20 px-4 sm:px-8 lg:px-16">
-        <div className="max-w-6xl mx-auto">
-        <section id="accreditations" className="space-y-12">
-          <div className="text-center space-y-4">
-             <h2 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900">
-               Accreditations & Affiliations
-             </h2>
-             <p className="text-slate-500 max-w-2xl mx-auto text-lg">
-               Partnering with globally recognized educational organizations.
-             </p>
+          <div className="flex gap-3 overflow-hidden">
+            {[
+              "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&q=80&w=400",
+              "https://images.unsplash.com/photo-1606761568499-6d2451b23c66?auto=format&fit=crop&q=80&w=400",
+              "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=400",
+              "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=400",
+              "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=400",
+            ].map((src, idx) => (
+              <motion.div
+                key={idx}
+                className="photo-strip-item"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: idx * 0.07 }}
+              >
+                <img src={src} alt={`Campus moment ${idx + 1}`} />
+              </motion.div>
+            ))}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {accreditations.map((item, idx) => {
-              const Icon = item.icon;
-              return (
-                <motion.div 
-                  key={idx}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: idx * 0.1 }}
-                  className="bg-white rounded-[20px] p-6 shadow-sm border border-slate-100 flex flex-col items-center text-center space-y-4 hover:shadow-md transition-shadow"
-                >
-                  <Icon className="w-10 h-10 text-[#60BADC]" strokeWidth={1.5} />
-                  <h4 className="font-bold text-slate-800">{item.title}</h4>
-                </motion.div>
-              );
-            })}
+          <div className="text-center mt-8">
+            <button className="inline-flex items-center gap-2 border-2 border-[#1a3a6b] text-[#1a3a6b] font-bold text-sm px-8 py-3 rounded-lg hover:bg-[#1a3a6b] hover:text-white transition-all duration-200">
+              View More Photos <ArrowRight className="w-4 h-4" />
+            </button>
           </div>
-        </section>
-        </div></div>
+        </div>
+      </section> */}
 
-      </div>{/* end alternating bg wrapper */}
+
+      {/* ============================================================
+          9. STAY CONNECTED CTA (Bottom)
+      ============================================================ */}
+      <section className="relative h-[420px] lg:h-[430px] flex items-center overflow-hidden ">
+        {/* Background image */}
+        <img
+          src="/building-image1.jpg"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+
+        {/* Dark overlay so text stays readable */}
+        <div
+          className="absolute inset-0 z-[1]"
+          style={{
+            background:
+              "linear-gradient(90deg, rgba(11,32,63,0.80) 0%, rgba(11,32,63,0.55) 100%)",
+          }}
+        />
+
+        {/* Content */}
+        <div className="relative z-[2] w-full py-24 px-6 lg:px-12 text-center">
+          <div className="max-w-4xl mx-auto">
+            <p className="text-white/60 text-sm font-bold uppercase tracking-widest mb-4">
+              Join Our Community
+            </p>
+            <h2 className="text-4xl sm:text-6xl font-extrabold text-white mb-6">
+              Stay Connected. <span className="text-[#F5C330]">Stay Inspired.</span>
+            </h2>
+            <p className="text-white/70 text-base sm:text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
+              Be a part of a global community making a difference. Connect with IFS
+              today and be part of the legacy of excellence at Isra Foundation Schools.
+            </p>
+            <div className="flex flex-wrap gap-6 justify-center">
+              <button className="gold-btn text-base px-8 py-4">
+                Join IFS Today <ArrowRight className="w-5 h-5" />
+              </button>
+              <button className="outline-btn text-base px-8 py-4">
+                Contact Us <ExternalLink className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

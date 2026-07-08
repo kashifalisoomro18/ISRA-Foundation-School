@@ -204,7 +204,10 @@ export default function Header({
           <button
             onMouseEnter={() => openDropdown("admissions")}
             onMouseLeave={closeDropdownDelayed}
-            onClick={() => handleNav("admissions")}
+            onClick={() => {
+              handleNav("admissions");
+              setAdmissionsSubView("overview");
+            }}
             className={`group ${navLinkBase} ${navLinkColor("admissions")} flex items-center gap-1`}
           >
             Admissions

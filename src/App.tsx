@@ -25,7 +25,7 @@ import { Phone, MessageCircle } from "lucide-react";
 export default function App() {
   const [currentView, setView] = useState<MainView>("home");
   const [aboutSubView, setAboutSubView] = useState<AboutSubView>("who-we-are");
-  const [admissionsSubView, setAdmissionsSubView] = useState<AdmissionsSubView>("process");
+  const [admissionsSubView, setAdmissionsSubView] = useState<AdmissionsSubView>("overview");
   const [academicsSubView, setAcademicsSubView] = useState<AcademicsSubView>("curriculum");
 
   return (

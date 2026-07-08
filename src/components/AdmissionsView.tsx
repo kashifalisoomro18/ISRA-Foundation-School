@@ -43,33 +43,35 @@ export default function AdmissionsView({ subView, onSubmitApplication }: Admissi
   return (
     <main className="bg-white">
       <AdmissionsHero />
-      <AdmissionsPrograms />
-      <AdmissionsWhyChoose />
-      <AdmissionsInfoCards />
-      <section id="admissions-registration" className="scroll-mt-24 bg-slate-50 py-16 sm:py-24">
-        <div className="max-w-[1536px] w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
-          <div className="mb-10 text-center">
-            <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-primary-dark">
-              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-              Apply Now
-            </span>
-            <h2 className="mt-2 font-serif text-3xl font-bold text-slate-900 sm:text-4xl">
-              Online Registration Form
-            </h2>
-            <p className="mx-auto mt-3 max-w-xl text-sm text-slate-600 sm:text-base">
-              Prefer to fill it in directly here instead of Google Forms?
-              Complete the application below.
-            </p>
+      <div className="relative z-10 bg-white">
+        <AdmissionsPrograms />
+        <AdmissionsWhyChoose />
+        <AdmissionsInfoCards />
+        <section id="admissions-registration" className="scroll-mt-24 bg-slate-50 py-12 sm:py-16">
+          <div className="max-w-[1536px] w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
+            <div className="mb-10 text-center">
+              <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-primary-dark">
+                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                Apply Now
+              </span>
+              <h2 className="mt-2 font-serif text-3xl font-bold text-slate-900 sm:text-4xl">
+                Online Registration Form
+              </h2>
+              <p className="mx-auto mt-3 max-w-xl text-sm text-slate-600 sm:text-base">
+                Prefer to fill it in directly here instead of Google Forms?
+                Complete the application below.
+              </p>
+            </div>
+            <div className="mx-auto max-w-3xl">
+              <AdmissionsRegistrationForm onSubmit={onSubmitApplication} />
+            </div>
           </div>
-          <div className="mx-auto max-w-3xl">
-            <AdmissionsRegistrationForm onSubmit={onSubmitApplication} />
-          </div>
-        </div>
-      </section>
-      <AdmissionsProcess />
-      <AdmissionsScholarship />
-      <AdmissionsStats />
-      <AdmissionsCTA />
+        </section>
+        <AdmissionsProcess />
+        <AdmissionsScholarship />
+        <AdmissionsStats />
+        <AdmissionsCTA />
+      </div>
     </main>
   );
 }

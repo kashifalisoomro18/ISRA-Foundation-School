@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { motion, AnimatePresence, Variants } from "motion/react";
 import { MainView, AboutSubView, AdmissionsSubView, AcademicsSubView } from "../types";
 import { NEWS_DATA, EVENTS_DATA } from "../data";
 import {
@@ -26,6 +26,10 @@ import {
   Trophy,
   Award,
   Palette,
+  ChevronLeft,
+  BookOpen,
+  ShieldCheck,
+  X,
 } from "lucide-react";
 
 interface HomeViewProps {
@@ -126,7 +130,7 @@ const ACHIEVEMENTS_DATA = [
     emoji: "🏆",
     title: "Academic Excellence",
     description: "Students consistently achieve outstanding examination results and top academic rankings.",
-    color: "#60badc",
+    color: "#f5c330",
   },
   {
     icon: Award,
@@ -140,21 +144,21 @@ const ACHIEVEMENTS_DATA = [
     emoji: "🎨",
     title: "Co-Curricular Excellence",
     description: "Students showcase creativity and leadership through debates, science fairs, art exhibitions, and cultural events.",
-    color: "#be123c",
+    color: "#f5c330",
   },
 ];
 
 /* ------------------------------------------------------------------ */
 /*  Motion variants (shared, so scroll-groups stagger children)       */
 /* ------------------------------------------------------------------ */
-const staggerContainer = {
+const staggerContainer: Variants = {
   hidden: {},
   show: {
     transition: { staggerChildren: 0.12 },
   },
 };
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
 };
@@ -166,9 +170,13 @@ export default function HomeView({
   setAcademicsSubView,
 }: HomeViewProps) {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [direction, setDirection] = useState(1);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(true);
+
+  // Alumni gallery lightbox state
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const toggleVideo = () => {
     if (!videoRef.current) return;
@@ -185,62 +193,86 @@ export default function HomeView({
   // 6 Carousel Images as requested (2 more than original, and tall height 700px)
   const heroSlides = [
     {
-      title: "Your Child’s",
-      highlight: "Future Begins Here",
-      subtitle: "2026-2027",
-      description:
-        "Admissions Open! Secure your child's seat today!.",
-      bgImage: "assets/slider/slide1.jpg",
+      id: 0,
+      image: "assets/slider/slide1.jpg",
+      category: "2026-2027",
+      eyebrow: "Isra Foundation Schools",
+      headline: ["Your Child’s", "Future Begins Here"],
+      accentWord: 1,
+      sub: "Admissions Open! Secure your child's seat today!.",
+      cta: "Apply Now",
+      accent: "#60BADC",
     },
     {
-      title: "FOUNDED UPON ACADEMIC",
-      highlight: "EXCELLENCE",
-      subtitle: "ESTABLISHED SINCE 1981",
-      description:
-        "Nurturing creative minds, state-of-the-art laboratory facilities, and exceptional placements prepare our students to succeed globally.",
-      bgImage: "assets/slider/slide2.jpg",
+      id: 1,
+      image: "assets/slider/slide2.jpg",
+      category: "ESTABLISHED SINCE 1981",
+      eyebrow: "Academic Excellence",
+      headline: ["FOUNDED UPON ACADEMIC", "EXCELLENCE"],
+      accentWord: 1,
+      sub: "Nurturing creative minds, state-of-the-art laboratory facilities, and exceptional placements prepare our students to succeed globally.",
+      cta: "Apply Now",
+      accent: "#F5C330",
     },
     {
-      title: "LEARNING BEYOND CLASSROOM",
-      highlight: "BOUNDARIES",
-      subtitle: "ACTIVE INQUIRY",
-      description:
-        "Combining top-tier sports leagues, academic debating platforms, and Finland HEI early childhood active play frameworks.",
-      bgImage: "assets/slider/slide3.jpg",
+      id: 2,
+      image: "assets/slider/slide3.jpg",
+      category: "ACTIVE INQUIRY",
+      eyebrow: "Holistic Development",
+      headline: ["LEARNING BEYOND CLASSROOM", "BOUNDARIES"],
+      accentWord: 1,
+      sub: "Combining top-tier sports leagues, academic debating platforms, and Finland HEI early childhood active play frameworks.",
+      cta: "Apply Now",
+      accent: "#60BADC",
     },
     {
-      title: "INNOVATIVE INTERACTIVE",
-      highlight: "STEM LABS",
-      subtitle: "DIGITAL LITERACY FOR ALL",
-      description:
-        "Continuous research-led curriculum designed to equip student critical thinking with robotics workshops and coding labs.",
-      bgImage: "assets/slider/slide4.jpg",
+      id: 3,
+      image: "assets/slider/slide4.jpg",
+      category: "DIGITAL LITERACY FOR ALL",
+      eyebrow: "STEM Focus",
+      headline: ["INNOVATIVE INTERACTIVE", "STEM LABS"],
+      accentWord: 1,
+      sub: "Continuous research-led curriculum designed to equip student critical thinking with robotics workshops and coding labs.",
+      cta: "Apply Now",
+      accent: "#F5C330",
     },
     {
-      title: "CHARACTER BUILDING &",
-      highlight: "ANCHORED ETHICS",
-      subtitle: "MORAL LEADERSHIP",
-      description:
-        "Grooming well-rounded, responsible future citizens anchored in integrity, cooperative empathy, and academic precision.",
-      bgImage: "assets/slider/slide5.jpeg",
+      id: 4,
+      image: "assets/slider/slide5.jpeg",
+      category: "MORAL LEADERSHIP",
+      eyebrow: "Values & Ethics",
+      headline: ["CHARACTER BUILDING &", "ANCHORED ETHICS"],
+      accentWord: 1,
+      sub: "Grooming well-rounded, responsible future citizens anchored in integrity, cooperative empathy, and academic precision.",
+      cta: "Apply Now",
+      accent: "#60BADC",
     },
     {
-      title: "PREPARING FUTURE CAMBRIDGE",
-      highlight: "LEADERS",
-      subtitle: "94% OUTSTANDING GRADES",
-      description:
-        "A secure environment with qualified O and A Level specialist educators shaping tertiary admission placement success.",
-      bgImage: "assets/slider/slide6.jpg",
+      id: 5,
+      image: "assets/slider/slide6.jpg",
+      category: "94% OUTSTANDING GRADES",
+      eyebrow: "Cambridge Boarding",
+      headline: ["PREPARING FUTURE CAMBRIDGE", "LEADERS"],
+      accentWord: 1,
+      sub: "A secure environment with qualified O and A Level specialist educators shaping tertiary admission placement success.",
+      cta: "Apply Now",
+      accent: "#F5C330",
     },
   ];
 
+  const goTo = useCallback((idx: number, dir?: number) => {
+    setDirection(dir ?? (idx > activeSlide ? 1 : -1));
+    setActiveSlide(idx);
+  }, [activeSlide]);
+
+  const next = useCallback(() => goTo((activeSlide + 1) % heroSlides.length, 1), [activeSlide, goTo, heroSlides.length]);
+  const prev = useCallback(() => goTo((activeSlide - 1 + heroSlides.length) % heroSlides.length, -1), [activeSlide, goTo, heroSlides.length]);
+
   // Auto-play interval effect (5.5 seconds)
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 5500);
+    const interval = setInterval(next, 5500);
     return () => clearInterval(interval);
-  }, [heroSlides.length]);
+  }, [next]);
 
   const handleApplyNow = () => {
     setView("admissions");
@@ -262,155 +294,342 @@ export default function HomeView({
   };
 
   return (
-    <div className="space-y-24 pb-24 bg-white text-slate-900 font-sans">
+    <div className="bg-white text-slate-900 font-sans">
 
-      {/* SECTION 1: Carousel / Hero Slider (Pristine Slider with Criss-Cross Transitions) */}
-      <section className="relative h-[700px] w-full overflow-hidden bg-slate-950 text-white" id="fps-hero-slider">
-        <AnimatePresence mode="sync">
-          {heroSlides.map((slide, index) => (
-            index === activeSlide && (
-              <div key={index} className="absolute inset-0 w-full h-full flex flex-col lg:flex-row items-stretch">
+      {/* SECTION 1: Carousel / Hero Slider (Admissions Page Styled, Responsive, Sticky) */}
+      <section className="sticky top-0 overflow-hidden select-none w-full h-[750px] max-h-[90vh] min-h-[600px] z-0" id="IFS-hero-slider">
 
-                {/* Background Image / Visuals Panel (Slides in from Right) */}
-                <motion.div
-                  initial={{ x: "100%", opacity: 0 }}
-                  animate={{ x: "0%", opacity: 1 }}
-                  exit={{ x: "100%", opacity: 0 }}
-                  transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute inset-0 lg:left-[40%] lg:w-[60%] h-full z-10 clip-right-panel"
-                >
-                  <motion.div
-                    initial={{ scale: 1.15 }}
-                    animate={{ scale: 1.0 }}
-                    transition={{ duration: 1.6, ease: "easeOut" }}
-                    className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                    style={{
-                      backgroundImage: `url(${slide.bgImage})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      backgroundRepeat: "no-repeat",
-                    }}
-                  />
-                  {/* Subtle right-side overlay */}
-                  <div className="absolute inset-0 bg-slate-950/20 lg:bg-gradient-to-r lg:from-slate-950/40 lg:to-transparent z-15" />
-                </motion.div>
+        {/* ── Background slides (always rendered for preload) ──────── */}
+        {heroSlides.map((s, i) => (
+          <div
+            key={s.id}
+            className="absolute inset-0"
+            style={{ zIndex: 0, pointerEvents: "none" }}
+          >
+            <div
+              className="absolute inset-0 bg-center bg-cover"
+              style={{
+                backgroundImage: `url('${s.image}')`,
+                opacity: 0,
+              }}
+            />
+          </div>
+        ))}
 
-                {/* Left Text Backdrop Panel (Slides in from Left) */}
-                <motion.div
-                  initial={{ x: "-100%", opacity: 0 }}
-                  animate={{ x: "0%", opacity: 1 }}
-                  exit={{ x: "-100%", opacity: 0 }}
-                  transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute inset-y-0 left-0 w-full lg:w-[50%] bg-gradient-to-r from-slate-950 via-slate-950 to-slate-900/95 z-20 flex items-center clip-left-panel"
-                >
-                  {/* Overlay matching the high-contrast professional presentation */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-900/40 to-transparent lg:hidden z-10" />
+        {/* ── Animated slides ──────────────────────────────────────── */}
+        <AnimatePresence initial={false} custom={direction}>
+          <motion.div
+            key={activeSlide}
+            custom={direction}
+            variants={{
+              enter: (dir: number) => ({
+                clipPath: dir > 0
+                  ? "polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)"
+                  : "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)",
+                zIndex: 2,
+              }),
+              center: {
+                clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+                zIndex: 2,
+                transition: { duration: 1, ease: [0.76, 0, 0.24, 1] },
+              },
+              exit: {
+                zIndex: 1,
+                transition: { duration: 1 },
+              },
+            }}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            className="absolute inset-0"
+            style={{ zIndex: 2, willChange: "clip-path" }}
+          >
+            {/* Background image with Ken-Burns zoom */}
+            <motion.div
+              className="absolute inset-0 bg-center bg-cover"
+              style={{ backgroundImage: `url('${heroSlides[activeSlide].image}')` }}
+              initial={{ scale: 1.1 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 6.5, ease: "linear" }}
+            />
 
-                  {/* Slide Text Content Container */}
-                  <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 w-full relative z-20 lg:translate-x-12">
-                    <div className="max-w-xl space-y-6">
-                      <motion.span
-                        initial={{ opacity: 0, y: -15 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.3 }}
-                        className="text-primary font-mono text-xs uppercase tracking-[0.2em] font-extrabold block"
-                      >
-                        {slide.subtitle}
-                      </motion.span>
-
-                      <motion.h1
-                        initial={{ opacity: 0, y: 30, rotateX: -10 }}
-                        animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                        transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-                        className="font-sans font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.05]"
-                      >
-                        <span className="text-white">
-                          {slide.title}
-                        </span>
-
-                        {slide.highlight && (
-                          <div className="mt-3">
-                            <span className="inline px-4 py-1 bg-primary text-slate-900 font-black [box-decoration-break:clone] [-webkit-box-decoration-break:clone]">
-                              {slide.highlight}
-                            </span>
-                          </div>
-                        )}
-                      </motion.h1>
-
-                      <motion.p
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8, delay: 0.6 }}
-                        className="text-slate-200 text-sm sm:text-base leading-relaxed font-normal max-w-lg border-l-4 border-primary pl-4"
-                      >
-                        {slide.description}
-                      </motion.p>
-
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.6, delay: 0.8 }}
-                        className="pt-4"
-                      >
-                        <button
-                          onClick={handleApplyNow}
-                          className="group relative overflow-hidden bg-white text-slate-950 px-8 py-3 rounded-none font-bold text-xs uppercase tracking-widest shadow-md flex items-center gap-2 cursor-pointer transition-transform duration-300 hover:scale-105 active:scale-95"
-                        >
-                          {/* Hover Background Animation */}
-                          <span className="absolute inset-0 bg-[#60badc] origin-left scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100"></span>
-
-                          {/* Button Content */}
-                          <span className="relative z-10 flex items-center gap-2">
-                            Apply Now
-                            <ChevronRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                          </span>
-                        </button>
-                      </motion.div>
-                    </div>
-                  </div>
-                </motion.div>
-
-                {/* Left Arrow (Desktop/Tablet) */}
-                <button
-                  onClick={() => setActiveSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length)}
-                  className="absolute left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full border border-white bg-black/40 hover:bg-primary text-white hover:text-slate-950 flex items-center justify-center transition-all duration-300 cursor-pointer shadow-lg hover:scale-110 active:scale-95"
-                  id="carousel-prev-arrow"
-                >
-                  <span className="text-xl font-bold">&lsaquo;</span>
-                </button>
-
-                {/* Right Arrow (Desktop/Tablet) */}
-                <button
-                  onClick={() => setActiveSlide((prev) => (prev + 1) % heroSlides.length)}
-                  className="absolute right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full border border-white bg-black/40 hover:bg-primary text-white hover:text-slate-950 flex items-center justify-center transition-all duration-300 cursor-pointer shadow-lg hover:scale-110 active:scale-95"
-                  id="carousel-next-arrow"
-                >
-                  <span className="text-xl font-bold">&rsaquo;</span>
-                </button>
-
-              </div>
-            )
-          ))}
+            {/* Multi-layer overlay for deep contrast */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background: "linear-gradient(110deg, rgba(4,10,28,0.97) 0%, rgba(5,14,36,0.93) 20%, rgba(7,19,46,0.85) 42%, rgba(9,24,55,0.6) 64%, rgba(10,28,62,0.25) 82%, transparent 100%)",
+              }}
+            />
+            {/* Bottom vignette */}
+            <div className="absolute inset-x-0 bottom-0 h-48" style={{ background: "linear-gradient(to top, rgba(4,10,28,0.85), transparent)" }} />
+            {/* Top vignette */}
+            <div className="absolute inset-x-0 top-0 h-32" style={{ background: "linear-gradient(to bottom, rgba(4,10,28,0.55), transparent)" }} />
+          </motion.div>
         </AnimatePresence>
 
-        {/* Dynamic Dot Navigation indicators exactly at bottom center */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2.5" id="carousel-dots">
-          {heroSlides.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setActiveSlide(idx)}
-              className={`w-2.5 h-2.5 rounded-full transition-all border border-white/60 cursor-pointer ${
-                idx === activeSlide ? "bg-[#60badc] scale-125 border-white" : "bg-white/40 hover:bg-white/70"
-              }`}
-              aria-label={`Go to slide ${idx + 1}`}
-            />
-          ))}
+        {/* ── Thin vertical accent line ─────────────────────────────── */}
+        <div
+          className="absolute top-0 bottom-0 pointer-events-none"
+          style={{ left: "8.5%", width: 1, background: "linear-gradient(to bottom, transparent 5%, rgba(96,186,220,0.18) 30%, rgba(96,186,220,0.18) 70%, transparent 95%)", zIndex: 4 }}
+        />
+
+        {/* ══════════════ MAIN CONTENT ══════════════════════════════ */}
+        <div className="absolute inset-0 flex flex-col" style={{ zIndex: 10 }}>
+          <div className="flex-1 flex items-center min-h-0 overflow-hidden">
+            <div className="w-full max-w-[1600px] mx-auto px-6 sm:px-8 lg:px-20 xl:px-28 pt-12 sm:pt-20 pb-4 sm:pb-8">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-12 items-center">
+
+                {/* ── Left text column ── */}
+                <div className="lg:col-span-7 xl:col-span-6">
+
+                  {/* Category + eyebrow */}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={`eyebrow-${activeSlide}`}
+                      initial={{ opacity: 0, y: -14 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -14 }}
+                      transition={{ duration: 0.5, ease: "easeOut" }}
+                      className="flex items-center gap-3 mb-7"
+                    >
+                      <span
+                        className="text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-sm"
+                        style={{ background: heroSlides[activeSlide].accent, color: "#04080c" }}
+                      >
+                        {heroSlides[activeSlide].category}
+                      </span>
+                      <span className="text-white/55 text-xs font-semibold tracking-wide hidden sm:block">
+                        {heroSlides[activeSlide].eyebrow}
+                      </span>
+                    </motion.div>
+                  </AnimatePresence>
+
+                  {/* Headline — word by word */}
+                  <h1 className="mb-4 sm:mb-8 text-white" style={{ fontSize: "clamp(2rem, 4.3vw, 5rem)", lineHeight: 1.05, fontWeight: 900, letterSpacing: "-0.03em" }}>
+                    <AnimatePresence mode="wait">
+                      <div key={`headline-${activeSlide}`}>
+                        {heroSlides[activeSlide].headline.map((line, li) => (
+                          <div key={li} className="block">
+                            <span style={{ display: "inline-flex", flexWrap: "wrap", gap: "0 0.28em" }}>
+                              {line.split(" ").map((w, wi) => (
+                                <span key={wi} style={{ overflow: "hidden", display: "inline-block", paddingBottom: "0.2em", marginBottom: "-0.2em" }}>
+                                  <motion.span
+                                    style={{ display: "inline-block", color: li === heroSlides[activeSlide].accentWord ? heroSlides[activeSlide].accent : "white" }}
+                                    initial={{ y: "110%", opacity: 0 }}
+                                    animate={{ y: "0%", opacity: 1 }}
+                                    transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: 0.1 + li * 0.2 + wi * 0.07 }}
+                                  >
+                                    {w}
+                                  </motion.span>
+                                </span>
+                              ))}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </AnimatePresence>
+                  </h1>
+
+                  {/* Subtitle */}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={`sub-${activeSlide}`}
+                      className="flex items-start gap-4 mb-10"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.75 }}
+                    >
+                      <div className="shrink-0 w-1 rounded-full mt-1" style={{ height: 52, background: heroSlides[activeSlide].accent }} />
+                      <p className="text-white/65 leading-relaxed" style={{ fontSize: "clamp(0.85rem, 1.3vw, 1.15rem)", maxWidth: 600 }}>
+                        {heroSlides[activeSlide].sub}
+                      </p>
+                    </motion.div>
+                  </AnimatePresence>
+
+                  {/* CTAs */}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={`cta-${activeSlide}`}
+                      className="flex flex-wrap gap-4"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.95 }}
+                    >
+                      <button
+                        onClick={handleApplyNow}
+                        className="group relative overflow-hidden inline-flex items-center gap-3 font-bold text-[13px] tracking-wide uppercase px-8 py-4 cursor-pointer"
+                        style={{ background: heroSlides[activeSlide].accent, color: "#04080c" }}
+                      >
+                        <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400" style={{ background: "rgba(255,255,255,0.18)" }} />
+                        {heroSlides[activeSlide].cta}
+                        <ArrowRight size={16} className="transition-transform duration-400 group-hover:translate-x-1.5" />
+                      </button>
+                    </motion.div>
+                  </AnimatePresence>
+
+                  {/* Feature pills */}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={`pills-${activeSlide}`}
+                      className="flex flex-wrap gap-3 mt-10"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.6, delay: 1.1 }}
+                    >
+                      {[
+                        { icon: BookOpen, text: "Cambridge CAIE" },
+                        { icon: ShieldCheck, text: "Safe Campus" },
+                        { icon: GraduationCap, text: "O / A Levels" },
+                        { icon: Users, text: "15,000+ Students" },
+                      ].map(({ icon: Icon, text }) => (
+                        <span
+                          key={text}
+                          className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1.5"
+                          style={{
+                            background: "rgba(255,255,255,0.07)",
+                            border: "1px solid rgba(255,255,255,0.12)",
+                            color: "rgba(255,255,255,0.7)",
+                            backdropFilter: "blur(6px)",
+                          }}
+                        >
+                          <Icon size={11} style={{ color: heroSlides[activeSlide].accent }} />
+                          {text}
+                        </span>
+                      ))}
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+
+                {/* ── Right side blank ── */}
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="relative shrink-0"
+            style={{ zIndex: 20, borderTop: "1px solid rgba(255,255,255,0.08)", backdropFilter: "blur(12px)", background: "rgba(4,10,28,0.55)" }}
+          >
+            <div className="max-w-[1600px] mx-auto px-6 sm:px-8 lg:px-20 xl:px-28">
+              <div className="flex items-center gap-6 py-4">
+
+                {/* Progress bars */}
+                <div className="flex-1 flex items-center gap-2">
+                  {heroSlides.map((s, i) => (
+                    <button
+                      key={s.id}
+                      className="flex-1 group flex flex-col gap-1.5 cursor-pointer"
+                      onClick={() => goTo(i, i > activeSlide ? 1 : -1)}
+                    >
+                      <div className="relative h-[2px] w-full overflow-hidden rounded-full" style={{ background: "rgba(255,255,255,0.15)" }}>
+                        {i === activeSlide && (
+                          <motion.div
+                            className="absolute left-0 top-0 h-full rounded-full"
+                            style={{ background: heroSlides[activeSlide].accent }}
+                            initial={{ width: "0%" }}
+                            animate={{ width: "100%" }}
+                            transition={{ duration: 5.5, ease: "linear" }}
+                          />
+                        )}
+                      </div>
+                      <span
+                        className="text-[10px] font-bold uppercase tracking-widest transition-colors duration-300 hidden sm:block"
+                        style={{ color: i === activeSlide ? heroSlides[activeSlide].accent : "rgba(255,255,255,0.3)" }}
+                      >
+                        {s.category}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Slide counter */}
+                <div className="shrink-0 flex items-baseline gap-1 tabular-nums" style={{ fontVariantNumeric: "tabular-nums" }}>
+                  <AnimatePresence mode="wait">
+                    <motion.span
+                      key={activeSlide}
+                      initial={{ y: 14, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -14, opacity: 0 }}
+                      transition={{ duration: 0.35, ease: "easeOut" }}
+                      className="font-extrabold text-2xl"
+                      style={{ color: heroSlides[activeSlide].accent }}
+                    >
+                      {String(activeSlide + 1).padStart(2, "0")}
+                    </motion.span>
+                  </AnimatePresence>
+                  <span className="text-white/25 text-sm font-medium">/ {String(heroSlides.length).padStart(2, "0")}</span>
+                </div>
+
+                {/* Arrow controls */}
+                <div className="shrink-0 flex items-center gap-2">
+                  <button
+                    onClick={prev}
+                    className="group flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer"
+                    style={{
+                      width: 42, height: 42,
+                      border: "1px solid rgba(255,255,255,0.15)",
+                      color: "white",
+                      background: "rgba(255,255,255,0.05)",
+                    }}
+                    aria-label="Previous slide"
+                  >
+                    <ChevronLeft size={20} />
+                  </button>
+                  <button
+                    onClick={next}
+                    className="group flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer"
+                    style={{
+                      width: 42, height: 42,
+                      background: heroSlides[activeSlide].accent,
+                      color: "#04080c",
+                    }}
+                    aria-label="Next slide"
+                  >
+                    <ChevronRight size={20} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Vertical slide number (decorative) ───────────────────── */}
+        <div
+          className="absolute right-6 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-center gap-3"
+          style={{ zIndex: 12 }}
+        >
+          <div className="w-px h-16" style={{ background: "rgba(255,255,255,0.12)" }} />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeSlide}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.4 }}
+              className="font-extrabold tabular-nums"
+              style={{
+                fontSize: "clamp(3.5rem, 5vw, 5rem)",
+                color: "rgba(255,255,255,0.04)",
+                lineHeight: 1,
+                writingMode: "vertical-rl",
+                userSelect: "none",
+              }}
+            >
+              {String(activeSlide + 1).padStart(2, "0")}
+            </motion.div>
+          </AnimatePresence>
+          <div className="w-px h-16" style={{ background: "rgba(255,255,255,0.12)" }} />
         </div>
       </section>
 
+      {/* Subsequent sections wrapper with slide-over parallax style */}
+      <div className="relative z-10 bg-white space-y-24 pb-24 pt-16 sm:pt-24">
+
 
       {/* SECTION 2: Welcome Section with Video Overlap and Grid Collage (Pristine Layout Matching Image 2) */}
-      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 py-8 overflow-hidden" id="fps-welcome-section">
+      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 py-8 overflow-hidden" id="IFS-welcome-section">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
           {/* Left Side: Overlapping Collage of Video and 2x2 Images */}
@@ -549,57 +768,50 @@ export default function HomeView({
 
 
       {/* SECTION 2.5: Premium Highlights (Stats + Why Choose Us + Achievements) */}
-      <section className="bg-white" id="fps-premium-highlights">
+      <section className="bg-white" id="IFS-premium-highlights">
 
         {/* --- Statistics / Achievement Counters (full-width colored banner) --- */}
-        <div className="w-full bg-[#0f172b]">
-          <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 py-14 sm:py-16">
+        <div className="w-full bg-[#0f172b] border-y border-slate-200 my-20">
+          <div className="max-w-7x2 mx-auto px-6 sm:px-12 lg:px-16 py-14 sm:py-20">
             <motion.div
               variants={staggerContainer}
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, margin: "-80px" }}
-              className="grid grid-cols-2 lg:grid-cols-4 divide-y divide-white/25 lg:divide-y-0 lg:divide-x lg:divide-white/25"
+              className="grid grid-cols-2 lg:grid-cols-4 divide-y divide-slate-200 lg:divide-y-0 lg:divide-x lg:divide-slate-200"
             >
-              {STATS_DATA.map((stat, idx) => (
+            {STATS_DATA.map((stat) => (
+              <motion.div
+                key={stat.label}
+                variants={fadeUp}
+                className="group flex flex-col items-center text-center gap-3 py-6 lg:py-0 lg:px-8 cursor-pointer"
+              >
                 <motion.div
-                  key={stat.label}
-                  variants={fadeUp}
-                  className={`flex flex-col items-center text-center gap-3 py-6 lg:py-0 ${
-                    idx === 0
-                      ? "lg:pr-8"
-                      : idx === STATS_DATA.length - 1
-                      ? "lg:pl-8"
-                      : "lg:px-8"
-                  }`}
+                  whileHover={{ scale: 1.1, rotate: 6 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 12 }}
                 >
-                  <motion.div
-                    whileHover={{ scale: 1.15, rotate: stat.highlight ? -8 : 8 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 12 }}
-                    className={`group w-14 h-14 rounded-xl flex items-center justify-center transition-colors duration-300 hover:bg-[#f5c330] ${
-                      stat.highlight ? "bg-[#f5c330]" : "bg-white/15"
-                    }`}
-                  >
-                    <stat.icon
-                      className={`w-6 h-6 transition-colors duration-300 group-hover:text-[#0f172b] ${
-                        stat.highlight ? "text-[#0f172b]" : "text-white"
-                      }`}
-                    />
-                  </motion.div>
-                  <AnimatedCounter
-                    value={stat.value}
-                    suffix={stat.suffix}
-                    numberClassName="text-white"
-                    suffixClassName="text-[#f5c330]"
+                  <stat.icon
+                    strokeWidth={1.25}
+                    className="w-12 h-12 text-[#ffffff] transition-colors duration-300 group-hover:text-[#f5c330]"
                   />
-                  <p className="text-white/80 text-[11px] sm:text-xs uppercase tracking-widest font-mono font-extrabold">
-                    {stat.label}
-                  </p>
                 </motion.div>
-              ))}
+
+                <AnimatedCounter
+                  value={stat.value}
+                  suffix={stat.suffix}
+                  numberClassName="text-[#ffffff]"
+                  suffixClassName="text-primary"
+                />
+
+                <p className="text-[#ffffff] text-[11px] sm:text-xs uppercase tracking-widest font-mono font-bold">
+                  {stat.label}
+                </p>
+              </motion.div>
+            ))}
             </motion.div>
           </div>
         </div>
+
 
         {/* --- Why Choose Isra Foundation School --- */}
         <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 pt-24">
@@ -608,18 +820,19 @@ export default function HomeView({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="max-w-3xl mx-auto text-center space-y-4 mb-12"
+            className="max-w-3xl mx-auto text-center space-y-4 mb-16"
           >
             <div className="flex items-center justify-center gap-2">
-              {/* <span className="w-1.5 h-1.5 rounded-full bg-[#f5c330]" /> */}
-              <span className=" font-sans text-xs uppercase tracking-[0.15em] font-extrabold">
-                WHY FPS
+              <span className="w-8 h-px bg-[#020618]" />
+              <span className="font-mono text-xs uppercase tracking-[0.2em] font-extrabold text-[#020618]">
+                Our Difference
               </span>
+              <span className="w-8 h-px bg-[#020618]" />
             </div>
-            <h2 className="font-sans font-black text-slate-900 text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-[1.1]">
-              Why Choose Isra Foundation <span className="text-primary">School</span>
+            <h2 className="font-sans font-black text-[#0e1e38] text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-[1.1]">
+              Why Choose Isra Foundation <span className="text-[#f5c330]">School</span>
             </h2>
-            <p className="text-slate-500 text-sm sm:text-base leading-relaxed font-normal max-w-2xl mx-auto">
+            <p className="text-slate-500 text-sm sm:text-base leading-relaxed font-normal max-w-2xl mx-auto mt-4">
               We combine dedicated mentorship, strong character formation, and modern learning
               tools to give every student a well-rounded foundation for lifelong success.
             </p>
@@ -637,16 +850,27 @@ export default function HomeView({
                 key={item.title}
                 variants={fadeUp}
                 whileHover={{ y: -8, transition: { duration: 0.25, ease: "easeOut" } }}
-                className="group h-full flex flex-col bg-white rounded-sm border border-slate-100 border-t-4 border-t-primary shadow-md hover:shadow-xl hover:bg-[#60badc] p-8 transition-colors duration-300"
+                className="group relative h-full flex flex-col bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl p-8 transition-all duration-300 z-10 overflow-hidden"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = "#60badc";
+                  e.currentTarget.style.backgroundColor = "rgba(96, 186, 220, 0.04)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = "#f1f5f9";
+                  e.currentTarget.style.backgroundColor = "white";
+                }}
               >
+                {/* Top border accent that scales in on hover */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-[#60badc] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+
                 <motion.div
                   whileHover={{ scale: 1.15, rotate: -6 }}
                   transition={{ type: "spring", stiffness: 300, damping: 12 }}
-                  className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-white/20 transition-colors duration-300"
+                  className="w-14 h-14 rounded-2xl bg-[#60badc]/10 flex items-center justify-center mb-6 group-hover:bg-[#60badc]/20 transition-colors duration-300"
                 >
-                  <item.icon className="w-7 h-7 text-primary group-hover:text-[oklch(12.9%_0.042_264.695)] transition-colors duration-300" />
+                  <item.icon className="w-7 h-7 text-[#60badc] transition-colors duration-300" />
                 </motion.div>
-                <h4 className="font-sans font-extrabold text-slate-900 text-lg leading-snug mb-3">
+                <h4 className="font-sans font-extrabold text-[#0e1e38] text-xl leading-snug mb-3">
                   {item.title}
                 </h4>
                 <p className="text-slate-600 text-sm leading-relaxed font-normal">
@@ -658,21 +882,25 @@ export default function HomeView({
         </div>
 
         {/* --- Student Achievement Highlights --- */}
-        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 pt-24">
+        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 pt-24 my-15" >
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="max-w-3xl space-y-4 mb-12"
+            className="max-w-3xl space-y-4 mb-12 text-center mx-auto"
           >
-            <span className="text-[#383a4d] font-mono text-xs uppercase tracking-[0.25em] font-extrabold block">
-              OUR PRIDE
-            </span>
+            <div className="flex items-center justify-center gap-2">
+              <span className="w-8 h-px bg-[#020618]" />
+              <span className="font-mono text-xs uppercase tracking-[0.2em] font-extrabold text-[#020618]">
+                Our PRIDE
+              </span>
+              <span className="w-8 h-px bg-[#020618]" />
+            </div>
             <h2 className="font-sans font-black text-slate-900 text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-[1.1]">
-              Student Achievement <span className="text-[#60badc]">Highlights</span>
+              Student Achievement <span className="text-[#60badc]"> <br/>Highlights</span>
             </h2>
-            <p className="text-slate-500 text-xs sm:text-sm font-normal">
+            <p className="text-slate-500 text-xs sm:text-sm font-normal ">
               Celebrating the remarkable accomplishments of our students in academics, sports,
               competitions, leadership, and community service.
             </p>
@@ -683,7 +911,7 @@ export default function HomeView({
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-80px" }}
-            className="grid grid-cols-1 lg:grid-cols-3 gap-6"
+            className="grid grid-cols-1 lg:grid-cols-3 gap-6 "
           >
             {ACHIEVEMENTS_DATA.map((item) => (
               <motion.div
@@ -691,25 +919,41 @@ export default function HomeView({
                 variants={fadeUp}
                 whileHover={{ y: -10, transition: { duration: 0.25, ease: "easeOut" } }}
                 onClick={() => handleSubNav("news-events", "")}
-                className="group relative h-full flex flex-col bg-white rounded-sm shadow-md hover:shadow-2xl hover:bg-[#60badc] p-8 overflow-hidden transition-colors duration-300 cursor-pointer"
+                className="group relative h-full flex flex-col bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl p-8 overflow-hidden transition-all duration-300 cursor-pointer z-10"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = "#f5c330";
+                  e.currentTarget.style.backgroundColor = "rgba(245, 195, 48, 0.04)";
+                  const link = e.currentTarget.querySelector(".learn-more-link") as HTMLDivElement;
+                  if (link) link.style.color = "#f5c330";
+                  const iconWrapper = e.currentTarget.querySelector(".icon-wrapper") as HTMLDivElement;
+                  if (iconWrapper) iconWrapper.style.backgroundColor = "rgba(245, 195, 48, 0.15)";
+                  const icon = e.currentTarget.querySelector(".highlight-icon") as SVGElement;
+                  if (icon) icon.style.color = "#f5c330";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = "#f1f5f9";
+                  e.currentTarget.style.backgroundColor = "white";
+                  const link = e.currentTarget.querySelector(".learn-more-link") as HTMLDivElement;
+                  if (link) link.style.color = item.color;
+                  const iconWrapper = e.currentTarget.querySelector(".icon-wrapper") as HTMLDivElement;
+                  if (iconWrapper) iconWrapper.style.backgroundColor = `${item.color}15`;
+                  const icon = e.currentTarget.querySelector(".highlight-icon") as SVGElement;
+                  if (icon) icon.style.color = item.color;
+                }}
               >
-                {/* Gradient accent bar */}
-                <motion.div
-                  initial={{ scaleX: 0 }}
-                  whileInView={{ scaleX: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-                  className="absolute top-0 left-0 right-0 h-1.5 origin-left"
-                  style={{ background: `linear-gradient(90deg, ${item.color}, transparent)` }}
+                {/* Top accent bar - expands on hover (Yellowish theme color) */}
+                <div
+                  className="absolute top-0 left-0 right-0 h-1 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left "
+                  style={{ background: "#f5c330" }}
                 />
 
                 <motion.div
                   whileHover={{ scale: 1.15, rotate: 8 }}
                   transition={{ type: "spring", stiffness: 300, damping: 12 }}
-                  className="w-16 h-16 rounded-full flex items-center justify-center mb-6 group-hover:bg-white/20 transition-colors duration-300"
-                  style={{ backgroundColor: `${item.color}1A`, ["--icon-color" as string]: item.color }}
+                  className="icon-wrapper w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300"
+                  style={{ backgroundColor: `${item.color}15` }}
                 >
-                  <item.icon className="w-7 h-7 text-[var(--icon-color)] group-hover:text-[oklch(12.9%_0.042_264.695)] transition-colors duration-300" />
+                  <item.icon className="highlight-icon w-7 h-7 transition-colors duration-300" style={{ color: item.color }} />
                 </motion.div>
 
                 <h4 className="font-sans font-extrabold text-slate-900 text-lg leading-snug mb-3">
@@ -720,11 +964,11 @@ export default function HomeView({
                 </p>
 
                 <div
-                  className="flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-widest mt-6 transition-colors duration-300 group-hover:text-[oklch(12.9%_0.042_264.695)]"
+                  className="learn-more-link flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-widest mt-6 transition-transform duration-300 group-hover:translate-x-1 "
                   style={{ color: item.color }}
                 >
                   Learn More
-                  <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+                  <ArrowRight className="w-4 h-4" />
                 </div>
               </motion.div>
             ))}
@@ -734,8 +978,411 @@ export default function HomeView({
       </section>
 
 
+
+
+      {/* SECTION 5: Admission Banner Section (Prisinte Layout Matching Image 5) */}
+      <section className="relative h-[480px] w-full overflow-hidden flex items-center justify-center text-center px-6" id="IFS-admission-banner">
+        {/* Shadowy background layer with active student crowd overlay */}
+        <motion.div
+          initial={{ scale: 1.15 }}
+          whileInView={{ scale: 1.05 }}
+          viewport={{ once: true }}
+          transition={{ duration: 2.0 }}
+          className="absolute inset-0 bg-cover bg-center opacity-100"
+          style={{ backgroundImage: "url('assets/images/admission.png')" }}
+        />
+        {/* Dark overlay with low transparency so the image is clearly visible */}
+        <div className="absolute inset-0 bg-slate-950/85 mix-blend-multiply z-10 " />
+
+        {/* Content Box */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="max-w-4xl mx-auto space-y-6 relative z-20"
+        >
+          <h2 className="font-sans font-extrabold text-white text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-none">
+            Admission
+          </h2>
+          <p className="text-slate-200 text-sm sm:text-base lg:text-lg leading-relaxed font-normal max-w-3xl mx-auto">
+            Admissions at IFS are <strong className="text-primary font-bold">extremely competitive</strong>. We encourage all applicants to apply as early as possible and to carefully review the admissions page before applying. To visit the admissions page and to apply online please click below.
+          </p>
+          <div className="pt-4">
+            <button
+              onClick={handleApplyNow}
+              className="group relative overflow-hidden bg-white text-slate-950 font-bold text-xs uppercase tracking-widest px-10 py-4 rounded-none shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+            >
+              {/* Hover Background */}
+              <span className="absolute inset-0 bg-primary origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
+
+              {/* Button Text */}
+              <span className="relative z-10 transition-colors duration-300 group-hover:text-slate-950">
+                APPLY NOW
+              </span>
+            </button>
+          </div>
+        </motion.div>
+      </section>
+
+
+      {/* SECTION 6: School Levels Overlapping Blocks (Pristine Layout Matching Reference Images) */}
+      <section className="space-y-24 overflow-visible" id="fps-school-levels-showcase ">
+
+        {/* 1. Elementary School Block (Mint Theme - Match Reference Image 1) */}
+        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 my-50" id="elementary-level-card">
+          <div className="relative">
+
+            {/* Background depth layers — right side, matches Junior/Senior pattern */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="pointer-events-none absolute -top-6 right-0 w-[38%] h-[16%]  bg-[#81838c]/70 hidden sm:block"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.12 }}
+              className="pointer-events-none absolute top-[16%] right-0 w-[38%] h-[82%]  bg-[#81838c]/50 hidden sm:block"
+            />
+
+            {/* Main front card */}
+            <motion.div
+              whileHover={{ y: -10 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="bg-[#020618]  p-8 sm:p-12 lg:p-16 relative overflow-visible shadow-lg hover:shadow-2xl transition-shadow duration-500 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px] w-full sm:w-[92%]"
+            >
+
+              {/* Left Column: Image collage + heading — slides in from the left */}
+              <motion.div
+                initial={{ opacity: 0, x: -120, scale: 0.92 }}
+                whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                className="lg:col-span-6 relative flex flex-col justify-end min-h-[380px] sm:min-h-[440px] z-10 w-full"
+              >
+
+                {/* Image stack wrapper */}
+                <div className="relative w-full h-[280px] sm:h-[320px]">
+
+                  {/* Top polygon image */}
+                  <motion.div
+                    initial={{ opacity: 0, y: -60 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.35, ease: "easeOut" }}
+                    whileHover={{ scale: 1.04 }}
+                    className="absolute left-[20%] sm:left-[24%] -top-6 w-[60%] sm:w-[56%] h-[85%] overflow-hidden shadow-[0_20px_45px_rgba(16,24,40,0.22)] z-10"
+                    style={{ clipPath: "polygon(10% 0%, 100% 4%, 88% 100%, 0% 90%)" }}
+                  >
+                    <img
+                      src="assets/slider/slide2.jpg"
+                      alt="School building"
+                      className="w-full h-full object-cover object-center"
+                    />
+                    <div className="absolute inset-0 bg-[#1d4ed8]/40 mix-blend-color" />
+                  </motion.div>
+
+                  {/* Tilted side photo */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -50, rotate: -12 }}
+                    whileInView={{ opacity: 1, x: 0, rotate: -8 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
+                    whileHover={{ scale: 1.05, rotate: -4 }}
+                    className="absolute left-0 bottom-[8%] w-[34%] sm:w-[30%] aspect-[4/5] rounded-sm overflow-hidden bg-white p-1 shadow-[0_16px_35px_rgba(16,24,40,0.20)] border border-white z-20"
+                  >
+                    <img
+                      src="assets/slider/g1.jpg"
+                      alt="Elementary student"
+                      className="w-full h-full object-cover object-top"
+                    />
+                  </motion.div>
+                </div>
+
+                {/* Heading — sits directly under image stack */}
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, delay: 0.5 }}
+                  className="relative z-30 mt-4 select-none"
+                >
+                  <h3 className="font-sans font-black text-white text-5xl sm:text-6xl lg:text-7xl leading-[0.85] tracking-tight">
+                    Elementary
+                    <span className="block font-sans font-light text-white text-4xl sm:text-5xl mt-1">
+                      School
+                    </span>
+                  </h3>
+                  <div className="mt-5 space-y-0.5">
+                    <span className="text-[10px] sm:text-[11px] font-bold text-white uppercase tracking-widest block font-mono">
+                      Grade Levels
+                    </span>
+                    <span className="text-sm sm:text-base font-black text-white">
+                      Pre Nursery to Grade II
+                    </span>
+                  </div>
+                </motion.div>
+              </motion.div>
+
+              {/* Right Column: Narrative + button — slides in from the right */}
+              <motion.div
+                initial={{ opacity: 0, x: 120, scale: 0.92 }}
+                whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                className="lg:col-span-6 lg:pl-16 z-20 space-y-6"
+              >
+                <p className="text-white text-base sm:text-lg leading-relaxed font-normal max-w-md">
+                  At <strong className="text-primary font-bold">IFS Elementary</strong>, we nurture the development of each child emotionally, academically, physically, socially, and artistically during their formative years.
+                </p>
+                <div className="pt-2">
+                  <button
+                    onClick={() => handleSubNav("academics", "curriculum")}
+                    className="group relative overflow-hidden bg-white  text-[#020618] font-medium text-sm px-7 py-3  shadow-sm transition-all duration-300 hover:shadow-md cursor-pointer"
+                  >
+                    {/* Hover Background */}
+                    <span className="absolute inset-0 bg-primary  origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
+
+                    {/* Button Text */}
+                    <span className="relative z-10 transition-colors duration-300 group-hover:text-[#020618]">
+                      More Details
+                    </span>
+                  </button>
+                </div>
+              </motion.div>
+
+            </motion.div>
+          </div>
+        </div>
+
+        {/* 2. Junior School Block (Yellow Theme - Match Reference Image 2) */}
+        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16" id="junior-level-card">
+          <div className="relative">  
+
+            {/* Background depth layers behind the whole card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="pointer-events-none absolute -top-4 left-2 sm:left-6 w-[70%] sm:w-[42%] h-[85%] bg-[#FEF08A]/70 hidden sm:block"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.12 }}
+              className="pointer-events-none absolute top-6 left-8 sm:left-14 w-[65%] sm:w-[38%] h-[75%]  bg-[#FDE047]/50 hidden sm:block"
+            />
+
+            <motion.div
+              whileHover={{ y: -10 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="bg-[#FDE047]  p-8 sm:p-12 lg:p-16 relative overflow-visible shadow-lg hover:shadow-2xl transition-shadow duration-500 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px] w-full sm:w-[92%] ml-auto"
+            >
+
+              {/* Left Column: Narrative details and button — slides in from the left */}
+              <motion.div
+                initial={{ opacity: 0, x: -120, scale: 0.92 }}
+                whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                className="lg:col-span-6 z-20 space-y-6 lg:pr-12"
+              >
+                <p className="text-slate-900 text-base sm:text-lg leading-relaxed font-normal max-w-md">
+                  At <strong className="text-[#020618] font-extrabold">IFS, we consider Junior schools</strong> as an opportunity for students to explore and develop their cognitive, social, and physical skills.
+                </p>
+                <div className="pt-2">
+                  <button
+                    onClick={() => handleSubNav("academics", "curriculum")}
+                    className="group relative overflow-hidden bg-white text-slate-700 font-medium text-sm px-7 py-3  shadow-sm transition-all duration-300 hover:shadow-md cursor-pointer"
+                  >
+                    {/* Left to Right Background */}
+                    <span className="absolute inset-0 bg-[#020618] origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
+
+                    {/* Text */}
+                    <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
+                      More Details
+                    </span>
+                  </button>
+                </div>
+              </motion.div>
+
+              {/* Right Column: Large image block with golden tint and overlaid text — slides in from the right */}
+              <motion.div
+                initial={{ opacity: 0, x: 120, scale: 0.92 }}
+                whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                className="lg:col-span-6 relative h-[400px] sm:h-[440px] flex items-center justify-center w-full"
+              >
+                <div className="absolute inset-0 -top-6 sm:-top-10 bg-slate-950  overflow-hidden shadow-xl z-10 group">
+                  <img
+                    src="assets/slider/slide4.jpg"
+                    alt="Junior school students in lab"
+                    className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
+                  />
+                  {/* Golden color-wash overlay */}
+                  <div className="absolute inset-0 bg-[#FCD34D]/45 mix-blend-color z-15" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent z-20" />
+
+                  {/* Heading — bold + light on two lines, like Elementary card */}
+                  <div className="absolute bottom-20 sm:bottom-24 left-6 z-30 select-none">
+                    <h3 className="font-sans font-black text-white text-4xl sm:text-5xl leading-[0.9] tracking-tight">
+                      Junior
+                      <span className="block font-light text-white/90 text-3xl sm:text-4xl mt-0.5">
+                        School
+                      </span>
+                    </h3>
+                  </div>
+
+                  {/* Grade levels — separate, dark charcoal text, below heading */}
+                  <div className="absolute bottom-6 left-6 z-30 space-y-0.5 select-none">
+                    <span className="text-[10px] sm:text-[11px] font-bold text-white uppercase tracking-widest block font-mono">
+                      Grade Levels
+                    </span>
+                    <span className="text-sm sm:text-base font-black text-white ">
+                      Grade III - Grade VII
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+
+            </motion.div>
+          </div>
+        </div>
+
+        {/* 3. Senior School Block (Sky Blue Theme - Match Reference Image 3) */}
+        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 my-50" id="senior-level-card">
+          <div className="relative">
+
+            {/* Background depth layers behind the card — right side, like reference */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="pointer-events-none absolute -top-6 right-0 w-[38%] h-[16%]  bg-[#BAE6FD]/50 hidden sm:block"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.12 }}
+              className="pointer-events-none absolute top-[16%] right-0 w-[38%] h-[82%] bg-[#7DD3FC] hidden sm:block"
+            />
+
+            {/* Main front card */}
+            <motion.div
+              whileHover={{ y: -10 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="bg-[#BAE6FD] p-8 sm:p-12 lg:p-16 relative overflow-visible shadow-lg hover:shadow-2xl transition-shadow duration-500 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px] w-full sm:w-[92%]"
+            >
+
+              {/* Left Column: Image collage + heading */}
+              <div className="lg:col-span-6 relative flex flex-col justify-end min-h-[380px] sm:min-h-[440px] z-10 w-full">
+
+                {/* Image stack wrapper */}
+                <div className="relative w-full h-[280px] sm:h-[320px]">
+
+                  {/* Top polygon image — blue-tinted graduation photo */}
+                  <motion.div
+                    initial={{ opacity: 0, y: -60 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.35, ease: "easeOut" }}
+                    whileHover={{ scale: 1.04 }}
+                    className="absolute left-[20%] sm:left-[24%] -top-6 w-[60%] sm:w-[56%] h-[85%] overflow-hidden shadow-[0_20px_45px_rgba(16,24,40,0.22)] z-10"
+                    style={{ clipPath: "polygon(10% 0%, 100% 4%, 88% 100%, 0% 90%)" }}
+                  >
+                    <img
+                      src="assets/slider/slide51.jpg"
+                      alt="Senior school graduates"
+                      className="w-full h-full object-cover object-center"
+                    />
+                    {/* Blue color-wash overlay to match reference tint */}
+                    <div className="absolute inset-0 bg-[#1d4ed8]/50 mix-blend-color" />
+                  </motion.div>
+
+                  {/* Tilted side photo — group graduation shot */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -50, rotate: -12 }}
+                    whileInView={{ opacity: 1, x: 0, rotate: -8 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
+                    whileHover={{ scale: 1.05, rotate: -4 }}
+                    className="absolute left-0 bottom-[8%] w-[34%] sm:w-[30%] aspect-[4/5]  overflow-hidden bg-white p-1 shadow-[0_16px_35px_rgba(16,24,40,0.20)] border border-white z-20"
+                  >
+                    <img
+                      src="assets/slider/559005353_1378177237650043_1854500200270735487_n.jpg"
+                      alt="Graduation ceremony group"
+                      className="w-full h-full object-cover object-top"
+                    />
+                  </motion.div>
+                </div>
+
+                {/* Heading — sits directly under image stack */}
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, delay: 0.5 }}
+                  className="relative z-30 mt-4 select-none"
+                >
+                  <h3 className="font-sans font-black text-[#0f172a] text-5xl sm:text-6xl lg:text-7xl leading-[0.85] tracking-tight">
+                    Senior
+                    <span className="block font-sans font-light text-slate-500 text-4xl sm:text-5xl mt-1">
+                      School
+                    </span>
+                  </h3>
+                  <div className="mt-5 space-y-0.5">
+                    <span className="text-[10px] sm:text-[11px] font-bold text-slate-600 uppercase tracking-widest block font-mono">
+                      Grade Levels
+                    </span>
+                    <span className="text-sm sm:text-base font-black text-slate-950">
+                      Grade VIII - Grade XI
+                    </span>
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Right Column: Narrative details and button */}
+              <motion.div
+                initial={{ opacity: 0, x: 60 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.15 }}
+                className="lg:col-span-6 lg:pl-16 z-20 space-y-6"
+              >
+                <p className="text-slate-800 text-base sm:text-lg leading-relaxed font-normal max-w-md">
+                  <strong className="text-slate-950 font-bold">IFS Senior</strong> schools strike a perfect harmony between a rigorous curriculum and an active co-curricular program. The aim of the senior school is to prepare our students for A Level, university and beyond.
+                </p>
+                <div className="pt-2">
+                  <button
+                    onClick={() => handleSubNav("academics", "curriculum")}
+                    className="group relative overflow-hidden bg-white text-slate-700 font-medium text-sm px-7 py-3  shadow-sm transition-all duration-300 hover:shadow-md cursor-pointer"
+                  >
+                    {/* Hover Background */}
+                    <span className="absolute inset-0 bg-[#020618] origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
+
+                    {/* Button Text */}
+                    <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
+                      More Details
+                    </span>
+                  </button>
+                </div>
+                              </motion.div>
+
+            </motion.div>
+          </div>
+        </div>
+
       {/* SECTION 3: News & Events Masonry Grid (Prisinte Layout Matching Image 3) */}
-      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 space-y-8 overflow-hidden" id="fps-news-events-grid">
+      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 space-y-8 overflow-hidden my-50" id="IFS-news-events-grid">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -744,11 +1391,11 @@ export default function HomeView({
           className="flex justify-between items-end border-b border-slate-200 pb-4"
         >
           <h3 className="font-sans font-extrabold text-slate-900 text-2xl tracking-wider uppercase">
-            NEWS & EVENTS
+            NEWS & <span className="text-primary">EVENTS</span>
           </h3>
           <button
             onClick={() => handleSubNav("news-events", "")}
-            className="text-xs font-extrabold text-rose-700 hover:text-rose-800 tracking-wider uppercase border-b-2 border-rose-700 pb-0.5"
+            className="text-xs font-extrabold text-[#020618] hover:text-slate-800 tracking-wider uppercase border-b-3 border-primary pb-0.5 cursor-pointer"
           >
             View All
           </button>
@@ -886,7 +1533,7 @@ export default function HomeView({
 
 
       {/* SECTION 4: Events Calendar Grid with Calendar Page Icon (Prisinte Layout Matching Image 4) */}
-      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 space-y-8 overflow-hidden" id="fps-events-calendar">
+      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 space-y-8 overflow-hidden" id="IFS-events-calendar">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -899,7 +1546,7 @@ export default function HomeView({
           </h3>
           <button
             onClick={() => handleSubNav("news-events", "")}
-            className="text-xs font-extrabold text-rose-700 hover:text-rose-800 tracking-wider uppercase border-b-2 border-rose-700 pb-0.5"
+            className="text-xs font-extrabold text-[#020618] hover:text-slate-800 tracking-wider uppercase border-b-3 border-primary pb-0.5 cursor-pointer"
           >
             View All
           </button>
@@ -1014,268 +1661,27 @@ export default function HomeView({
         </div>
       </section>
 
-
-      {/* SECTION 5: Admission Banner Section (Prisinte Layout Matching Image 5) */}
-      <section className="relative h-[480px] w-full overflow-hidden flex items-center justify-center text-center px-6" id="fps-admission-banner">
-        {/* Shadowy background layer with active student crowd overlay */}
-        <motion.div
-          initial={{ scale: 1.15 }}
-          whileInView={{ scale: 1.05 }}
-          viewport={{ once: true }}
-          transition={{ duration: 2.0 }}
-          className="absolute inset-0 bg-cover bg-center opacity-90"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1541339907198-e08756ebafe3?auto=format&fit=crop&w=1400&q=80')" }}
-        />
-        {/* Dark overlay matching the pristine blue-gray mood of Image 5 */}
-        <div className="absolute inset-0 bg-slate-950/85 mix-blend-multiply z-10" />
-
-        {/* Content Box */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="max-w-4xl mx-auto space-y-6 relative z-20"
-        >
-          <h2 className="font-sans font-extrabold text-white text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-none">
-            Admission
-          </h2>
-          <p className="text-slate-200 text-sm sm:text-base lg:text-lg leading-relaxed font-normal max-w-3xl mx-auto">
-            Admissions at FPS are <strong className="text-white font-bold">extremely competitive</strong>. We encourage all applicants to apply as early as possible and to carefully review the admissions page before applying. To visit the admissions page and to apply online please click below.
-          </p>
-          <div className="pt-4">
-            <button
-              onClick={handleApplyNow}
-              className="bg-white hover:bg-primary text-slate-950 font-bold text-xs uppercase tracking-widest px-10 py-4 transition-all cursor-pointer shadow-lg rounded-none hover:scale-105 active:scale-95"
-            >
-              APPLY NOW
-            </button>
-          </div>
-        </motion.div>
-      </section>
-
-
-      {/* SECTION 6: School Levels Overlapping Blocks (Pristine Layout Matching Reference Images) */}
-      <section className="space-y-24 overflow-hidden" id="fps-school-levels-showcase">
-
-        {/* 1. Elementary School Block (Mint Theme - Match Reference Image 1) */}
-        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16" id="elementary-level-card">
-          <div className="bg-[#B9F3E4] rounded-sm p-8 sm:p-12 lg:p-16 relative overflow-hidden shadow-lg grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px]">
-
-            {/* Left Column: Tilted Card Collage with overlapping text on the bottom-left */}
-            <motion.div
-              initial={{ opacity: 0, x: -60 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="lg:col-span-6 relative h-[360px] flex items-center justify-start z-10 w-full"
-            >
-              {/* Background mint offset layers to match the collage aesthetic */}
-              <div className="absolute left-[5%] top-[10%] w-[50%] h-[75%] bg-[#9DF7E5]/60 rounded-sm -rotate-6 pointer-events-none" />
-              <div className="absolute right-[15%] top-[5%] w-[45%] h-[80%] bg-[#A7ECE0]/40 rounded-sm rotate-3 pointer-events-none" />
-
-              {/* Tilted Photo Cards */}
-              <div className="absolute left-2 w-[190px] sm:w-[220px] aspect-[4/5] bg-white p-1 rounded-sm -rotate-12 overflow-hidden shadow-lg border-2 border-white">
-                <img
-                  src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=400&q=80"
-                  alt="Elementary Girl"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="absolute left-[130px] sm:left-[160px] top-[15px] w-[240px] sm:w-[270px] aspect-[4/3] bg-white p-1 rounded-sm rotate-6 overflow-hidden shadow-xl border-2 border-white z-20">
-                <img
-                  src="https://images.unsplash.com/photo-1541339907198-e08756ebafe3?auto=format&fit=crop&w=400&q=80"
-                  alt="Rainbow Staircase Bridge"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              {/* Overlapping Typography exactly matching Reference Image 1 */}
-              <div className="absolute left-[40px] sm:left-[50px] bottom-[2px] z-30 drop-shadow-sm select-none">
-                <h3 className="font-sans font-black text-slate-800 text-5xl sm:text-6xl lg:text-7xl leading-[0.85] tracking-tight">
-                  Elementary
-                  <span className="block font-sans font-light text-slate-600 text-4xl sm:text-5xl mt-1.5">School</span>
-                </h3>
-                <div className="mt-4 space-y-0.5">
-                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-widest block font-mono">Grade Levels</span>
-                  <span className="text-sm sm:text-base font-black text-slate-900">Pre Nursery to Grade II</span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Right Column: Narrative details and button */}
-            <motion.div
-              initial={{ opacity: 0, x: 60 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.15 }}
-              className="lg:col-span-6 lg:pl-16 z-20 space-y-6"
-            >
-              <p className="text-slate-800 text-base sm:text-lg leading-relaxed font-normal">
-                At <strong className="text-slate-950 font-bold">FPS Elementary</strong>, we nurture the development of each child emotionally, academically, physically, socially, and artistically during their formative years.
-              </p>
-              <div className="pt-2">
-                <button
-                  onClick={() => handleSubNav("academics", "curriculum")}
-                  className="bg-white hover:bg-slate-950 hover:text-white text-slate-800 font-bold text-xs uppercase tracking-widest px-8 py-3.5 transition-all shadow-md cursor-pointer border-none hover:scale-105 active:scale-95 duration-300"
-                >
-                  More Details
-                </button>
-              </div>
-            </motion.div>
-
-          </div>
-        </div>
-
-        {/* 2. Junior School Block (Yellow Theme - Match Reference Image 2) */}
-        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16" id="junior-level-card">
-          <div className="bg-[#FDE047] rounded-sm p-8 sm:p-12 lg:p-16 relative overflow-hidden shadow-lg grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px]">
-
-            {/* Left Column: Narrative details and button */}
-            <motion.div
-              initial={{ opacity: 0, x: -60 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="lg:col-span-6 z-20 space-y-6 lg:pr-12"
-            >
-              <p className="text-slate-900 text-base sm:text-lg leading-relaxed font-normal">
-                At <strong className="text-slate-950 font-extrabold">FPS, we consider Junior schools</strong> as an opportunity for students to explore and develop their cognitive, social, and physical skills.
-              </p>
-              <div className="pt-2">
-                <button
-                  onClick={() => handleSubNav("academics", "curriculum")}
-                  className="bg-white hover:bg-slate-950 hover:text-white text-slate-800 font-bold text-xs uppercase tracking-widest px-8 py-3.5 transition-all shadow-md cursor-pointer border-none hover:scale-105 active:scale-95 duration-300"
-                >
-                  More Details
-                </button>
-              </div>
-            </motion.div>
-
-            {/* Right Column: Image block with golden filter and overlaid text */}
-            <motion.div
-              initial={{ opacity: 0, x: 60 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.15 }}
-              className="lg:col-span-6 relative h-[360px] flex items-center justify-center w-full"
-            >
-              {/* Yellow background sheets to mimic the layered card look */}
-              <div className="absolute -left-3 top-2 w-[95%] h-[90%] bg-[#FEF08A]/60 rounded-sm z-0 pointer-events-none" />
-              <div className="absolute left-2 -top-3 w-[95%] h-[90%] bg-[#FEF08A] rounded-sm z-5 pointer-events-none" />
-
-              <div className="absolute inset-0 bg-slate-950 rounded-sm overflow-hidden shadow-xl border-4 border-white z-10 group">
-                <img
-                  src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=800&q=80"
-                  alt="Junior Lab"
-                  className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
-                />
-                {/* Yellow color screen filter exactly like Reference Image 2 */}
-                <div className="absolute inset-0 bg-[#FCD34D]/35 mix-blend-color z-15" />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/25 to-transparent z-20" />
-
-                {/* Text overlaid inside the image on bottom left */}
-                <div className="absolute bottom-6 left-6 z-30 space-y-1 select-none">
-                  <h3 className="font-sans font-black text-white text-4xl sm:text-5xl leading-none tracking-tight">
-                    Junior School
-                  </h3>
-                  <div className="text-[#FEF08A] font-mono text-[11px] uppercase tracking-wider font-extrabold">
-                    Grade levels <span className="text-white">Grade III - Grade VII</span>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-          </div>
-        </div>
-
-        {/* 3. Senior School Block (Sky Blue Theme - Match Reference Image 3) */}
-        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16" id="senior-level-card">
-          <div className="bg-[#BAE6FD] rounded-sm p-8 sm:p-12 lg:p-16 relative overflow-hidden shadow-lg grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px]">
-
-            {/* Left Column: Tilted Card Collage with overlapping text on the bottom-left */}
-            <motion.div
-              initial={{ opacity: 0, x: -60 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="lg:col-span-6 relative h-[360px] flex items-center justify-start z-10 w-full"
-            >
-              {/* Background blue offset layers to match the collage aesthetic */}
-              <div className="absolute left-[5%] top-[10%] w-[50%] h-[75%] bg-[#7DD3FC]/50 rounded-sm -rotate-6 pointer-events-none" />
-              <div className="absolute right-[15%] top-[5%] w-[45%] h-[80%] bg-[#38BDF8]/20 rounded-sm rotate-3 pointer-events-none" />
-
-              {/* Tilted Photo Cards */}
-              <div className="absolute left-2 w-[190px] sm:w-[220px] aspect-[4/5] bg-white p-1 rounded-sm -rotate-12 overflow-hidden shadow-lg border-2 border-white">
-                <img
-                  src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=400&q=80"
-                  alt="Graduates"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="absolute left-[130px] sm:left-[160px] top-[15px] w-[240px] sm:w-[270px] aspect-[4/3] bg-white p-1 rounded-sm rotate-6 overflow-hidden shadow-xl border-2 border-white z-20">
-                <img
-                  src="https://images.unsplash.com/photo-1541339907198-e08756ebafe3?auto=format&fit=crop&w=400&q=80"
-                  alt="High School Collabs"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              {/* Overlapping Typography exactly matching Reference Image 3 */}
-              <div className="absolute left-[40px] sm:left-[50px] bottom-[2px] z-30 drop-shadow-sm select-none">
-                <h3 className="font-sans font-black text-[#0f172a] text-5xl sm:text-6xl lg:text-7xl leading-[0.85] tracking-tight">
-                  Senior
-                  <span className="block font-sans font-light text-slate-800 text-4xl sm:text-5xl mt-1.5">School</span>
-                </h3>
-                <div className="mt-4 space-y-0.5">
-                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-600 uppercase tracking-widest block font-mono">Grade Levels</span>
-                  <span className="text-sm sm:text-base font-black text-slate-950">Grade VIII - Grade XI</span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Right Column: Narrative details and button */}
-            <motion.div
-              initial={{ opacity: 0, x: 60 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.15 }}
-              className="lg:col-span-6 lg:pl-16 z-20 space-y-6"
-            >
-              <p className="text-slate-800 text-base sm:text-lg leading-relaxed font-normal">
-                <strong className="text-slate-950 font-bold">FPS Senior</strong> schools strike a perfect harmony between a rigorous curriculum and an active co-curricular program. The aim of the senior school is to prepare our students for A Level, university and beyond.
-              </p>
-              <div className="pt-2">
-                <button
-                  onClick={() => handleSubNav("academics", "curriculum")}
-                  className="bg-white hover:bg-slate-950 hover:text-white text-slate-800 font-bold text-xs uppercase tracking-widest px-8 py-3.5 transition-all shadow-md cursor-pointer border-none hover:scale-105 active:scale-95 duration-300"
-                >
-                  More Details
-                </button>
-              </div>
-            </motion.div>
-
-          </div>
-        </div>
-
       </section>
 
 
       {/* SECTION 7: Alumni Wall Collage Section (Prisinte Layout Matching Images 9, 10) */}
-      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 space-y-6 overflow-hidden" id="fps-alumni-section">
+      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 space-y-6 overflow-hidden" id="IFS-alumni-section">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="space-y-2 border-b border-slate-200 pb-4"
+          className="flex justify-between items-end border-b border-slate-200 pb-4"
         >
           <h3 className="font-sans font-extrabold text-slate-900 text-3xl tracking-tight leading-none">
-            Alumni
+            GALLERY
           </h3>
-          <p className="text-slate-500 text-xs sm:text-sm font-normal">
-            Draw on the power of the vast and global FPS alumni network.
-          </p>
+          <button
+            onClick={() => handleSubNav("news-events", "")}
+            className="text-xs font-extrabold text-[#020618] hover:text-slate-800 tracking-wider uppercase border-b-3 border-primary pb-0.5 cursor-pointer"
+          >
+            View All
+          </button>
         </motion.div>
 
         {/* Mosaic/Pristine 2x4 Grid layout showing successful Pakistani Alumni Portraits */}
@@ -1287,7 +1693,8 @@ export default function HomeView({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.05 }}
-            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm"
+            onClick={() => setSelectedImage("https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80")}
+            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm cursor-pointer"
           >
             <img
               src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80"
@@ -1296,8 +1703,6 @@ export default function HomeView({
             />
             <div className="absolute inset-0 bg-slate-950/30 group-hover:bg-slate-950/45 transition-colors duration-300" />
             <div className="absolute bottom-4 left-4 right-4 z-10">
-              <h5 className="text-white font-bold text-sm leading-snug">Mahira Khan</h5>
-              <p className="text-slate-300 text-[10px] uppercase font-mono tracking-wider font-semibold">Award-Winning Actress</p>
             </div>
           </motion.div>
 
@@ -1307,7 +1712,8 @@ export default function HomeView({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm"
+            onClick={() => setSelectedImage("https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80")}
+            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm cursor-pointer"
           >
             <img
               src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80"
@@ -1316,8 +1722,6 @@ export default function HomeView({
             />
             <div className="absolute inset-0 bg-slate-950/30 group-hover:bg-slate-950/45 transition-colors duration-300" />
             <div className="absolute bottom-4 left-4 right-4 z-10">
-              <h5 className="text-white font-bold text-sm leading-snug">Danish Ali</h5>
-              <p className="text-slate-300 text-[10px] uppercase font-mono tracking-wider font-semibold">Humorist & Content Creator</p>
             </div>
           </motion.div>
 
@@ -1327,7 +1731,8 @@ export default function HomeView({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.15 }}
-            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm"
+            onClick={() => setSelectedImage("https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80")}
+            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm cursor-pointer"
           >
             <img
               src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80"
@@ -1336,8 +1741,6 @@ export default function HomeView({
             />
             <div className="absolute inset-0 bg-slate-950/30 group-hover:bg-slate-950/45 transition-colors duration-300" />
             <div className="absolute bottom-4 left-4 right-4 z-10">
-              <h5 className="text-white font-bold text-sm leading-snug">Feeha Jamshed</h5>
-              <p className="text-slate-300 text-[10px] uppercase font-mono tracking-wider font-semibold">Fashion Designer</p>
             </div>
           </motion.div>
 
@@ -1347,7 +1750,8 @@ export default function HomeView({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm"
+            onClick={() => setSelectedImage("https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80")}
+            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm cursor-pointer"
           >
             <img
               src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80"
@@ -1356,8 +1760,6 @@ export default function HomeView({
             />
             <div className="absolute inset-0 bg-slate-950/30 group-hover:bg-slate-950/45 transition-colors duration-300" />
             <div className="absolute bottom-4 left-4 right-4 z-10">
-              <h5 className="text-white font-bold text-sm leading-snug">Asim Azhar</h5>
-              <p className="text-slate-300 text-[10px] uppercase font-mono tracking-wider font-semibold">Musician & Singer</p>
             </div>
           </motion.div>
 
@@ -1367,7 +1769,8 @@ export default function HomeView({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.25 }}
-            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm"
+            onClick={() => setSelectedImage("https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80")}
+            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm cursor-pointer"
           >
             <img
               src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80"
@@ -1376,8 +1779,6 @@ export default function HomeView({
             />
             <div className="absolute inset-0 bg-slate-950/30 group-hover:bg-slate-950/45 transition-colors duration-300" />
             <div className="absolute bottom-4 left-4 right-4 z-10">
-              <h5 className="text-white font-bold text-sm leading-snug">Sidra Iqbal</h5>
-              <p className="text-slate-300 text-[10px] uppercase font-mono tracking-wider font-semibold">Journalist & TV Anchor</p>
             </div>
           </motion.div>
 
@@ -1387,7 +1788,8 @@ export default function HomeView({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm"
+            onClick={() => setSelectedImage("https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80")}
+            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm cursor-pointer"
           >
             <img
               src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80"
@@ -1396,8 +1798,6 @@ export default function HomeView({
             />
             <div className="absolute inset-0 bg-slate-950/30 group-hover:bg-slate-950/45 transition-colors duration-300" />
             <div className="absolute bottom-4 left-4 right-4 z-10">
-              <h5 className="text-white font-bold text-sm leading-snug">Shehzad Roy</h5>
-              <p className="text-slate-300 text-[10px] uppercase font-mono tracking-wider font-semibold">Musician & Social Reformer</p>
             </div>
           </motion.div>
 
@@ -1407,7 +1807,8 @@ export default function HomeView({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.35 }}
-            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm"
+            onClick={() => setSelectedImage("https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=400&q=80")}
+            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm cursor-pointer"
           >
             <img
               src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=400&q=80"
@@ -1416,8 +1817,6 @@ export default function HomeView({
             />
             <div className="absolute inset-0 bg-slate-950/30 group-hover:bg-slate-950/45 transition-colors duration-300" />
             <div className="absolute bottom-4 left-4 right-4 z-10">
-              <h5 className="text-white font-bold text-sm leading-snug">Sanam Saeed</h5>
-              <p className="text-slate-300 text-[10px] uppercase font-mono tracking-wider font-semibold">Acclaimed Actor</p>
             </div>
           </motion.div>
 
@@ -1427,7 +1826,8 @@ export default function HomeView({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm"
+            onClick={() => setSelectedImage("https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80")}
+            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm cursor-pointer"
           >
             <img
               src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80"
@@ -1436,14 +1836,48 @@ export default function HomeView({
             />
             <div className="absolute inset-0 bg-slate-950/30 group-hover:bg-slate-950/45 transition-colors duration-300" />
             <div className="absolute bottom-4 left-4 right-4 z-10">
-              <h5 className="text-white font-bold text-sm leading-snug">Ali Gul Pir</h5>
-              <p className="text-slate-300 text-[10px] uppercase font-mono tracking-wider font-semibold">Satirist & Entrepreneur</p>
             </div>
           </motion.div>
 
         </div>
+
+        {/* Lightbox — opens on image click, closes via X button or outside click */}
+        <AnimatePresence>
+          {selectedImage && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              onClick={() => setSelectedImage(null)}
+              className="fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-4 sm:p-8 cursor-zoom-out"
+            >
+              {/* Close button */}
+              <button
+                onClick={() => setSelectedImage(null)}
+                className="absolute top-5 right-5 sm:top-8 sm:right-8 z-[110] w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors duration-300 cursor-pointer"
+                aria-label="Close image"
+              >
+                <X size={22} strokeWidth={2} />
+              </button>
+
+              {/* Image */}
+              <motion.img
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                onClick={(e) => e.stopPropagation()}
+                src={selectedImage}
+                alt="Alumni Fullscreen"
+                className="max-w-full max-h-full object-contain rounded-sm shadow-2xl"
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </section>
 
     </div>
-  );
+  </div>
+);
 }

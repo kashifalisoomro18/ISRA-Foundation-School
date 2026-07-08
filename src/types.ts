@@ -23,7 +23,7 @@ export type AboutSubView =
   | "management"
   | "faculty";
 
-export type AdmissionsSubView = "process" | "registration-form" | "scholarships";
+export type AdmissionsSubView = "overview" | "process" | "registration-form" | "scholarships";
 
 export type AcademicsSubView = "curriculum" | "timings" | "calendar";
 
