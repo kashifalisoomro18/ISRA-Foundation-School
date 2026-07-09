@@ -325,6 +325,45 @@ export default function VerticalCardSlider({
         color: #fff;
       }
 
+      /* Sliding Background */
+      .vcs-btn-bg {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: #60BADC;
+        transition: left .45s ease;
+        z-index: 0;
+      }
+
+      /* Content */
+      .vcs-btn-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: color .35s ease;
+      }
+
+      .vcs-read-btn:hover .vcs-btn-bg {
+        left: 0;
+      }
+
+      .vcs-read-btn:hover .vcs-btn-content {
+        color: #0D1F3C;
+      }
+
+      .vcs-btn-content svg {
+        transition: transform .3s ease, color .3s ease;
+      }
+
+      .vcs-read-btn:hover .vcs-btn-content svg {
+        transform: translateX(4px);
+        color: #0D1F3C;
+      }
+
         /* ── Line-style Up/Down arrow nav (matches reference image) ── */
        .vcs-nav-col {
           position: absolute;
@@ -466,14 +505,16 @@ export default function VerticalCardSlider({
           <button
             className="vcs-read-btn"
             style={{ borderColor: accent, color: "#0d1f3c" }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.background = accent;
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.background = "transparent";
-            }}
           >
-            Read More <ArrowRight size={14} />
+            <span
+              className="vcs-btn-bg"
+              style={{ background: accent }}
+            ></span>
+
+            <span className="vcs-btn-content">
+              Read More
+              <ArrowRight size={14} />
+            </span>
           </button>
         </div>
 

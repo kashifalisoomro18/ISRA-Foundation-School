@@ -41,6 +41,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence, useInView } from "motion/react";
 
+
 interface AboutViewProps {
   subView: AboutSubView;
   setSubView: (sub: AboutSubView) => void;
@@ -944,7 +945,7 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
           }
           .pm-square-img {
             width: 100%;
-            height: 450px;
+            height: 500px;
             object-fit: cover;
             object-position: center top;
             display: block;
@@ -1039,56 +1040,9 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, ease: "easeOut" }}
           >
-            {/* LEFT — Square Photo with theme accents */}
-            <motion.div
-              className="flex flex-col items-center gap-6"
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.65, delay: 0.1 }}
-            >
-              {/* Image wrapper */}
-              <div style={{ position: "relative", width: "100%", maxWidth: "420px" }}>
-                <div className="pm-corner-tl" />
-                <div className="pm-corner-br" />
-                <img
-                  src="/principal.jpg"
-                  alt="Dr. Ahmed Waliullah Kazi — Chairperson & Principal"
-                  className="pm-square-img"
-                  style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.14)" }}
-                />
-                {/* Yellow bottom strip / nameplate overlay */}
-                <div style={{
-                  position: "absolute",
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  background: "linear-gradient(to top, rgba(10,24,58,0.92) 0%, rgba(10,24,58,0.6) 60%, transparent 100%)",
-                  padding: "28px 20px 16px",
-                  borderRadius: "0 0 4px 4px",
-                }}>
-                  <p style={{ color: "#ffffff", fontWeight: 800, fontSize: "1.05rem", margin: 0 }}>
-                    Dr. Ahmed Waliullah Kazi
-                  </p>
-                  <span style={{
-                    display: "inline-block",
-                    marginTop: "6px",
-                    background: "#F5C330",
-                    color: "#0d1f3c",
-                    fontWeight: 800,
-                    fontSize: "0.68rem",
-                    letterSpacing: "0.14em",
-                    textTransform: "uppercase",
-                    padding: "3px 10px",
-                    borderRadius: "2px",
-                  }}>
-                    Chairperson &amp; Principal
-                  </span>
-                </div>
-              </div>
-            </motion.div>
 
-            {/* RIGHT — Message */}
+
+            {/* LEFT — Message */}
             <motion.div
               className="space-y-5"
               initial={{ opacity: 0, x: 30 }}
@@ -1134,7 +1088,59 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
 
               <PrincipalExpandCollapse />
             </motion.div>
+            
+            {/* RIGHT — Square Photo with theme accents */}
+            <motion.div
+              className="flex flex-col items-center gap-6"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.65, delay: 0.1 }}
+            >
+              {/* Image wrapper */}
+              <div style={{ position: "relative", width: "100%", maxWidth: "500px" }}>
+                <div className="pm-corner-tl" />
+                <div className="pm-corner-br" />
+                <img
+                  src="/principal.jpg"
+                  alt="Dr. Ahmed Waliullah Kazi — Chairperson & Principal"
+                  className="pm-square-img"
+                  style={{ boxShadow: "0 24px 60px rgba(0,0,0,0.14)" }}
+                />
+                {/* Yellow bottom strip / nameplate overlay */}
+                <div style={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  background: "linear-gradient(to top, rgba(10,24,58,0.92) 0%, rgba(10,24,58,0.6) 60%, transparent 100%)",
+                  padding: "28px 20px 16px",
+                  borderRadius: "0 0 4px 4px",
+                }}>
+                  <p style={{ color: "#ffffff", fontWeight: 800, fontSize: "1.05rem", margin: 0 }}>
+                    Dr. Ahmed Waliullah Kazi
+                  </p>
+                  <span style={{
+                    display: "inline-block",
+                    marginTop: "6px",
+                    background: "#F5C330",
+                    color: "#0d1f3c",
+                    fontWeight: 800,
+                    fontSize: "0.68rem",
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                    padding: "3px 10px",
+                    borderRadius: "2px",
+                  }}>
+                    Chairperson &amp; Principal
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+
           </motion.div>
+
+          
         </div>
       </section>
 
@@ -1289,8 +1295,8 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
       {/* ============================================================
           6a. MANAGEMENT & BOARD — Swiper Parallax Slider
       ============================================================ */}
-      <section id="management-board" className="py-16 sm:py-20 px-6 lg:px-12 bg-white my-10">
-        <div className="max-w-7xl mx-auto my-10">
+      <section id="management-board" className="py-16 sm:py-20 px-6 lg:px-12 bg-white ">
+        <div className="max-w-7xl mx-auto ">
           <motion.div
             className="text-center mb-12"
             initial={{ opacity: 0, y: 20 }}
@@ -1334,36 +1340,36 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
       {/* ============================================================
           5. ACHIEVEMENT STATS — Dark section with counters
       ============================================================ */}
-  <section className="stats-section relative py-16 sm:py-20 px-6 lg:px-12 overflow-hidden my-10">
-  {/* Background image */}
-  <div className="absolute inset-0">
-    <img
-      src="/Academic Achievement.jpeg"
-      alt="Academic Achievement"
-      className="w-full h-full object-cover"
-    />
+      <section className="stats-section relative py-16 sm:py-20 px-6 lg:px-12 overflow-hidden my-25">
+      {/* Background image */}
+      <div className="absolute inset-0">
+        <img
+          src="/Academic Achievement.jpeg"
+          alt="Academic Achievement"
+          className="w-full h-full object-cover"
+        />
 
-    {/* Premium overlay */}
-    <div
-      className="absolute inset-0 z-[1]"
-      style={{
-        background: `
-          linear-gradient(
-            90deg,
-            rgba(11,32,63,0.88) 0%,
-            rgba(11,32,63,0.72) 45%,
-            rgba(11,32,63,0.55) 100%
-          ),
-          linear-gradient(
-            to bottom,
-            rgba(13,31,60,0.20) 0%,
-            transparent 45%,
-            rgba(13,31,60,0.35) 100%
-          )
-        `,
-      }}
-    />
-  </div>
+        {/* Premium overlay */}
+        <div
+          className="absolute inset-0 z-[1]"
+          style={{
+            background: `
+              linear-gradient(
+                90deg,
+                rgba(11,32,63,0.88) 0%,
+                rgba(11,32,63,0.72) 45%,
+                rgba(11,32,63,0.55) 100%
+              ),
+              linear-gradient(
+                to bottom,
+                rgba(13,31,60,0.20) 0%,
+                transparent 45%,
+                rgba(13,31,60,0.35) 100%
+              )
+            `,
+          }}
+        />
+      </div>
 
         {/* Content sits above the background */}
         <div className="relative z-10 max-w-7xl mx-auto ">
@@ -1373,7 +1379,7 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
             <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-2">
               Academic Achievement & Recognition Program
             </h2>
-            <p className="text-white/60 mt-4 max-w-2xl mx-auto text-sm leading-relaxed">
+            <p className="text-white mt-4 max-w-2xl mx-auto text-sm leading-relaxed">
               Celebrating distinguished students across various fields through awards and public recognition.
               Highlighting their achievements and success stories via newsletters, social media, and
               institutional events to strengthen pride and engagement.
@@ -1420,8 +1426,8 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
       {/* ============================================================
           6b. O/A LEVEL ACADEMIC FACULTY — GSAP Vertical Card Slider
       ============================================================ */}
-      <section id="academic-faculty" className="py-16 sm:py-20 px-6 lg:px-12 bg-white">
-        <div className="max-w-7xl mx-auto my-10">
+      <section id="academic-faculty" className="py-16 sm:py-20 px-6 lg:px-12 bg-white -my-10">
+        <div className="max-w-7xl mx-auto -my-10">
           <motion.div
             className="text-center mb-14"
             initial={{ opacity: 0, y: 20 }}
@@ -1457,24 +1463,33 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
           {/* Tab switcher */}
           <div className="flex justify-center mb-10">
             <div className="flex gap-2 bg-[#0d1f3c] p-1.5 rounded-none">
-              <button
-                className={`about-nav-tab ${activeTab === 'olevel' ? 'active' : ''}`}
-                onClick={() => setActiveTab('olevel')}
-                aria-selected={activeTab === 'olevel'}
-                role="tab"
-                id="tab-olevel"
-              >
-                O Level
-              </button>
-              <button
-                className={`about-nav-tab ${activeTab === 'alevel' ? 'active' : ''}`}
-                onClick={() => setActiveTab('alevel')}
-                aria-selected={activeTab === 'alevel'}
-                role="tab"
-                id="tab-alevel"
-              >
-                A Level
-              </button>
+              {["olevel", "alevel"].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className="relative px-8 py-3 text-sm font-semibold uppercase tracking-wider overflow-hidden"
+                >
+                  {activeTab === tab && (
+                    <motion.div
+                      layoutId="activeTab"
+                      className="absolute inset-0 bg-primary z-0"
+                      transition={{
+                        type: "spring",
+                        stiffness: 200,
+                        damping: 30,
+                      }}
+                    />
+                  )}
+
+                  <span
+                    className={`relative z-10 transition-colors duration-300 ${
+                      activeTab === tab ? "text-[#0D1F3C]" : "text-white"
+                    }`}
+                  >
+                    {tab === "olevel" ? "O Level" : "A Level"}
+                  </span>
+                </button>
+              ))}
             </div>
           </div>
 
@@ -1513,6 +1528,9 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
           </AnimatePresence>
         </div>
       </section>
+
+      <section className="py-16 sm:py-25 px-6 lg:px-12 bg-white"></section>
+
       {/* ============================================================
           9. CAMPUS MOMENTS — Photo strip (like Alumni Moments)
       ============================================================ */}
@@ -1557,7 +1575,7 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
       {/* ============================================================
           9. STAY CONNECTED CTA (Bottom)
       ============================================================ */}
-      <section className="relative h-[420px] lg:h-[430px] flex items-center overflow-hidden ">
+      <section className="relative h-[420px] lg:h-[444.5px] flex items-center overflow-hidden">
         {/* Background image */}
         <img
           src="/building-image.jpeg"
@@ -1582,13 +1600,13 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
               Join Our Community
             </p>
             <h2 className="text-4xl sm:text-6xl font-extrabold text-white mb-6">
-              Stay Connected. <span className="text-[#F5C330]">Stay Inspired.</span>
+              Stay Connected. <br /><span className="text-[#F5C330]">Stay Inspired.</span>
             </h2>
             <p className="text-white text-base sm:text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
               Be a part of a global community making a difference. Connect with IFS
               today and be part of the legacy of excellence at Isra Foundation Schools.
             </p>
-           <div className="flex flex-wrap gap-6 justify-center">
+           <div className="flex flex-wrap gap-8 justify-center">
         <button className="gold-btn text-base px-8 py-4">
           Join IFS Today <ArrowRight className="w-5 h-5" />
         </button>

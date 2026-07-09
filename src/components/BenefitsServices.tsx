@@ -46,7 +46,7 @@ export default function BenefitsServices({ items }: BenefitsServicesProps) {
   return (
     <section
       id="benefits-services"
-      style={{ background: "#f8fafc", padding: "64px 24px" }}
+      style={{ padding: "64px 24px" }}
     >
       <div
         ref={sectionRef}
@@ -55,7 +55,7 @@ export default function BenefitsServices({ items }: BenefitsServicesProps) {
         {/* ── Section header ─────────────────────────────────── */}
         <div style={{ textAlign: "center", marginBottom: "56px" }}>
           {/* small gold label */}
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex items-center justify-center gap-4 my-10">
           <span className="w-8 h-px bg-[#020618]" />
           <span
             style={{

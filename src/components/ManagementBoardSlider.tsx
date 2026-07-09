@@ -197,7 +197,7 @@ export default function ManagementBoardSlider({ members }: ManagementBoardSlider
         .mbs-btn-prev, .mbs-btn-next {
           width: 42px;
           height: 42px;
-          border-radius: 50%;
+          // border-radius: 50%;
           background: rgba(255,255,255,0.12);
          border: 2px solid #ffffffff;
           backdrop-filter: sepia (8px);
@@ -298,7 +298,7 @@ export default function ManagementBoardSlider({ members }: ManagementBoardSlider
         .mbs-thumb-photo {
           width: 56px;
           height: 56px;
-          border-radius: 10px;
+          // border-radius: 10px;
           overflow: hidden;
           flex-shrink: 0;
           border: 2px solid transparent;
