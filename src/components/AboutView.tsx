@@ -1184,6 +1184,7 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
       </div>
 
 
+      {/* Vission & Mission */}
 
        {/* ============================================================
           3. BENEFITS & SERVICES — Shield-badge card grid
@@ -1199,89 +1200,89 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
           7. QUICK FACTS STATS BAR (like bottom stats bar)
       ============================================================ */}
      <div className="bg-[#11182B] py-14 my-20">
-  <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4">
+      <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4">
 
-    {[
-      {
-        icon: Calendar,
-        value: "2016",
-        suffix: "",
-        label: "YEAR FOUNDED",
-      },
-      {
-        icon: Users,
-        value: "1,200",
-        suffix: "+",
-        label: "STUDENTS ENROLLED",
-      },
-      {
-        icon: Globe,
-        value: "2",
-        suffix: "",
-        label: "AFFILIATIONS",
-      },
-      {
-        icon: Star,
-        value: "10",
-        suffix: "+",
-        label: "EVENTS & PROGRAMS",
-      },
-    ].map((item, index) => {
-      const Icon = item.icon;
+        {[
+          {
+            icon: Calendar,
+            value: "2016",
+            suffix: "",
+            label: "YEAR FOUNDED",
+          },
+          {
+            icon: Users,
+            value: "1,200",
+            suffix: "+",
+            label: "STUDENTS ENROLLED",
+          },
+          {
+            icon: Globe,
+            value: "2",
+            suffix: "",
+            label: "AFFILIATIONS",
+          },
+          {
+            icon: Star,
+            value: "10",
+            suffix: "+",
+            label: "EVENTS & PROGRAMS",
+          },
+        ].map((item, index) => {
+          const Icon = item.icon;
 
-      return (
-        <div
-          key={index}
-          className={`
-            group
-            flex
-            flex-col
-            items-center
-            justify-center
-            py-6
-            transition-all
-            duration-300
-            ${
-              index !== 3
-                ? "border-r border-white/20"
-                : ""
-            }
-          `}
-        >
-          {/* Icon */}
-         <Icon
-  className="
-    w-11
-    h-11
-    text-white
-    transition-all
-    duration-500
-    ease-out
-    group-hover:text-[#F5C330]
-    group-hover:-translate-y-1
-    group-hover:scale-110
-  "
-/>
+          return (
+            <div
+              key={index}
+              className={`
+                group
+                flex
+                flex-col
+                items-center
+                justify-center
+                py-6
+                transition-all
+                duration-300
+                ${
+                  index !== 3
+                    ? "border-r border-white/20"
+                    : ""
+                }
+              `}
+            >
+              {/* Icon */}
+            <Icon
+      className="
+        w-11
+        h-11
+        text-white
+        transition-all
+        duration-500
+        ease-out
+        group-hover:text-[#F5C330]
+        group-hover:-translate-y-1
+        group-hover:scale-110
+      "
+    />
           {/* Number */}
-<h2
-  className="
-  mt-5
-  text-5xl
-  font-extrabold
-  text-white
-  leading-none
-  transition-transform
-  duration-300
-  ease-out
-  group-hover:scale-110
-"
->
-  {item.value}
-  <span className="text-[#F5C330]">
-    {item.suffix}
-  </span>
-</h2>
-          {/* Label */}
+          <h2
+            className="
+            mt-5
+            text-5xl
+            font-extrabold
+            text-white
+            leading-none
+            transition-transform
+            duration-300
+            ease-out
+            group-hover:scale-110
+          "
+          >
+            {item.value}
+            <span className="text-[#F5C330]">
+              {item.suffix}
+            </span>
+          </h2>
+                    {/* Label */}
           <p className="mt-4 text-[12px] uppercase tracking-[0.35em] font-bold text-white/80 text-center">
             {item.label}
           </p>
@@ -1528,7 +1529,8 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
           </AnimatePresence>
         </div>
       </section>
-
+      
+      {/* using this section for giving space */}
       <section className="py-16 sm:py-25 px-6 lg:px-12 bg-white"></section>
 
       {/* ============================================================
