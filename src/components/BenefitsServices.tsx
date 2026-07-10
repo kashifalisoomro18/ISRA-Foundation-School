@@ -123,7 +123,6 @@ export default function BenefitsServices({ items }: BenefitsServicesProps) {
                 style={{
                   position: "relative",
                   background: "#ffffff",
-                  borderRadius: "14px",
                   paddingTop: "52px",
                   paddingBottom: "24px",
                   paddingLeft: "24px",

@@ -30,6 +30,9 @@ import {
   BookOpen,
   ShieldCheck,
   X,
+  Calendar,
+  Flag,
+  Briefcase,
 } from "lucide-react";
 
 interface HomeViewProps {
@@ -850,7 +853,7 @@ export default function HomeView({
                 key={item.title}
                 variants={fadeUp}
                 whileHover={{ y: -8, transition: { duration: 0.25, ease: "easeOut" } }}
-                className="group relative h-full flex flex-col bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl p-8 transition-all duration-300 z-10 overflow-hidden"
+                className="group relative h-full flex flex-col bg-white  border border-slate-100 shadow-sm hover:shadow-xl p-8 transition-all duration-300 z-10 overflow-hidden"
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = "#60badc";
                   e.currentTarget.style.backgroundColor = "rgba(96, 186, 220, 0.04)";
@@ -919,7 +922,7 @@ export default function HomeView({
                 variants={fadeUp}
                 whileHover={{ y: -10, transition: { duration: 0.25, ease: "easeOut" } }}
                 onClick={() => handleSubNav("news-events", "")}
-                className="group relative h-full flex flex-col bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl p-8 overflow-hidden transition-all duration-300 cursor-pointer z-10"
+                className="group relative h-full flex flex-col bg-white border border-slate-100 shadow-sm hover:shadow-xl p-8 overflow-hidden transition-all duration-300 cursor-pointer z-10"
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = "#f5c330";
                   e.currentTarget.style.backgroundColor = "rgba(245, 195, 48, 0.04)";
@@ -1380,8 +1383,10 @@ export default function HomeView({
             </motion.div>
           </div>
         </div>
+        
 
-      {/* SECTION 3: News & Events Masonry Grid (Prisinte Layout Matching Image 3) */}
+
+      {/* SECTION 3: News Masonry Grid (Prisinte Layout Matching Image 3) */}
       <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 space-y-8 overflow-hidden my-50" id="IFS-news-events-grid">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -1390,15 +1395,23 @@ export default function HomeView({
           transition={{ duration: 0.6 }}
           className="flex justify-between items-end border-b border-slate-200 pb-4"
         >
-          <h3 className="font-sans font-extrabold text-slate-900 text-2xl tracking-wider uppercase">
-            NEWS & <span className="text-primary">EVENTS</span>
+        <div>
+          <h3 className="font-sans font-extrabold text-[#0F172A] text-3xl sm:text-4xl tracking-tight">
+            NEWS
           </h3>
-          <button
-            onClick={() => handleSubNav("news-events", "")}
-            className="text-xs font-extrabold text-[#020618] hover:text-slate-800 tracking-wider uppercase border-b-3 border-primary pb-0.5 cursor-pointer"
-          >
-            View All
-          </button>
+          <div className="w-16 h-1 bg-[#F5C330] mt-3 " />
+          <p className="text-slate-500 text-sm mt-4">
+            Stay updated with our latest news and updates.
+          </p>
+        </div>
+
+        <button
+          onClick={() => handleSubNav("news-events", "")}
+          className="group inline-flex items-center gap-2 text-xs font-extrabold text-[#0F172A] tracking-widest uppercase pb-1 border-b-2 border-[#F5C330] hover:border-[#60BADC] w-fit cursor-pointer transition-colors duration-300"
+        >
+          View All News
+          <ArrowRight className="w-3.5 h-3.5 text-[#0F172A] group-hover:text-[#60BADC] transition-all duration-300 group-hover:translate-x-1" />
+        </button>
         </motion.div>
 
         {/* Grid Structure */}
@@ -1410,8 +1423,7 @@ export default function HomeView({
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            onClick={() => handleSubNav("news-events", "")}
-            className="lg:col-span-7 h-[420px] bg-slate-950 rounded-sm overflow-hidden relative shadow-lg group cursor-pointer"
+            className="lg:col-span-7 h-[420px] bg-slate-950  overflow-hidden relative shadow-lg group cursor-pointer"
           >
             <img
               src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1000&q=80"
@@ -1423,7 +1435,7 @@ export default function HomeView({
 
             {/* Title text overlaid perfectly inside container footer */}
             <div className="absolute bottom-6 left-6 right-6 z-20 space-y-2">
-              <span className="bg-rose-700 text-white font-mono text-[9px] uppercase tracking-widest font-extrabold px-2 py-0.5 rounded-sm">
+              <span className="bg-secondary text-[#0f172a] font-mono text-[9px] uppercase tracking-widest font-extrabold px-2 py-0.5 ">
                 FEATURED EVENT
               </span>
               <h4 className="font-sans font-extrabold text-white text-2xl sm:text-3xl leading-snug tracking-tight">
@@ -1444,8 +1456,7 @@ export default function HomeView({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              onClick={() => handleSubNav("news-events", "")}
-              className="h-[202px] bg-slate-950 rounded-sm overflow-hidden relative shadow-md group cursor-pointer"
+              className="h-[202px] bg-slate-950  overflow-hidden relative shadow-md group cursor-pointer"
             >
               <img
                 src="https://images.unsplash.com/photo-1541339907198-e08756ebafe3?auto=format&fit=crop&w=400&q=80"
@@ -1466,8 +1477,7 @@ export default function HomeView({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              onClick={() => handleSubNav("news-events", "")}
-              className="h-[202px] bg-slate-950 rounded-sm overflow-hidden relative shadow-md group cursor-pointer"
+              className="h-[202px] bg-slate-950  overflow-hidden relative shadow-md group cursor-pointer"
             >
               <img
                 src="https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?auto=format&fit=crop&w=400&q=80"
@@ -1488,8 +1498,7 @@ export default function HomeView({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              onClick={() => handleSubNav("news-events", "")}
-              className="h-[202px] bg-slate-950 rounded-sm overflow-hidden relative shadow-md group cursor-pointer"
+              className="h-[202px] bg-slate-950  overflow-hidden relative shadow-md group cursor-pointer"
             >
               <img
                 src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=400&q=80"
@@ -1510,8 +1519,7 @@ export default function HomeView({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              onClick={() => handleSubNav("news-events", "")}
-              className="h-[202px] bg-slate-950 rounded-sm overflow-hidden relative shadow-md group cursor-pointer"
+              className="h-[202px] bg-slate-950 overflow-hidden relative shadow-md group cursor-pointer"
             >
               <img
                 src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80"
@@ -1532,27 +1540,35 @@ export default function HomeView({
       </section>
 
 
-      {/* SECTION 4: Events Calendar Grid with Calendar Page Icon (Prisinte Layout Matching Image 4) */}
+      {/* SECTION 4: Events Calendar Grid — Premium Date Panel Layout */}
       <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 space-y-8 overflow-hidden" id="IFS-events-calendar">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="flex justify-between items-end border-b border-slate-200 pb-4"
+          className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 border-b border-slate-200 pb-4"
         >
-          <h3 className="font-sans font-extrabold text-slate-900 text-2xl tracking-wider uppercase">
-            Events
-          </h3>
+          <div>
+            <h3 className="font-sans font-extrabold text-[#0F172A] text-3xl sm:text-4xl tracking-tight">
+              EVENTS
+            </h3>
+            <div className="w-16 h-1 bg-[#F5C330] mt-3 " />
+            <p className="text-slate-500 text-sm mt-4">
+              Stay updated with our latest events and important dates.
+            </p>
+          </div>
+
           <button
             onClick={() => handleSubNav("news-events", "")}
-            className="text-xs font-extrabold text-[#020618] hover:text-slate-800 tracking-wider uppercase border-b-3 border-primary pb-0.5 cursor-pointer"
+            className="group inline-flex items-center gap-2 text-xs font-extrabold text-[#0F172A]  tracking-widest uppercase pb-1 border-b-2 border-[#F5C330] hover:border-[#60BADC] w-fit cursor-pointer transition-colors duration-300"
           >
-            View All
+            View All Events
+            <ArrowRight className="w-3.5 h-3.5 text-[#0F172A] group-hover:text-[#60BADC] transition-all duration-300 group-hover:translate-x-1" />
           </button>
         </motion.div>
 
-        {/* 2x2 Clean Gray Cards Grid */}
+        {/* 2x2 Premium Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
           {/* Card 1 */}
@@ -1561,23 +1577,28 @@ export default function HomeView({
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="bg-slate-100 rounded-sm p-6 flex items-center gap-6 shadow-sm border border-slate-200/40 hover:shadow-md transition-shadow duration-300"
+            className="group relative bg-white p-6 flex items-start gap-6 shadow-sm border-l-4 border-[#F5C330]/50 hover:border-[#60BADC] hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300"
           >
-            {/* Calendar Page Icon */}
-            <div className="w-[84px] h-[94px] bg-white border border-slate-200 shadow-sm flex flex-col overflow-hidden rounded-sm flex-shrink-0">
-              <div className="bg-rose-700 h-[10px] w-full" />
-              <div className="flex-1 flex flex-col items-center justify-center">
-                <span className="text-secondary font-black text-3xl leading-none font-mono">27</span>
-                <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest mt-1">July</span>
-              </div>
+            {/* Icon badge */}
+            <div className="absolute top-5 right-5 w-11 h-11  bg-[#F5C330]/10 group-hover:bg-[#60BADC]/10 flex items-center justify-center transition-all duration-300 group-hover:rotate-12">
+              <Users className="w-5 h-5 text-[#F5C330] group-hover:text-[#60BADC] transition-colors duration-300" strokeWidth={1.75} />
             </div>
-            <div>
-              <h4 className="font-sans font-bold text-slate-800 text-base sm:text-lg leading-snug">
+            
+            {/* Floating date panel */}
+            <div  className="w-[84px] h-[94px] bg-[#F8FAFC] border-t-2 border-[#F5C330] group-hover:border-[#60BADC] shadow-sm flex flex-col items-center justify-center transition-colors duration-300 flex-shrink-0">
+              <Calendar className="w-4 h-4 text-[#F5C330] group-hover:text-[#60BADC] transition-colors duration-300 mb-1" />
+              <span className="text-[#0F172A] font-black text-3xl leading-none">27</span>
+              <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest mt-1">July</span>
+            </div>
+
+            <div className="flex-1 pt-1">
+              <h4 className="font-sans font-bold text-[#0F172A] text-lg leading-snug">
                 Back to School for Teachers
               </h4>
-              <p className="text-slate-500 text-xs mt-1.5 flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-primary" /> Professional development and alignment sessions.
+              <p className="text-slate-500 text-sm mt-2 leading-relaxed">
+                Professional development and alignment sessions.
               </p>
+
             </div>
           </motion.div>
 
@@ -1587,48 +1608,55 @@ export default function HomeView({
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="bg-slate-100 rounded-sm p-6 flex items-center gap-6 shadow-sm border border-slate-200/40 hover:shadow-md transition-shadow duration-300"
+            className="group relative bg-white p-6 flex items-start gap-6 shadow-sm border-l-4 border-[#F5C330]/50 hover:border-[#60BADC] hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300"
           >
-            {/* Calendar Page Icon */}
-            <div className="w-[84px] h-[94px] bg-white border border-slate-200 shadow-sm flex flex-col overflow-hidden rounded-sm flex-shrink-0">
-              <div className="bg-rose-700 h-[10px] w-full" />
-              <div className="flex-1 flex flex-col items-center justify-center">
-                <span className="text-secondary font-black text-3xl leading-none font-mono">10</span>
-                <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest mt-1">August</span>
-              </div>
+                <div className="absolute top-5 right-5 w-11 h-11 bg-[#F5C330]/10 group-hover:bg-[#60BADC]/10 flex items-center justify-center transition-all duration-300 group-hover:rotate-12">
+                  <GraduationCap className="w-5 h-5 text-[#F5C330] group-hover:text-[#60BADC] transition-colors duration-300" strokeWidth={1.75} />
+                </div>
+
+            <div className="w-[84px] h-[94px] bg-[#F8FAFC] border-t-2 border-[#F5C330] group-hover:border-[#60BADC] shadow-sm flex flex-col items-center justify-center transition-colors duration-300 flex-shrink-0">
+              <Calendar className="w-4 h-4 text-[#F5C330] group-hover:text-[#60BADC] transition-colors duration-300 mb-1" />
+              <span className="text-[#0F172A] font-black text-3xl leading-none">10</span>
+              <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest mt-1">August</span>
             </div>
-            <div>
-              <h4 className="font-sans font-bold text-slate-800 text-base sm:text-lg leading-snug">
+
+            <div className="flex-1 pt-1">
+              <h4 className="font-sans font-bold text-[#0F172A] text-lg leading-snug">
                 Back to School for Students
               </h4>
-              <p className="text-slate-500 text-xs mt-1.5 flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-primary" /> Welcoming our brilliant scholars back to campuses.
+              <p className="text-slate-500 text-sm mt-2 leading-relaxed">
+                Welcoming our brilliant scholars back to campuses.
               </p>
+
             </div>
           </motion.div>
+
           {/* Card 3 */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-            className="bg-slate-100 rounded-sm p-6 flex items-center gap-6 shadow-sm border border-slate-200/40 hover:shadow-md transition-shadow duration-300"
+            className="group relative bg-white p-6 flex items-start gap-6 shadow-sm border-l-4 border-[#F5C330]/50 hover:border-[#60BADC] hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300"
           >
-            {/* Calendar Page Icon */}
-            <div className="w-[84px] h-[94px] bg-white border border-slate-200 shadow-sm flex flex-col overflow-hidden rounded-sm flex-shrink-0">
-              <div className="bg-rose-700 h-[10px] w-full" />
-              <div className="flex-1 flex flex-col items-center justify-center">
-                <span className="text-secondary font-black text-3xl leading-none font-mono">14</span>
-                <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest mt-1">August</span>
-              </div>
+          <div className="absolute top-5 right-5 w-11 h-11 bg-[#F5C330]/10 group-hover:bg-[#60BADC]/10 flex items-center justify-center transition-all duration-300 group-hover:rotate-12">
+            <Flag className="w-5 h-5 text-[#F5C330] group-hover:text-[#60BADC] transition-colors duration-300" strokeWidth={1.75} />
+          </div>
+
+            <div className="w-[84px] h-[94px] bg-[#F8FAFC] border-t-2 border-[#F5C330] group-hover:border-[#60BADC] shadow-sm flex flex-col items-center justify-center transition-colors duration-300 flex-shrink-0">
+              <Calendar className="w-4 h-4 text-[#F5C330] group-hover:text-[#60BADC] transition-colors duration-300 mb-1" />
+              <span className="text-[#0F172A] font-black text-3xl leading-none">14</span>
+              <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest mt-1">August</span>
             </div>
-            <div>
-              <h4 className="font-sans font-bold text-slate-800 text-base sm:text-lg leading-snug">
+
+            <div className="flex-1 pt-1">
+              <h4 className="font-sans font-bold text-[#0F172A] text-lg leading-snug">
                 Independence Day
               </h4>
-              <p className="text-slate-500 text-xs mt-1.5 flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-primary" /> National anthem ceremonies and student showcases.
+              <p className="text-slate-500 text-sm mt-2 leading-relaxed">
+                National anthem ceremonies and student showcases.
               </p>
+
             </div>
           </motion.div>
 
@@ -1638,23 +1666,27 @@ export default function HomeView({
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-            className="bg-slate-100 rounded-sm p-6 flex items-center gap-6 shadow-sm border border-slate-200/40 hover:shadow-md transition-shadow duration-300"
+            className="group relative bg-white p-6 flex items-start gap-6 shadow-sm border-l-4 border-[#F5C330]/50 hover:border-[#60BADC] hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300"
           >
-            {/* Calendar Page Icon */}
-            <div className="w-[84px] h-[94px] bg-white border border-slate-200 shadow-sm flex flex-col overflow-hidden rounded-sm flex-shrink-0">
-              <div className="bg-rose-700 h-[10px] w-full" />
-              <div className="flex-1 flex flex-col items-center justify-center">
-                <span className="text-secondary font-black text-3xl leading-none font-mono">24</span>
-                <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest mt-1">August</span>
-              </div>
+            
+          <div className="absolute top-5 right-5 w-11 h-11 bg-[#F5C330]/10 group-hover:bg-[#60BADC]/10 flex items-center justify-center transition-all duration-300 group-hover:rotate-12">
+            <Briefcase className="w-5 h-5 text-[#F5C330] group-hover:text-[#60BADC] transition-colors duration-300" strokeWidth={1.75} />
+          </div>
+
+            <div className="w-[84px] h-[94px] bg-[#F8FAFC] border-t-2 border-[#F5C330] group-hover:border-[#60BADC] shadow-sm flex flex-col items-center justify-center transition-colors duration-300 flex-shrink-0">
+              <Calendar className="w-4 h-4 text-[#F5C330] group-hover:text-[#60BADC] transition-colors duration-300 mb-1" />
+              <span className="text-[#0F172A] font-black text-3xl leading-none">24</span>
+              <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest mt-1">August</span>
             </div>
-            <div>
-              <h4 className="font-sans font-bold text-slate-800 text-base sm:text-lg leading-snug">
+
+            <div className="flex-1 pt-1">
+              <h4 className="font-sans font-bold text-[#0F172A] text-lg leading-snug">
                 Fresher's Week Orientation at A'level
               </h4>
-              <p className="text-slate-500 text-xs mt-1.5 flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-primary" /> Guiding senior entries towards university pipelines.
+              <p className="text-slate-500 text-sm mt-2 leading-relaxed">
+                Guiding senior entries towards university pipelines.
               </p>
+
             </div>
           </motion.div>
 
@@ -1665,7 +1697,7 @@ export default function HomeView({
 
 
       {/* SECTION 7: Alumni Wall Collage Section (Prisinte Layout Matching Images 9, 10) */}
-      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 space-y-6 overflow-hidden" id="IFS-alumni-section">
+      <section className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 space-y-6 overflow-hidden my-10" id="IFS-alumni-section">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -1673,15 +1705,21 @@ export default function HomeView({
           transition={{ duration: 0.6 }}
           className="flex justify-between items-end border-b border-slate-200 pb-4"
         >
-          <h3 className="font-sans font-extrabold text-slate-900 text-3xl tracking-tight leading-none">
+        <div>
+          <h3 className="font-sans font-extrabold text-[#0F172A] text-3xl sm:text-4xl tracking-tight">
             GALLERY
           </h3>
-          <button
-            onClick={() => handleSubNav("news-events", "")}
-            className="text-xs font-extrabold text-[#020618] hover:text-slate-800 tracking-wider uppercase border-b-3 border-primary pb-0.5 cursor-pointer"
-          >
-            View All
-          </button>
+          <div className="w-16 h-1 bg-[#F5C330] mt-3 " />
+
+        </div>
+
+        <button
+          onClick={() => handleSubNav("news-events", "")}
+          className="group inline-flex items-center gap-2 text-xs font-extrabold text-[#0F172A] tracking-widest uppercase pb-1 border-b-2 border-[#F5C330] hover:border-[#60BADC] w-fit cursor-pointer transition-colors duration-300"
+        >
+          View All Photos
+          <ArrowRight className="w-3.5 h-3.5 text-[#0F172A] group-hover:text-[#60BADC] transition-all duration-300 group-hover:translate-x-1" />
+        </button>
         </motion.div>
 
         {/* Mosaic/Pristine 2x4 Grid layout showing successful Pakistani Alumni Portraits */}
@@ -1694,7 +1732,7 @@ export default function HomeView({
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.05 }}
             onClick={() => setSelectedImage("https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80")}
-            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm cursor-pointer"
+            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm  cursor-pointer"
           >
             <img
               src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80"
@@ -1732,7 +1770,7 @@ export default function HomeView({
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.15 }}
             onClick={() => setSelectedImage("https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80")}
-            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm cursor-pointer"
+            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm  cursor-pointer"
           >
             <img
               src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80"
@@ -1751,7 +1789,7 @@ export default function HomeView({
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
             onClick={() => setSelectedImage("https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80")}
-            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm cursor-pointer"
+            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm  cursor-pointer"
           >
             <img
               src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80"
@@ -1770,7 +1808,7 @@ export default function HomeView({
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.25 }}
             onClick={() => setSelectedImage("https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80")}
-            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm cursor-pointer"
+            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm  cursor-pointer"
           >
             <img
               src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80"
@@ -1789,7 +1827,7 @@ export default function HomeView({
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
             onClick={() => setSelectedImage("https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80")}
-            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm cursor-pointer"
+            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm  cursor-pointer"
           >
             <img
               src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80"
@@ -1808,7 +1846,7 @@ export default function HomeView({
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.35 }}
             onClick={() => setSelectedImage("https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=400&q=80")}
-            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm cursor-pointer"
+            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm  cursor-pointer"
           >
             <img
               src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=400&q=80"
@@ -1827,7 +1865,7 @@ export default function HomeView({
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.4 }}
             onClick={() => setSelectedImage("https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80")}
-            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm rounded-sm cursor-pointer"
+            className="aspect-[4/5] bg-slate-200 relative overflow-hidden group shadow-sm  cursor-pointer"
           >
             <img
               src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80"
@@ -1855,7 +1893,7 @@ export default function HomeView({
               {/* Close button */}
               <button
                 onClick={() => setSelectedImage(null)}
-                className="absolute top-5 right-5 sm:top-8 sm:right-8 z-[110] w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors duration-300 cursor-pointer"
+                className="absolute top-5 right-5 sm:top-8 sm:right-8 z-[110] w-10 h-10 flex items-center justify-center  bg-white/10 hover:bg-white/20 text-white transition-colors duration-300 cursor-pointer"
                 aria-label="Close image"
               >
                 <X size={22} strokeWidth={2} />
@@ -1870,7 +1908,7 @@ export default function HomeView({
                 onClick={(e) => e.stopPropagation()}
                 src={selectedImage}
                 alt="Alumni Fullscreen"
-                className="max-w-full max-h-full object-contain rounded-sm shadow-2xl"
+                className="max-w-full max-h-full object-contain  shadow-2xl"
               />
             </motion.div>
           )}
