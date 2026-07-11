@@ -6,18 +6,17 @@ interface Stat {
   suffix: string;
   label: string;
   icon: LucideIcon;
-  color: string;
   desc: string;
 }
 
 const stats: Stat[] = [
-  { value: 9, suffix: "+", label: "Years of Excellence", icon: CalendarClock, color: "#60BADC", desc: "Serving Hyderabad since 2016" },
-  { value: 100, suffix: "+", label: "Expert Teachers", icon: GraduationCap, color: "#F5C330", desc: "Cambridge-qualified educators" },
-  { value: 500, suffix: "+", label: "Support Staff", icon: HeartHandshake, color: "#60BADC", desc: "Dedicated to student wellbeing" },
-  { value: 50, suffix: "+", label: "Student Clubs", icon: Users, color: "#F5C330", desc: "Co-curricular excellence" },
+  { value: 9, suffix: "+", label: "Years of Excellence", icon: CalendarClock, desc: "Serving Hyderabad since 2016" },
+  { value: 100, suffix: "+", label: "Expert Teachers", icon: GraduationCap, desc: "Cambridge-qualified educators" },
+  { value: 500, suffix: "+", label: "Support Staff", icon: HeartHandshake, desc: "Dedicated to student wellbeing" },
+  { value: 50, suffix: "+", label: "Student Clubs", icon: Users, desc: "Co-curricular excellence" },
 ];
 
-function Counter({ value, suffix, color }: { value: number; suffix: string; color: string }) {
+function Counter({ value, suffix }: { value: number; suffix: string }) {
   const [display, setDisplay] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
   const started = useRef(false);
@@ -47,8 +46,9 @@ function Counter({ value, suffix, color }: { value: number; suffix: string; colo
   }, [value]);
 
   return (
-    <span ref={ref} className="tabular-nums" style={{ color }}>
-      {display}{suffix}
+    <span ref={ref} className="tabular-nums" style={{ fontWeight: 900 }}>
+      <span style={{ color: "#ffffff" }}>{display}</span>
+      <span style={{ color: "#F5C330" }}>{suffix}</span>
     </span>
   );
 }
@@ -67,87 +67,60 @@ function useReveal(threshold = 0.12) {
 }
 
 export default function AdmissionsStats() {
-  const { ref: headRef, visible: headVisible } = useReveal();
   const { ref: gridRef, visible: gridVisible } = useReveal();
 
   return (
-    <section className="relative overflow-hidden py-16 sm:py-20" style={{ background: "#f8fafc" }}>
+    <section className="stats-section relative py-16 sm:py-20 px-6 lg:px-12 overflow-hidden my-10">
+      <div className="absolute inset-0">
+        <img
+          src="/Academic Achievement.jpg"
+          alt="Academic Achievement"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-[#0d1f3c]/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0d1f3c]/40 via-transparent to-[#0d1f3c]/60" />
+      </div>
 
-
-      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-16 xl:px-24">
-        {/* Header */}
-        <div ref={headRef} className="text-center mb-16">
-          <span
-            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-5"
-            style={{
-              color: "#60BADC",
-              opacity: headVisible ? 1 : 0,
-              transform: headVisible ? "translateY(0)" : "translateY(20px)",
-              transition: "all 0.6s ease",
-            }}
-          >
-            <span className="h-px w-8 bg-current inline-block" />
-            By the Numbers
-            <span className="h-px w-8 bg-current inline-block" />
-          </span>
-          <h2
-            className="font-extrabold leading-tight"
-            style={{
-              fontSize: "clamp(2rem, 3.5vw, 3rem)",
-              color: "#0e1e38",
-              opacity: headVisible ? 1 : 0,
-              transform: headVisible ? "translateY(0)" : "translateY(30px)",
-              transition: "all 0.7s ease 0.1s",
-            }}
-          >
-            ISRA Foundation{" "}
-            <span style={{ color: "#60BADC" }}>At a Glance</span>
-          </h2>
-        </div>
-
-        {/* Stats grid */}
-        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {stats.map(({ value, suffix, label, icon: Icon, color, desc }, i) => (
+      <div className="relative z-10 max-w-7xl mx-auto">
+        <div
+          ref={gridRef}
+          className="grid grid-cols-2 sm:grid-cols-4"
+          style={{ position: "relative" }}
+        >
+          {stats.map(({ value, suffix, label, icon: Icon }, i) => (
             <div
               key={label}
-              className="group relative rounded-2xl p-8 text-center overflow-hidden transition-all duration-400"
+              className="stat-item"
               style={{
-                background: "white",
-                border: "1px solid rgba(0,0,0,0.06)",
-                boxShadow: "0 2px 16px rgba(0,0,0,0.05)",
+                textAlign: "center",
+                padding: "0 24px",
+                borderLeft: i !== 0 ? "1px solid rgba(255,255,255,0.18)" : "none",
                 opacity: gridVisible ? 1 : 0,
-                transform: gridVisible ? "translateY(0)" : "translateY(40px)",
-                transition: `opacity 0.65s ease ${i * 0.12}s, transform 0.65s ease ${i * 0.12}s`,
-              }}
-              onMouseEnter={e => {
-                (e.currentTarget as HTMLDivElement).style.transform = "translateY(-8px)";
-                (e.currentTarget as HTMLDivElement).style.boxShadow = `0 20px 50px ${color}25, 0 4px 20px rgba(0,0,0,0.08)`;
-                (e.currentTarget as HTMLDivElement).style.borderColor = `${color}40`;
-              }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLDivElement).style.transform = gridVisible ? "translateY(0)" : "translateY(40px)";
-                (e.currentTarget as HTMLDivElement).style.boxShadow = "0 2px 16px rgba(0,0,0,0.05)";
-                (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(0,0,0,0.06)";
+                transform: gridVisible ? "translateY(0)" : "translateY(20px)",
+                transition: `opacity 0.5s ease ${i * 0.1}s, transform 0.5s ease ${i * 0.1}s`,
               }}
             >
-              {/* Top color bar */}
-              <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl" style={{ background: `linear-gradient(to right, ${color}, ${color}80)` }} />
-
-              {/* Icon */}
-              <div
-                className="mx-auto mb-5 w-16 h-16 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-                style={{ background: `${color}15`, border: `1px solid ${color}25` }}
-              >
-                <Icon size={30} style={{ color }} />
+              <Icon
+                size={36}
+                strokeWidth={1.5}
+                style={{ color: "#ffffff", margin: "0 auto 20px", display: "block" }}
+              />
+              <div className="stat-number" style={{ fontSize: "2.6rem", lineHeight: 1 }}>
+                <Counter value={value} suffix={suffix} />
               </div>
-
-              {/* Counter */}
-              <p className="font-extrabold leading-none mb-2" style={{ fontSize: "clamp(2rem, 4vw, 2.75rem)" }}>
-                <Counter value={value} suffix={suffix} color={color} />
-              </p>
-
-              <p className="font-bold text-sm text-[#0e1e38] mb-1.5">{label}</p>
-              <p className="text-xs text-slate-400">{desc}</p>
+              <div
+                className="stat-label"
+                style={{
+                  marginTop: 14,
+                  fontSize: "0.78rem",
+                  fontWeight: 700,
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.75)",
+                }}
+              >
+                {label}
+              </div>
             </div>
           ))}
         </div>

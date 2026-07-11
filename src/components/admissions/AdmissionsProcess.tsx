@@ -1,193 +1,278 @@
 import { useEffect, useRef, useState } from "react";
-import { FileEdit, ClipboardCheck, Users2, FolderCheck, Wallet, BadgeCheck, LucideIcon, ArrowRight } from "lucide-react";
+// Lucide icons removed
 
-interface Step {
-  number: string;
-  title: string;
-  description: string;
-  icon: LucideIcon;
-  color: string;
-}
+const styleTag = (
+  <style>{`
+    @keyframes photoFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .timeline-photo-circle:hover {
+      transform: scale(1.08);
+      box-shadow: 0 10px 24px rgba(2,6,24,0.22);
+    }
+  `}</style>
+);
 
-const steps: Step[] = [
-  { number: "01", title: "Apply Online", description: "Fill out the registration form via our website or Google Forms.", icon: FileEdit, color: "#60BADC" },
-  { number: "02", title: "Placement Test", description: "Your child takes a grade-level assessment to help us place them correctly.", icon: ClipboardCheck, color: "#F5C330" },
-  { number: "03", title: "Parent Interview", description: "A warm conversation with our admissions coordinators.", icon: Users2, color: "#60BADC" },
-  { number: "04", title: "Document Submission", description: "Submit required educational and birth documents for verification.", icon: FolderCheck, color: "#F5C330" },
-  { number: "05", title: "Fee Deposit", description: "Complete the fee deposit to secure your child's seat.", icon: Wallet, color: "#60BADC" },
-  { number: "06", title: "Confirmation", description: "Receive your welcome letter and the official admission confirmation.", icon: BadgeCheck, color: "#F5C330" },
+const COLORS = {
+  bg: "#f8fafc",
+  card: "#ffffff",
+  gold: "#F5C330",
+  splash: "#E8483C",
+  splashAlt: "#F5C330",
+  ink: "#020618",
+  blue: "#60BADC",
+};
+
+const steps = [
+  { num: "01", title: "Apply Online", desc: "Complete the initial application via our secure online portal or Google Form.", image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=300&q=80" },
+  { num: "02", title: "Placement Test", desc: "A grade-level assessment to evaluate your child's current academic standing.", image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=300&q=80" },
+  { num: "03", title: "Parent Interview", desc: "A collaborative discussion with our admissions team to align on educational goals.", image: "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=300&q=80" },
+  { num: "04", title: "Document Review", desc: "Verification of academic records, birth certificate, and necessary identification.", image: "https://images.unsplash.com/photo-1568225420115-d973715f629c?auto=format&fit=crop&w=300&q=80" },
+  { num: "05", title: "Fee Deposit", desc: "Submission of the admission fee to secure and formalize enrollment.", image: "https://images.unsplash.com/photo-1580519542014-9989fdfdb9e0?auto=format&fit=crop&w=300&q=80" },
+  { num: "06", title: "Confirmation", desc: "Official welcome packet issued, including uniform details and term dates.", image: "https://images.unsplash.com/photo-1570700085888-eb09db240b3d?auto=format&fit=crop&w=300&q=80" },
 ];
 
-function useReveal(threshold = 0.12) {
-  const ref = useRef<HTMLDivElement>(null);
+function useReveal(threshold = 0.25) {
+  const ref = useRef(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } }, { threshold });
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setVisible(true);
+          obs.disconnect();
+        }
+      },
+      { threshold }
+    );
     obs.observe(el);
     return () => obs.disconnect();
   }, [threshold]);
   return { ref, visible };
 }
 
-export default function AdmissionsProcess() {
-  const { ref: headRef, visible: headVisible } = useReveal();
-  const { ref: stepsRef, visible: stepsVisible } = useReveal();
-  const [activeStep, setActiveStep] = useState<number | null>(null);
+// Irregular splash shape sitting behind the photo circle, offset up-left,
+// matching the torn-paper splatter behind each portrait in the reference.
+// Alternates red/gold to match the reference's alternating splash colors.
+function Splash({ flip, color }) {
+  return (
+    <svg
+      width="200"
+      height="200"
+      viewBox="0 0 130 130"
+      style={{
+        position: "absolute",
+        top: -15,
+        left: flip ? "auto" : -20,
+        right: flip ? -20 : "auto",
+        zIndex: 0,
+      }}
+    >
+      <path
+        d="M20 8C40 -4 78 -2 96 14C116 30 128 54 118 76C110 96 90 100 72 112C54 124 30 126 16 108C2 90 8 68 4 48C0 30 4 18 20 8Z"
+        fill={color}
+        opacity="0.9"
+      />
+    </svg>
+  );
+}
+
+function TimelineRow({ step, index }) {
+  const { ref, visible } = useReveal();
+  const isLeft = index % 2 === 0; // 01, 03, 05 -> photo left, text right
+  const fromRight = index % 2 === 0; // odd rows slide from right, even from left
+  const imageSlot = (
+    <div
+      style={{
+        position: "relative",
+        width: 170,
+        height: 170,
+        flexShrink: 0,
+        zIndex: 1,
+        animation: `photoFloat 4s ease-in-out infinite`,
+        animationDelay: `${index * 0.3}s`,
+      }}
+    >
+      <Splash flip={!isLeft} color={isLeft ? COLORS.splash : COLORS.splashAlt} />
+      <div
+        className="timeline-photo-circle"
+        style={{
+          position: "relative",
+          width: 170,
+          height: 170,
+          borderRadius: "50%",
+          background: COLORS.card,
+          border: `3px solid ${COLORS.card}`,
+          boxShadow: "0 4px 14px rgba(2,6,24,0.15)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          transition: "transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease",
+          overflow: "hidden",
+        }}
+      >
+        <img src={step.image} alt={step.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      </div>
+    </div>
+  );
+
+  const content = (
+    <div style={{ textAlign: isLeft ? "left" : "right", width: "100%" }}>
+      <h3
+        style={{
+          fontFamily: "'Playfair Display', Georgia, serif",
+          fontSize: 22,
+          fontWeight: 700,
+          color: COLORS.ink,
+          margin: "0 0 10px",
+        }}
+      >
+        {step.title}
+      </h3>
+      <p style={{ fontSize: 14, lineHeight: 1.7, color: "rgba(2,6,24,0.6)", margin: 0 }}>{step.desc}</p>
+    </div>
+  );
 
   return (
-    <section id="admissions-process" className="scroll-mt-24 relative overflow-hidden py-16 sm:py-20" style={{ background: "#f8fafc" }}>
-
-
-
-
-      <div className="relative max-w-[1400px] mx-auto px-6 lg:px-16 xl:px-24">
-        {/* Header */}
-        <div ref={headRef} className="text-center mb-20">
-          <span
-            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-5"
-            style={{
-              color: "#60BADC",
-              opacity: headVisible ? 1 : 0,
-              transform: headVisible ? "translateY(0)" : "translateY(20px)",
-              transition: "all 0.6s ease",
-            }}
-          >
-            <span className="h-px w-8 bg-current inline-block" />
-            How It Works
-            <span className="h-px w-8 bg-current inline-block" />
-          </span>
-          <h2
-            className="font-extrabold leading-tight"
-            style={{
-              fontSize: "clamp(2rem, 3.5vw, 3rem)",
-              color: "#0e1e38",
-              opacity: headVisible ? 1 : 0,
-              transform: headVisible ? "translateY(0)" : "translateY(30px)",
-              transition: "all 0.7s ease 0.1s",
-            }}
-          >
-            Admission <span style={{ color: "#60BADC" }}>Process</span>
-          </h2>
-          <p
-            className="mt-4 text-slate-500 max-w-xl mx-auto"
-            style={{
-              opacity: headVisible ? 1 : 0,
-              transform: headVisible ? "translateY(0)" : "translateY(20px)",
-              transition: "all 0.7s ease 0.2s",
-            }}
-          >
-            A simple, transparent and guided six-step path from application to confirmation.
-          </p>
-        </div>
-
-        {/* Steps */}
-        <div ref={stepsRef} className="relative">
-          {/* Connector line desktop */}
-          <div
-            className="absolute hidden lg:block"
-            style={{
-              top: 40,
-              left: "8.33%",
-              right: "8.33%",
-              height: 2,
-              background: "linear-gradient(to right, #60BADC30, #F5C33040, #60BADC30)",
-              borderRadius: 99,
-            }}
-          />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6 lg:gap-4">
-            {steps.map(({ number, title, description, icon: Icon, color }, i) => {
-              const isActive = activeStep === i;
-              return (
-                <div
-                  key={number}
-                  className="relative flex flex-col items-center text-center cursor-pointer"
-                  style={{
-                    opacity: stepsVisible ? 1 : 0,
-                    transform: stepsVisible ? "translateY(0)" : "translateY(40px)",
-                    transition: `opacity 0.65s ease ${i * 0.12}s, transform 0.65s ease ${i * 0.12}s`,
-                  }}
-                  onMouseEnter={() => setActiveStep(i)}
-                  onMouseLeave={() => setActiveStep(null)}
-                >
-                  {/* Icon circle */}
-                  <div
-                    className="relative z-10 flex items-center justify-center rounded-full transition-all duration-400 mb-4 shadow-lg"
-                    style={{
-                      width: 80,
-                      height: 80,
-                      background: isActive ? color : "white",
-                      border: `2px solid ${isActive ? color : `${color}40`}`,
-                      boxShadow: isActive ? `0 0 30px ${color}50, 0 4px 20px rgba(0,0,0,0.1)` : "0 4px 15px rgba(0,0,0,0.08)",
-                      transform: isActive ? "scale(1.12)" : "scale(1)",
-                      transition: "all 0.3s ease",
-                    }}
-                  >
-                    <Icon size={28} style={{ color: isActive ? "white" : color }} />
-                    {/* Step number badge */}
-                    <div
-                      className="absolute -top-2 -right-2 w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-extrabold"
-                      style={{
-                        background: color,
-                        color: "#0e1e38",
-                        boxShadow: `0 2px 8px ${color}60`,
-                      }}
-                    >
-                      {number}
-                    </div>
-                  </div>
-
-                  {/* Card */}
-                  <div
-                    className="w-full rounded-2xl p-4 transition-all duration-300"
-                    style={{
-                      background: isActive ? `${color}10` : "rgba(255,255,255,0.8)",
-                      border: `1px solid ${isActive ? `${color}40` : "rgba(0,0,0,0.06)"}`,
-                      boxShadow: isActive ? `0 8px 30px ${color}20` : "0 2px 12px rgba(0,0,0,0.04)",
-                    }}
-                  >
-                    <h3 className="font-bold text-sm text-[#0e1e38] mb-1.5">{title}</h3>
-                    <p className="text-xs text-slate-500 leading-relaxed">{description}</p>
-                  </div>
-                </div>
-              );
-            })}
+    <div
+      ref={ref}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        marginBottom: 64,
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateX(0)" : `translateX(${fromRight ? 60 : -60}px)`,
+        transition: "opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1)",
+      }}
+    >
+      {isLeft ? (
+        <>
+          <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', paddingRight: 40 }}>
+            <div style={{ position: "relative", zIndex: 2 }}>{imageSlot}</div>
           </div>
-        </div>
+          <div style={{ flex: 1, display: 'flex', alignItems: 'center', paddingLeft: 40 }}>
+            {content}
+          </div>
+        </>
+      ) : (
+        <>
+          <div style={{ flex: 1, display: 'flex', alignItems: 'center', paddingRight: 40 }}>
+            {content}
+          </div>
+          <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-start', paddingLeft: 40 }}>
+            <div style={{ position: "relative", zIndex: 2 }}>{imageSlot}</div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
 
-        {/* Bottom CTA banner */}
-        <div
-          className="mt-20 rounded-2xl overflow-hidden relative"
+export default function AdmissionsProcess() {
+  const { ref: headRef, visible: headVisible } = useReveal(0.1);
+
+  return (
+    <section
+      style={{
+        position: "relative",
+        padding: "100px 24px",
+        background: COLORS.bg,
+        fontFamily: "'Inter', sans-serif",
+        overflow: "hidden",
+      }}
+    >
+      {styleTag}
+      <div
+        ref={headRef}
+        style={{
+          textAlign: "center",
+          marginBottom: 80,
+          opacity: headVisible ? 1 : 0,
+          transform: headVisible ? "translateY(0)" : "translateY(24px)",
+          transition: "opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1)",
+        }}
+      >
+        <div className="flex items-center justify-center gap-3 mb-4">
+          <span className="w-8 h-px bg-[#020618]" />
+          <span
+            style={{
+              display: "inline-block",
+              color: "#00000098",
+              fontSize: "0.7rem",
+              fontWeight: 800,
+              padding: "2px 14px",
+              borderRadius: "10px",
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              marginBottom: "6px",
+            }}
+          >
+            The Journey
+          </span>
+          <span className="w-8 h-px bg-[#020618]" />
+        </div>
+        <h2
           style={{
-            background: "linear-gradient(120deg, #0e1e38 0%, #1a2f54 60%, #0e1e38 100%)",
-            border: "1px solid rgba(96,186,220,0.2)",
+            fontFamily: "'Playfair Display', Georgia, serif",
+            fontSize: "clamp(2rem, 4vw, 3rem)",
+            fontWeight: 700,
+            color: COLORS.ink,
+            margin: "0 0 14px",
           }}
         >
-          {/* Glow */}
-          <div className="absolute top-0 right-0 w-64 h-64 rounded-full blur-3xl opacity-15 pointer-events-none" style={{ background: "radial-gradient(circle, #60BADC, transparent)" }} />
-          <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full blur-3xl opacity-10 pointer-events-none" style={{ background: "radial-gradient(circle, #F5C330, transparent)" }} />
+          Admission Process
+        </h2>
+        <p style={{ fontSize: 16, color: "rgba(2,6,24,0.65)", maxWidth: 480, margin: "0 auto", lineHeight: 1.6 }}>
+          A streamlined, transparent pathway designed to welcome your family into our community.
+        </p>
+      </div>
 
-          <div className="relative flex flex-col sm:flex-row items-center justify-between gap-6 px-10 py-8">
-            <div>
-              <h3 className="font-extrabold text-xl sm:text-2xl text-white leading-tight">
-                Start your journey with us <span style={{ color: "#F5C330" }}>today</span>
-              </h3>
-              <p className="mt-1.5 text-sm text-white/50">
-                Seats for the 2025–26 session are filling quickly. Don't miss your spot.
-              </p>
-            </div>
-            <a
-              href="#admissions-registration"
-              className="group shrink-0 flex items-center gap-2.5 font-bold text-sm px-7 py-3.5 rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-              style={{ background: "#F5C330", color: "#0e1e38" }}
+      <div style={{ position: "relative", maxWidth: 900, margin: "0 auto" }}>
+        <div
+          style={{
+            position: "absolute",
+            left: "50%",
+            top: 0,
+            bottom: 0,
+            width: 2,
+            borderLeft: `2px dotted ${COLORS.ink}`,
+            transform: "translateX(-50%)",
+          }}
+        />
+        {steps.map((step, i) => (
+          <div key={step.num} style={{ position: "relative" }}>
+            <div
+              style={{
+                position: "absolute",
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%,-50%)",
+                width: 18,
+                height: 18,
+                borderRadius: "50%",
+                background: COLORS.card,
+                border: `2px solid ${COLORS.ink}`,
+                zIndex: 3,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
-              Register Now
-              <ArrowRight size={17} className="transition-transform duration-300 group-hover:translate-x-1" />
-            </a>
+              <div
+                style={{
+                  width: 7,
+                  height: 7,
+                  borderRadius: "50%",
+                  background: COLORS.ink,
+                }}
+              />
+            </div>
+            <TimelineRow step={step} index={i} />
           </div>
-        </div>
+        ))}
       </div>
     </section>
   );
