@@ -68,6 +68,7 @@ function useReveal(threshold = 0.12) {
 
 export default function AdmissionsStats() {
   const { ref: gridRef, visible: gridVisible } = useReveal();
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
     <section className="stats-section relative py-16 sm:py-20 px-6 lg:px-12 overflow-hidden my-10">
@@ -87,42 +88,67 @@ export default function AdmissionsStats() {
           className="grid grid-cols-2 sm:grid-cols-4"
           style={{ position: "relative" }}
         >
-          {stats.map(({ value, suffix, label, icon: Icon }, i) => (
-            <div
-              key={label}
-              className="stat-item"
-              style={{
-                textAlign: "center",
-                padding: "0 24px",
-                borderLeft: i !== 0 ? "1px solid rgba(255,255,255,0.18)" : "none",
-                opacity: gridVisible ? 1 : 0,
-                transform: gridVisible ? "translateY(0)" : "translateY(20px)",
-                transition: `opacity 0.5s ease ${i * 0.1}s, transform 0.5s ease ${i * 0.1}s`,
-              }}
-            >
-              <Icon
-                size={36}
-                strokeWidth={1.5}
-                style={{ color: "#ffffff", margin: "0 auto 20px", display: "block" }}
-              />
-              <div className="stat-number" style={{ fontSize: "2.6rem", lineHeight: 1 }}>
-                <Counter value={value} suffix={suffix} />
-              </div>
+          {stats.map(({ value, suffix, label, icon: Icon }, i) => {
+            const isHovered = hoveredIndex === i;
+            return (
               <div
-                className="stat-label"
+                key={label}
+                className="stat-item"
+                onMouseEnter={() => setHoveredIndex(i)}
+                onMouseLeave={() => setHoveredIndex(null)}
                 style={{
-                  marginTop: 14,
-                  fontSize: "0.78rem",
-                  fontWeight: 700,
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.75)",
+                  textAlign: "center",
+                  padding: "24px 24px",
+                  borderLeft: i !== 0 ? "1px solid rgba(255,255,255,0.18)" : "none",
+                  opacity: gridVisible ? 1 : 0,
+                  transform: gridVisible
+                    ? isHovered
+                      ? "translateY(-6px)"
+                      : "translateY(0)"
+                    : "translateY(20px)",
+                  transition: `opacity 0.5s ease ${i * 0.1}s, transform 0.3s ease`,
+                  cursor: "pointer",
                 }}
               >
-                {label}
+                <Icon
+                  size={36}
+                  strokeWidth={1.5}
+                  style={{
+                    color: isHovered ? "#F5C330" : "#ffffff",
+                    margin: "0 auto 20px",
+                    display: "block",
+                    transition: "color 0.3s ease, transform 0.3s ease",
+                    transform: isHovered ? "scale(1.12)" : "scale(1)",
+                  }}
+                />
+                <div
+                  className="stat-number"
+                  style={{
+                    fontSize: "2.6rem",
+                    lineHeight: 1,
+                    transition: "transform 0.3s ease",
+                    transform: isHovered ? "scale(1.05)" : "scale(1)",
+                  }}
+                >
+                  <Counter value={value} suffix={suffix} />
+                </div>
+                <div
+                  className="stat-label"
+                  style={{
+                    marginTop: 14,
+                    fontSize: "0.78rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                    color: isHovered ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.75)",
+                    transition: "color 0.3s ease",
+                  }}
+                >
+                  {label}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

@@ -719,16 +719,48 @@ export default function HomeView({
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="lg:col-span-6 space-y-6"
           >
-            <div className="space-y-2">
-              <span className="text-[#383a4d] font-mono text-xs uppercase tracking-[0.25em] font-extrabold block">
-                WELCOME TO
-              </span>
-              <h2 className="font-sans font-black text-slate-900 text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.1]">
-                Isra Foundation <span className="text-[#60badc]"> School</span>
-              </h2>
-            </div>
+<div>
+  {/* Welcome Row */}
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      gap: "10px",
+      marginBottom: "14px",
+    }}
+  >
+    <div
+      style={{
+        width: "32px",
+        height: "3px",
+        background: "#F5C330",
+      }}
+    />
 
-            <p className="text-slate-700 text-sm sm:text-base leading-relaxed font-normal">
+    <span
+      style={{
+        fontSize: "12px",
+        fontFamily:
+          '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+        color: "#020618",
+        fontWeight: 800,
+        letterSpacing: "0.18em",
+        textTransform: "uppercase",
+      }}
+    >
+      WELCOME TO
+    </span>
+  </div>
+
+  {/* Heading */}
+  <h2 className="font-sans font-black text-slate-900 text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight">
+    Isra Foundation
+    <br />
+    <span className="text-[#60badc]">School</span>
+  </h2>
+</div>
+
+            <p className="text-slate-700 text-sm sm:text-base leading-relaxed font-normal text-justify">
               Welcome to Isra Foundation Schools, where
               academic excellence meets holistic character
               development. We provide a modern, value-driven
@@ -835,6 +867,7 @@ export default function HomeView({
             <h2 className="font-sans font-black text-[#0e1e38] text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-[1.1]">
               Why Choose Isra Foundation <span className="text-[#f5c330]">School</span>
             </h2>
+            <div style={{ width:72, height:4, background:"#60bADC", margin:"0 auto 18px" }} />
             <p className="text-slate-500 text-sm sm:text-base leading-relaxed font-normal max-w-2xl mx-auto mt-4">
               We combine dedicated mentorship, strong character formation, and modern learning
               tools to give every student a well-rounded foundation for lifelong success.
@@ -853,7 +886,7 @@ export default function HomeView({
                 key={item.title}
                 variants={fadeUp}
                 whileHover={{ y: -8, transition: { duration: 0.25, ease: "easeOut" } }}
-                className="group relative h-full flex flex-col bg-white  border border-slate-100 shadow-sm hover:shadow-xl p-8 transition-all duration-300 z-10 overflow-hidden"
+                className="group relative h-full flex flex-col bg-white  border border-slate-100 shadow-sm hover:shadow-xl p-8 transition-all duration-300 z-10 overflow-hidden "
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = "#60badc";
                   e.currentTarget.style.backgroundColor = "rgba(96, 186, 220, 0.04)";
@@ -876,7 +909,7 @@ export default function HomeView({
                 <h4 className="font-sans font-extrabold text-[#0e1e38] text-xl leading-snug mb-3">
                   {item.title}
                 </h4>
-                <p className="text-slate-600 text-sm leading-relaxed font-normal">
+                <p className="text-slate-600 text-sm leading-relaxed font-normal text-justify">
                   {item.description}
                 </p>
               </motion.div>
@@ -903,6 +936,7 @@ export default function HomeView({
             <h2 className="font-sans font-black text-slate-900 text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-[1.1]">
               Student Achievement <span className="text-[#60badc]"> <br/>Highlights</span>
             </h2>
+            <div style={{ width:72, height:4, background:"#F5C330", margin:"0 auto 18px" }} />
             <p className="text-slate-500 text-xs sm:text-sm font-normal ">
               Celebrating the remarkable accomplishments of our students in academics, sports,
               competitions, leadership, and community service.
@@ -953,16 +987,16 @@ export default function HomeView({
                 <motion.div
                   whileHover={{ scale: 1.15, rotate: 8 }}
                   transition={{ type: "spring", stiffness: 300, damping: 12 }}
-                  className="icon-wrapper w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300"
+                  className="icon-wrapper w-16 h-16  flex items-center justify-center mb-6 transition-colors duration-300"
                   style={{ backgroundColor: `${item.color}15` }}
                 >
                   <item.icon className="highlight-icon w-7 h-7 transition-colors duration-300" style={{ color: item.color }} />
                 </motion.div>
 
-                <h4 className="font-sans font-extrabold text-slate-900 text-lg leading-snug mb-3">
+                <h4 className="font-sans font-extrabold text-slate text-lg leading-snug mb-3">
                   {item.title}
                 </h4>
-                <p className="text-slate-600 text-sm leading-relaxed font-normal flex-1">
+                <p className="text-slate-600 text-sm leading-relaxed font-normal text-justify">
                   {item.description}
                 </p>
 
@@ -1915,7 +1949,11 @@ export default function HomeView({
         </AnimatePresence>
       </section>
 
+
     </div>
   </div>
+  
 );
+
 }
+

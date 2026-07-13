@@ -122,7 +122,7 @@ export default function AdmissionsEligibility() {
           justify-content: center;
           width: 300px; height: 300px;
           border-radius: 50%;
-          background: linear-gradient(135deg, #0d1f3c, #1a3560);
+          background: linear-gradient(135deg, #020618, #1a3560);
           box-shadow: 
             0 0 0 20px rgba(96,186,220,0.08),
             0 0 0 40px rgba(96,186,220,0.04),
@@ -198,28 +198,29 @@ export default function AdmissionsEligibility() {
               <span className="w-8 h-px bg-[#020618]" />
               <span style={{
               display: "inline-block",
-              color: "#00000098",
-              fontSize: "0.7rem",
+              color: "#020618",
+              fontSize: "12px",
               fontWeight: 800,
               padding: "2px 14px",
               borderRadius: "10px",
               letterSpacing: "0.12em",
               textTransform: "uppercase",
               marginBottom: "6px",
+              fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
             }}> Who Can Apply</span>
           <span className="w-8 h-px bg-[#020618]" />
           </div>
           <h2 style={{
             fontSize:"clamp(2rem, 3.5vw, 3rem)",
             fontWeight:900,
-            color:"#0d1f3c",
+            color:"#020618",
             margin:"0 0 14px",
             lineHeight:1.15,
           }}>
             Eligibility & <span style={{ color:"#60BADC" }}>Programs</span>
           </h2>
-          <div style={{ width:72, height:4, background:"#F5C330", borderRadius:99, margin:"0 auto 18px" }} />
-          <p style={{ color:"#64748b", fontSize:"1rem", maxWidth:520, margin:"0 auto", lineHeight:1.7 }}>
+          <div style={{ width:72, height:4, background:"#F5C330", margin:"0 auto 18px" }} />
+          <p style={{ color:"#020618A6", fontSize:"1rem", maxWidth:520, margin:"0 auto", lineHeight:1.7 }}>
             We welcome students from Pre-Nursery to A Levels with a nurturing, inclusive environment for all learners.
           </p>
         </div>
@@ -257,15 +258,15 @@ export default function AdmissionsEligibility() {
                 <div className="elig-orbit2">
                   <div className="elig-orbit-dot2" />
                 </div>
-                <span style={{ fontSize:"0.75rem", color:"rgba(255,255,255,0.5)", fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:8 }}>
+                <span style={{ fontSize:"0.75rem", color:"#ffffff", fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:8 }}>
                   Pre-Nursery starts at
                 </span>
                 <div style={{ display:"flex", alignItems:"flex-end", gap:4 }}>
                   <span style={{ fontSize:"5rem", fontWeight:900, color:"#F5C330", lineHeight:1 }}>3</span>
-                  <span style={{ fontSize:"1.8rem", fontWeight:700, color:"rgba(255,255,255,0.7)", marginBottom:12 }}>Yrs+</span>
+                  <span style={{ fontSize:"1.8rem", fontWeight:700, color:"#ffffff", marginBottom:12 }}>Yrs+</span>
                 </div>
-                <div style={{ width:48, height:2, background:"rgba(245,195,48,0.4)", borderRadius:99, margin:"10px 0" }} />
-                <span style={{ fontSize:"0.8rem", color:"rgba(255,255,255,0.6)", fontWeight:600 }}>
+                <div style={{ width:48, height:2, background:"#F5C330", margin:"10px 0" }} />
+                <span style={{ fontSize:"0.8rem", color:"#ffffff", fontWeight:600 }}>
                   Minimum Age Requirement
                 </span>
               </div>
@@ -405,7 +406,7 @@ export default function AdmissionsEligibility() {
                   (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 8px 24px rgba(245,195,48,0.35)";
                 }}
               >
-                Apply Now – It's Free
+                Apply Now – It's Free 
               </a>
             </div>
           </div>

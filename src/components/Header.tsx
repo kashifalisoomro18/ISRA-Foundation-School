@@ -136,15 +136,35 @@ export default function Header({
           <marquee>Admissions Open 2026-2027</marquee>
           </span>
         </div>
+
+
+
+      {/* Main Parent Container jo dono blocks ko sath layega */}
+      <div className="hidden lg:flex items-center gap-6 flex-shrink-0">
+        
+        {/* 1. Affiliations Block */}
         <div className="flex items-center gap-4">
           <span className="text-gray-300 font-medium">Affiliations:</span>
-          <span className="bg-primary/20 text-primary px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider">
+          <span className="bg-primary/20 text-primary px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider">
             Cambridge (CAIE)
           </span>
-          <span className="bg-secondary/20 text-secondary px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider">
+          <span className="bg-secondary/20 text-secondary px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider">
             Finland HEI
           </span>
         </div>
+
+        {/* 2. LMS Portal Highlight Action Button */}
+        <button
+          onClick={() => window.open("https://moodle26.ifs.edu.pk/", "_blank")}
+          className="flex items-center gap-1.5 bg-slate-900 text-primary hover:bg-primary/20 border-2 border-primary/40 px-4 py-2.5 text-sm font-semibold transition-all duration-300 shadow hover:shadow-md cursor-pointer select-none"
+        >
+          <GraduationCap className="w-4 h-4 text-primary" />
+          Student LMS Portal
+        </button>
+
+      </div>
+
+
       </div>
 
       {/* Main Header Row */}
@@ -282,16 +302,7 @@ export default function Header({
           </button>
         </nav>
 
-        {/* LMS Portal Highlight Action */}
-        <div className="hidden lg:flex items-center flex-shrink-0">
-          <button
-            onClick={() => handleNav("lms-portal")}
-            className="flex items-center gap-1.5 bg-slate-900 text-primary hover:bg-slate-500 border-2 border-primary/40 px-4 py-2.5 text-sm font-semibold transition-all duration-300 shadow hover:shadow-md cursor-pointer select-none"
-          >
-            <GraduationCap className="w-4 h-4 text-primary" />
-            Student Portal
-          </button>
-        </div>
+
 
         {/* Mobile Menu Button */}
         <button

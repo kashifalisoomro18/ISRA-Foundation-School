@@ -148,37 +148,42 @@ export default function AdmissionsScholarship() {
         }
 
         .schol-cta-btn {
-          display: inline-flex; align-items: center; gap: 0px;
+          display: inline-flex; 
+          align-items: center; 
+          gap: 8px; /* Gap ko 0px se 8px kiya taaki text aur arrow chipke na */
           padding: 16px 36px;
-          background: linear-gradient(135deg, #F5C330, #f0b800);
-          color: #0d1f3c;
-          font-weight: 800; font-size: 1rem;
+          
+          /* Left to Right background fill setup */
+          background: linear-gradient(to right, #f5c330 50%, #F5C330 50%);
+          background-size: 200% 100%;
+          background-position: right bottom;
+          
+          color: #020816; 
+          font-weight: 800; 
+          font-size: 1rem;
           border: none;
           border-radius: 0px;
-          text-decoration: none; cursor: pointer;
+          text-decoration: none; 
+          cursor: pointer;
           box-shadow: 0 8px 30px rgba(245,195,48,0.4);
-          transition: transform 0.25s ease, box-shadow 0.25s ease;
+          
+          /* Transition properties ko smooth kiya */
+          transition: background-position 0.4s ease-out, color 0.3s ease, transform 0.25s ease, box-shadow 0.25s ease;
           position: relative;
-          overflow: hidden;
-        }
-        .schol-cta-btn::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
-          transition: left 0.6s ease;
-        }
-        .schol-cta-btn:hover::before {
-          left: 100%;
-        }
-        .schol-cta-btn:hover {
-          transform: translateY(-3px) scale(1.04);
-          box-shadow: 0 16px 48px rgba(245,195,48,0.55);
         }
 
+        /* Hover Effects */
+        .schol-cta-btn:hover {
+          background-position: left bottom; /* Background left se right slide hoga */
+          color: #020816; /* Dark background par text auto white ho jayega */
+          transform: translateY(-3px) scale(1.04);
+          box-shadow: 0 16px 48px rgba(13, 31, 60, 0.4); /* Shadow ko bhi transition ke mutabik dark kiya */
+        }
+
+        /* Arrow SVG icon ka color white karne ke liye jab hover ho */
+        .schol-cta-btn:hover svg {
+          stroke: #020816 !important;
+        }
         @media(max-width:900px) {
           .schol-grid { flex-direction:column !important; }
           .schol-left  { display:none !important; }

@@ -28,7 +28,7 @@ export default function AdmissionsOnlineCTA() {
         position: "relative",
         overflow: "hidden",
         padding: "100px 24px",
-        background: "linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)",
+        background: "#ffffff",
       }}
     >
       <style>{`
@@ -52,7 +52,6 @@ export default function AdmissionsOnlineCTA() {
           background: linear-gradient(135deg, #F5C330 0%, #f0b800 100%);
           color: #0d1f3c;
           font-weight: 900; font-size: 1.1rem;
-          border: none; border-radius: 26px;
           text-decoration: none; cursor: pointer;
           box-shadow: 0 12px 40px rgba(245,195,48,0.45);
           transition: transform 0.28s ease, box-shadow 0.28s ease;
@@ -82,7 +81,6 @@ export default function AdmissionsOnlineCTA() {
         /* Pulse ring */
         .octa-pulse-ring {
           position: absolute; inset: -4px;
-          border-radius: 30px;
           border: 2px solid rgba(245,195,48,0.6);
           animation: ringExpand 2s ease-out infinite;
         }
@@ -92,7 +90,7 @@ export default function AdmissionsOnlineCTA() {
         .octa-secure-note {
           display: flex; align-items: center; gap: 8px;
           justify-content: center;
-          margin-top: 20px;
+          margin-top: 30px;
           opacity: 0.6;
           transition: opacity 0.3s ease;
         }
@@ -145,27 +143,29 @@ export default function AdmissionsOnlineCTA() {
         }}
       >
         {/* Badge */}
-        <div className="flex items-center justify-center gap-3 mb-4">
-  <span className="w-8 h-px bg-[#020618]" />
+        <div className="flex items-center justify-center gap-3 mb-4 my-20">
+        <span className="w-8 h-px bg-[#020618]" />
 
-  <span
-    style={{
-      display: "inline-block",
-      color: "#00000098",
-      fontSize: "0.7rem",
-      fontWeight: 800,
-      padding: "2px 14px",
-      borderRadius: "10px",
-      letterSpacing: "0.12em",
-      textTransform: "uppercase",
-      marginBottom: "6px",
-    }}
-  >
-    START YOUR APPLICATION
-  </span>
+        <span
+          style={{
+            display: "inline-block",
+            color: "#020816",
+            fontSize: "12px",
+            fontWeight: 800,
+            padding: "2px 14px",
+            borderRadius: "10px",
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+            marginBottom: "6px",
+            fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+          }}
+        >
+          START YOUR APPLICATION
+        </span>
+        
 
-  <span className="w-8 h-px bg-[#020618]" />
-</div>
+        <span className="w-8 h-px bg-[#020618]" />
+      </div>
 
         {/* Heading */}
         <h2 style={{
@@ -227,40 +227,12 @@ export default function AdmissionsOnlineCTA() {
         </div>
 
         {/* Secure note */}
-        <div className="octa-secure-note">
-          <Lock size={14} style={{ color:"#64748b" }} />
-          <span style={{ fontSize:"0.8rem", color:"#64748b", fontWeight:600 }}>
+        <div className="octa-secure-note my-20">
+          <Lock size={14} style={{ color:"#020816" }} />
+          <span style={{ fontSize:"0.8rem", color:"#020816", fontWeight:600 }}>
             Secure Online Registration
           </span>
-          <ExternalLink size={12} style={{ color:"#64748b" }} />
-        </div>
-
-        {/* Divider */}
-        <div style={{ margin:"48px 0 0", display:"flex", alignItems:"center", gap:20 }}>
-          <div style={{ flex:1, height:1, background:"linear-gradient(90deg,transparent,#e2e8f0)" }} />
-          <span style={{ fontSize:"0.75rem", color:"#94a3b8", fontWeight:700, whiteSpace:"nowrap" }}>
-            Or apply in person
-          </span>
-          <div style={{ flex:1, height:1, background:"linear-gradient(90deg,#e2e8f0,transparent)" }} />
-        </div>
-
-        {/* Contact row */}
-        <div style={{
-          display:"flex", flexWrap:"wrap", justifyContent:"center", gap:24,
-          marginTop:24,
-        }}>
-          {[
-            { label:"Call / WhatsApp", value:"+92 317 3700049" },
-            { label:"Landline", value:"022 111 111 437" },
-            { label:"Email", value:"israfoundationschools@gmail.com" },
-          ].map(({ label, value }) => (
-            <div key={label} style={{ textAlign:"center" }}>
-              <div style={{ fontSize:"0.68rem", color:"#94a3b8", fontWeight:700, letterSpacing:"0.1em", textTransform:"uppercase", marginBottom:4 }}>
-                {label}
-              </div>
-              <div style={{ fontSize:"0.88rem", color:"#0d1f3c", fontWeight:700 }}>{value}</div>
-            </div>
-          ))}
+          <ExternalLink size={12} style={{ color:"#020816" }} />
         </div>
       </div>
     </section>

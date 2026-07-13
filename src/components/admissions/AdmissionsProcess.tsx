@@ -20,7 +20,7 @@ const COLORS = {
   gold: "#F5C330",
  splash: "#F5C330",   
  splashAlt: "#60BADC",   
-  ink: "#020618",
+  ink: "#0e1e38",
   blue: "#60BADC",
 };
 
@@ -179,7 +179,7 @@ export default function AdmissionsProcess() {
       style={{
         position: "relative",
         padding: "100px 24px",
-        background: COLORS.bg,
+        background: "#ffffff",
         fontFamily: "'Inter', sans-serif",
         overflow: "hidden",
       }}
@@ -200,14 +200,15 @@ export default function AdmissionsProcess() {
           <span
             style={{
               display: "inline-block",
-              color: "#00000098",
-              fontSize: "0.7rem",
+              color: "#020618",
+              fontSize: "12px",
               fontWeight: 800,
               padding: "2px 14px",
               borderRadius: "10px",
               letterSpacing: "0.12em",
               textTransform: "uppercase",
               marginBottom: "6px",
+              fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
             }}
           >
             The Journey
@@ -219,12 +220,13 @@ export default function AdmissionsProcess() {
             fontFamily: "'Playfair Display', Georgia, serif",
             fontSize: "clamp(2rem, 4vw, 3rem)",
             fontWeight: 700,
-            color: COLORS.ink,
-            margin: "0 0 14px",
+            color: "#0e1e38",
+            margin: "0 0 5px",
           }}
         >
-          Admission Process
+          Admission <span className="text-[#F5C330]">Process</span>
         </h2>
+        <div style={{ width:72, height:4, background:"#F5C330", margin:"0 auto 20px" }} />
         <p style={{ fontSize: 16, color: "rgba(2,6,24,0.65)", maxWidth: 480, margin: "0 auto", lineHeight: 1.6 }}>
           A streamlined, transparent pathway designed to welcome your family into our community.
         </p>

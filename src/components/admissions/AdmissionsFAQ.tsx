@@ -140,12 +140,12 @@ export default function AdmissionsFAQ() {
   return (
     <section
       id="admissions-faq"
-      className="scroll-mt-24"
+      className="scroll-mt-24 my-20"
       style={{
         position: "relative",
         overflow: "hidden",
         padding: "100px 0",
-        background: "linear-gradient(180deg, #f8fafc 0%, #f0f6ff 100%)",
+        background: "#ffffff",
       }}
     >
       <style>{`
@@ -194,14 +194,15 @@ export default function AdmissionsFAQ() {
             <span
               style={{
                 display: "inline-block",
-                color: "#00000098",
-                fontSize: "0.7rem",
+                color: "#020816",
+                fontSize: "12px",
                 fontWeight: 800,
                 padding: "2px 14px",
                 borderRadius: "10px",
                 letterSpacing: "0.12em",
                 textTransform: "uppercase",
                 marginBottom: "6px",
+                fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
               }}
             > Got Questions?</span>
             <span className="w-8 h-px bg-[#020618]" />
@@ -234,43 +235,71 @@ export default function AdmissionsFAQ() {
 
         {/* Bottom CTA */}
         <div style={{
-          marginTop:48, textAlign:"center",
-          padding:"28px 32px",
-          background:"white",
-          borderRadius:0,
-          border:"1.5px solid #eef1f5",
-          boxShadow:"0 4px 20px rgba(13,31,60,0.07)",
+          marginTop: 48, textAlign: "center",
+          padding: "28px 32px",
+          background: "white",
+          borderRadius: 0,
+          border: "1.5px solid #eef1f5",
+          boxShadow: "0 4px 20px rgba(13,31,60,0.07)",
           opacity: headVisible ? 1 : 0,
           transform: headVisible ? "translateY(0)" : "translateY(20px)",
-          transition:"all 0.7s ease 0.8s",
+          transition: "all 0.7s ease 0.8s",
         }}>
-          <p style={{ fontSize:"0.95rem", color:"#475569", margin:"0 0 14px" }}>
+          <p style={{ fontSize: "0.95rem", color: "#475569", margin: "0 0 14px" }}>
             Still have questions? Our admissions team is here to help.
           </p>
           <a
             href="tel:+923173700049"
             style={{
-              display:"inline-flex", alignItems:"center", gap:8,
-              fontSize:"0.9rem", fontWeight:800,
-              color:"#0d1f3c", textDecoration:"none",
-              padding:"12px 28px",
-              background:"rgba(245,195,48,0.1)",
-              border:"1.5px solid rgba(245,195,48,0.35)",
-              borderRadius:0,
-              transition:"all 0.25s ease",
+              display: "inline-flex", alignItems: "center", gap: 8,
+              fontSize: "0.9rem", fontWeight: 800,
+              color: "#0d1f3c", textDecoration: "none",
+              padding: "12px 28px",
+              
+              // Left to right effect ke liye transparent background aur yellow color ka gradient stack
+              backgroundImage: "linear-gradient(to right, #F5C330 50%, rgba(245,195,48,0.1) 50%)",
+              backgroundSize: "200% 100%",
+              backgroundPosition: "right bottom",
+              
+              border: "1px solid #f5c330",
+              borderRadius: 0,
+              transition: "background-position 0.4s ease-out, border-color 0.3s ease, transform 0.25s ease",
             }}
             onMouseEnter={e => {
-              (e.currentTarget as HTMLAnchorElement).style.background = "#F5C330";
-              (e.currentTarget as HTMLAnchorElement).style.borderColor = "#F5C330";
+              const target = e.currentTarget as HTMLAnchorElement;
+              target.style.backgroundPosition = "left bottom";
+              target.style.borderColor = "#F5C330";
+              
+              // Hover par SVG icon ka color dark blue hi rahega readibilty ke liye
+              const svg = target.querySelector("svg");
+              if (svg) svg.style.fill = "#0d1f3c";
             }}
             onMouseLeave={e => {
-              (e.currentTarget as HTMLAnchorElement).style.background = "rgba(245,195,48,0.1)";
-              (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(245,195,48,0.35)";
+              const target = e.currentTarget as HTMLAnchorElement;
+              target.style.backgroundPosition = "right bottom";
+              target.style.borderColor = "rgba(245,195,48,0.35)";
+              
+              // Hover hatne par SVG icon wapis gray ho jayega
+              const svg = target.querySelector("svg");
+              if (svg) svg.style.fill = "#64748b";
             }}
           >
-            📞 Call Us: +92 317 3700049
+            {/* Gray SVG Phone Icon */}
+            <svg 
+              viewBox="0 0 24 24" 
+              style={{ 
+                width: "18px", 
+                height: "18px", 
+                fill: "#64748b", 
+                transition: "fill 0.3s ease" 
+              }}
+            >
+              <path d="M6.62 10.79a15.15 15.15 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.27c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.24.2 2.45.57 3.57a1 1 0 0 1-.27 1.02l-2.18 2.2z"/>
+            </svg>
+            Call Us: +92 317 3700049
           </a>
         </div>
+
       </div>
     </section>
   );

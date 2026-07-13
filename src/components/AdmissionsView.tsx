@@ -74,7 +74,7 @@ export default function AdmissionsView({ subView, onSubmitApplication }: Admissi
           justify-content: center;
           padding: 16px 34px;
           background: #ffffff;
-          color: #020618;
+          color: #020816;
           font-weight: 700;
           font-size: 16px;
           border: none;
@@ -85,7 +85,7 @@ export default function AdmissionsView({ subView, onSubmitApplication }: Admissi
           position: absolute;
           top: 0; left: -100%;
           width: 100%; height: 100%;
-          background: #60BADC;
+          background: #f5c330;
           transition: left 0.45s ease;
           z-index: 0;
         }
@@ -98,9 +98,9 @@ export default function AdmissionsView({ subView, onSubmitApplication }: Admissi
           transition: color .35s ease;
         }
         .success-btn:hover .success-btn-bg { left: 0; }
-        .success-btn:hover .success-btn-content { color: white; }
+        .success-btn:hover .success-btn-content { color: #020816; }
         .success-btn:hover svg {
-          color: white;
+          color: #020816;
           transform: translateX(4px);
           transition: .3s;
         }

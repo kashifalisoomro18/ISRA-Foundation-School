@@ -1052,7 +1052,7 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
             >
               {/* Eyebrow */}
               <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
-                <div style={{ width: "32px", height: "3px", background: "#F5C330", borderRadius: "9999px" }} />
+                <div style={{ width: "32px", height: "3px", background: "#F5C330"}} />
                   <span style={{ 
                     fontSize: "12px", 
                     fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace', 
