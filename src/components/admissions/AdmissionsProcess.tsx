@@ -18,19 +18,19 @@ const COLORS = {
   bg: "#f8fafc",
   card: "#ffffff",
   gold: "#F5C330",
-  splash: "#E8483C",
-  splashAlt: "#F5C330",
+ splash: "#F5C330",   
+ splashAlt: "#60BADC",   
   ink: "#020618",
   blue: "#60BADC",
 };
 
 const steps = [
-  { num: "01", title: "Apply Online", desc: "Complete the initial application via our secure online portal or Google Form.", image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=300&q=80" },
-  { num: "02", title: "Placement Test", desc: "A grade-level assessment to evaluate your child's current academic standing.", image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=300&q=80" },
-  { num: "03", title: "Parent Interview", desc: "A collaborative discussion with our admissions team to align on educational goals.", image: "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=300&q=80" },
-  { num: "04", title: "Document Review", desc: "Verification of academic records, birth certificate, and necessary identification.", image: "https://images.unsplash.com/photo-1568225420115-d973715f629c?auto=format&fit=crop&w=300&q=80" },
-  { num: "05", title: "Fee Deposit", desc: "Submission of the admission fee to secure and formalize enrollment.", image: "https://images.unsplash.com/photo-1580519542014-9989fdfdb9e0?auto=format&fit=crop&w=300&q=80" },
-  { num: "06", title: "Confirmation", desc: "Official welcome packet issued, including uniform details and term dates.", image: "https://images.unsplash.com/photo-1570700085888-eb09db240b3d?auto=format&fit=crop&w=300&q=80" },
+  { num: "01", title: "Apply Online", desc: "Complete the initial application via our secure online portal or Google Form.", image: "step1-apply-online.jpg" },
+  { num: "02", title: "Placement Test", desc: "A grade-level assessment to evaluate your child's current academic standing.", image: "step2-placement-test.jpg" },
+  { num: "03", title: "Parent Interview", desc: "A collaborative discussion with our admissions team to align on educational goals.", image: "step3-parent-interview.jpg" },
+  { num: "04", title: "Document Review", desc: "Verification of academic records, birth certificate, and necessary identification.", image: "step4-document-review.jpg" },
+  { num: "05", title: "Fee Deposit", desc: "Submission of the admission fee to secure and formalize enrollment.", image: "step5-fee-deposit.jpg" },
+  { num: "06", title: "Confirmation", desc: "Official welcome packet issued, including uniform details and term dates.", image: "step6-confirmation.jpg" },
 ];
 
 function useReveal(threshold = 0.25) {
