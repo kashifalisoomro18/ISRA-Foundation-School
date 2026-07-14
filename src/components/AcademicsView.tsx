@@ -167,12 +167,12 @@ function SectionHeading({
           marginBottom: "16px",
         }}
       >
-        <span style={{ width: "32px", height: "1px", background: "#0d1f3c" }} />
+        <span style={{ width: "32px", height: "1px", background: "#020816" }} />
         <span
           style={{
             display: "inline-block",
-            color: "#00000098",
-            fontSize: "0.7rem",
+            color: "#020816",
+            fontSize: "12px",
             fontWeight: 800,
             padding: "2px 14px",
             borderRadius: "10px",
@@ -199,13 +199,13 @@ function SectionHeading({
       </h2>
       <div className="section-divider mx-auto" />
       {description && (
-        <p className="text-sm sm:text-base text-slate-500 leading-relaxed text-justify max-w-2xl mx-auto mt-4">
+        <p className="text-sm sm:text-base text-[#020816] leading-relaxed text-justify max-w-2xl mx-auto mt-4">
           {description}
         </p>
       )}
       {subDescription && (
-        <p className="text-xs sm:text-sm text-slate-400 leading-relaxed text-justify max-w-2xl mx-auto mt-2">
-          {subDescription}
+        <p className="text-xs sm:text-sm text-[#020816] leading-relaxed text-justify max-w-2xl mx-auto mt-2">
+  {subDescription}
         </p>
       )}
     </div>
@@ -230,7 +230,7 @@ function OverviewSection() {
       <div className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen bg-slate-100 ">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center p-8 sm:p-10">
           <div className="space-y-5">
-            <p className="font-semibold text-sm sm:text-base leading-relaxed text-justigy text-[#0d1f3c]">
+            <p className="font-semibold text-sm sm:text-base leading-relaxed text-justify text-[#0d1f3c]">
               At each grade level, students are challenged academically and personally to learn
               and grow. Our academic program is designed to teach students the knowledge, skills,
               and attitudes that will best prepare them for success in a global society.
@@ -272,67 +272,82 @@ const dualCore = [
     Icon: GraduationCap,
   },
 ];
-
 function DualAcademicCoreSection() {
   return (
     <div className="space-y-10" id="dual-academic-blocks">
       <SectionHeading
         eyebrow="Dual Curriculum"
-        accent={<span style={{ color: "#F5C330" }}> Academic Excellence</span>}
+        heading="Academic"
+        accent={<span style={{ color: "#F5C330" }}> Excellence</span>}
       />
       <div className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen">
-        <div className="max-w-[1600px] mx-auto px-6 sm:px-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-        {dualCore.map(({ eyebrow, title, desc, tags, tone, Icon }) => {
-          const isBlue = tone === "blue";
-          const accentColor = isBlue ? "#60BADC" : "#F5C330";
-          const initials = title
-            .split(" ")
-            .map((w) => w[0])
-            .slice(0, 2)
-            .join("");
-          return (
-            <div
-              key={title}
-              className="overflow-hidden shadow-lg border border-slate-100 bg-white grid grid-cols-1 sm:grid-cols-[0.9fr_1.1fr]"
-            >
-              {/* Photo / watermark panel */}
-              <div
-                className={`relative min-h-[220px] sm:min-h-[300px] flex items-center justify-center overflow-hidden ${isBlue
-                    ? "bg-gradient-to-br from-slate-500 via-slate-700 to-slate-950"
-                    : "bg-gradient-to-br from-amber-200 via-amber-500 to-slate-900"
-                  }`}
+        <div className="max-w-[1600px] mx-auto px-6 sm:px-12 space-y-8 md:space-y-10">
+          {dualCore.map(({ eyebrow, title, desc, tags, tone, Icon }, idx) => {
+            const isBlue = tone === "blue";
+            const accentColor = isBlue ? "#60BADC" : "#F5C330";
+            const initials = title
+              .split(" ")
+              .map((w) => w[0])
+              .slice(0, 2)
+              .join("");
+            const isFirst = idx === 0;
+            return (
+              <motion.div
+                key={title}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: idx * 0.15 }}
+                whileHover={{ y: -6, transition: { duration: 0.25 } }}
+                className={`w-full md:w-[85%] overflow-hidden shadow-lg border border-slate-100 bg-white flex flex-col sm:flex-row ${
+                  isFirst ? "self-start ml-0" : "self-end ml-auto"
+                }`}
               >
-                <span className="font-black text-white/20 text-8xl sm:text-9xl select-none">
-                  {initials}
-                </span>
-                <div className="absolute top-4 left-4 w-9 h-9 bg-black/20 backdrop-blur-sm flex items-center justify-center">
-                  <Icon className="w-4 h-4 text-white/90" strokeWidth={1.75} />
-                </div>
-              </div>
-
-              {/* Info panel */}
-              <div className="p-6 sm:p-8 space-y-4 flex flex-col justify-center">
-                <span
-                  className="font-mono text-[10px] uppercase tracking-widest font-extrabold w-fit px-2.5 py-1 "
-                  style={{ backgroundColor: `${accentColor}1A`, color: accentColor }}
-                >
-                  {eyebrow}
-                </span>
-                <h3 className="text-2xl sm:text-3xl font-black text-slate-900 leading-tight tracking-tight uppercase">
-                  {title}
-                </h3>
-                <div className="h-1 w-14" style={{ backgroundColor: accentColor }}></div>
-                <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">{desc}</p>
+                {/* Photo / watermark panel */}
                 <div
-                  className="text-[10px] sm:text-xs font-bold uppercase tracking-widest"
-                  style={{ color: accentColor }}
+                  className={`relative min-h-[220px] sm:min-h-[280px] sm:w-[42%] flex items-center justify-center overflow-hidden ${
+                    isBlue
+                      ? "bg-gradient-to-br from-slate-500 via-slate-700 to-slate-950"
+                      : "bg-gradient-to-br from-amber-200 via-amber-500 to-slate-900"
+                  }`}
                 >
-                  {tags}
+                  <span className="font-black text-white/20 text-8xl sm:text-9xl select-none">
+                    {initials}
+                  </span>
+                  <div className="absolute top-4 left-4 w-9 h-9 bg-black/20 backdrop-blur-sm flex items-center justify-center">
+                    <Icon className="w-4 h-4 text-white/90" strokeWidth={1.75} />
+                  </div>
+                  <div
+                    className="absolute bottom-4 left-4 font-mono text-[11px] font-extrabold px-2.5 py-1"
+                    style={{ backgroundColor: accentColor, color: "#0B1220" }}
+                  >
+                    {String(idx + 1).padStart(2, "0")} / {String(dualCore.length).padStart(2, "0")}
+                  </div>
                 </div>
-              </div>
-            </div>
-          );
-        })}
+
+                {/* Info panel */}
+                <div className="sm:w-[58%] p-6 sm:p-10 space-y-4 flex flex-col justify-center">
+                  <span
+                    className="font-mono text-[10px] uppercase tracking-widest font-extrabold w-fit px-2.5 py-1 rounded-full"
+                    style={{ backgroundColor: `${accentColor}1A`, color: accentColor }}
+                  >
+                    {eyebrow}
+                  </span>
+                  <h3 className="text-2xl sm:text-3xl font-black text-slate-900 leading-tight tracking-tight uppercase">
+                    {title}
+                  </h3>
+                  <div className="h-1 w-14" style={{ backgroundColor: accentColor }}></div>
+                  <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">{desc}</p>
+                  <div
+                    className="text-[10px] sm:text-xs font-bold uppercase tracking-widest"
+                    style={{ color: accentColor }}
+                  >
+                    {tags}
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -387,7 +402,7 @@ function TeachingMethodologySection() {
               show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
             }}
             whileHover={{ y: -8, transition: { duration: 0.25, ease: "easeOut" } }}
-            className="group relative h-full flex flex-col bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl p-8 transition-all duration-300 z-10 overflow-hidden"
+            className="group relative h-full flex flex-col bg-white border border-slate-100 shadow-sm hover:shadow-xl p-8 transition-all duration-300 z-10 overflow-hidden"
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = "#60badc";
               e.currentTarget.style.backgroundColor = "rgba(96, 186, 220, 0.04)";
@@ -404,7 +419,7 @@ function TeachingMethodologySection() {
             <motion.div
               whileHover={{ scale: 1.15, rotate: -6 }}
               transition={{ type: "spring", stiffness: 300, damping: 12 }}
-              className="w-14 h-14 rounded-2xl bg-[#60badc]/10 flex items-center justify-center mb-6 group-hover:bg-[#60badc]/20 transition-colors duration-300"
+              className="w-14 h-14  bg-[#60badc]/10 flex items-center justify-center mb-6 group-hover:bg-[#60badc]/20 transition-colors duration-300"
             >
               <Icon className="w-7 h-7 text-[#60badc] transition-colors duration-300" />
             </motion.div>
@@ -471,11 +486,11 @@ function AcademicsHeroBanner() {
           marginBottom: 20,
         }}
       >
-        <span style={{ width: 32, height: 1, background: "rgba(255,255,255,0.5)" }} />
+        <span style={{ width: 32, height: 1, background: "#F5C330" }} />
         <span
           style={{
             display: "inline-block",
-            color: "rgba(255,255,255,0.75)",
+            color: "#F5C330",
             fontSize: "0.7rem",
             fontWeight: 800,
             padding: "2px 14px",
@@ -484,9 +499,9 @@ function AcademicsHeroBanner() {
             textTransform: "uppercase",
           }}
         >
-          Admissions Open 2025&ndash;26
+          Admissions Open 2026&ndash;27
         </span>
-        <span style={{ width: 32, height: 1, background: "rgba(255,255,255,0.5)" }} />
+        <span style={{ width: 32, height: 1, background: "#F5C330" }} />
       </div>
 
       {/* Heading */}
@@ -521,34 +536,12 @@ function AcademicsHeroBanner() {
 
       {/* CTAs */}
       <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
-        <a
-          href="#academics-curriculum"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-            padding: "15px 26px",
-            fontSize: "0.9rem",
-            fontWeight: 800,
-            borderRadius: 0,
-            textDecoration: "none",
-            background: COLORS.gold,
-            color: COLORS.ink,
-            boxShadow: "0 8px 24px rgba(245,195,48,0.35)",
-            transition: "transform 0.25s ease, box-shadow 0.25s ease",
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-3px)";
-            (e.currentTarget as HTMLAnchorElement).style.boxShadow =
-              "0 16px 36px rgba(245,195,48,0.5)";
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(0)";
-            (e.currentTarget as HTMLAnchorElement).style.boxShadow =
-              "0 8px 24px rgba(245,195,48,0.35)";
-          }}
-        >
-          Explore Curriculum &rarr;
+        <a href="#academics-curriculum" className="curriculum-btn">
+          <span className="curriculum-btn-bg"></span>
+          <span className="curriculum-btn-content">
+            Explore Curriculum 
+           
+          </span>
         </a>
       </div>
       </div>
@@ -948,36 +941,98 @@ export default function AcademicsView({
           width: 64px;
           height: 4px;
           background: #F5C330;
-          border-radius: 9999px;
+          border-radius:0px;
           margin-top: 16px;
         }
 
-        .about-nav-tab {
-          padding: 10px 28px;
-          font-size: 0.85rem;
-          font-weight: 700;
-          border-radius: 1px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          letter-spacing: 0.04em;
-          text-transform: uppercase;
-          border: none;
-          outline: none;
-        }
+       .about-nav-tab {
+  padding: 10px 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 0px;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: center;
+  border: none;
+  outline: none;
+}
 
-        .about-nav-tab.active {
-          background: #F5C330;
-          color: #0d1f3c;
-        }
+.about-nav-tab.active {
+  background: #F5C330;
+  color: #0d1f3c;
+}
 
-        .about-nav-tab:not(.active) {
-          background: transparent;
-          color: rgba(255,255,255,0.7);
-        }
+.about-nav-tab:not(.active) {
+  background: transparent;
+  color: rgba(255,255,255,0.7);
+}
 
-        .about-nav-tab:not(.active):hover {
-          color: #F5C330;
-        }
+.about-nav-tab:not(.active):hover {
+  color: #ffffff;
+}
+
+        /* Hover button matching AboutView section 5 */
+.curriculum-btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 26px;
+  background: #F5C330;
+  color: #ffffffff;
+  border-radius: 0;
+  box-sizing: border-box;
+  font-weight: 800;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: color .35s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(245,195,48,0.35);
+}
+
+.curriculum-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px rgba(245,195,48,0.5);
+}
+
+.curriculum-btn-bg {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: #60BADC;
+  transition: left 0.45s ease;
+  z-index: 0;
+}
+.curriculum-btn-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: color .35s ease;
+}
+
+.curriculum-btn:hover .curriculum-btn-bg {
+  left: 0;
+}
+
+.curriculum-btn:hover .curriculum-btn-content {
+  color: white;
+}
+
+.curriculum-btn:hover svg {
+  color: white;
+  transform: translateX(4px);
+  transition: .3s;
+}
       `}</style>
 
       {/* Immersive hero — matches About's hero exactly (image + navy gradient + gold accent line) */}
@@ -1031,9 +1086,9 @@ export default function AcademicsView({
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Sub-nav — gold pill tabs on a navy bar, matching About's O Level / A Level switcher */}
+        {/* Sub-nav  */}
         <div className="flex justify-center mb-14" id="academics-nav">
-          <div className="flex gap-2 bg-[#0d1f3c] p-1.5">
+          <div className="flex w-full max-w-3xl bg-[#0d1f3c] p-2">
             {[
               { id: "curriculum", label: "Curriculum Overview" },
               { id: "timings", label: "Daily Schedules" },
@@ -1042,7 +1097,7 @@ export default function AcademicsView({
               <button
                 key={tab.id}
                 onClick={() => setSubView(tab.id as AcademicsSubView)}
-                className={`about-nav-tab ${subView === tab.id ? "active" : ""}`}
+                className={`about-nav-tab flex-1 ${subView === tab.id ? "active" : ""}`}
                 id={`nav-${tab.id}`}
                 aria-selected={subView === tab.id}
                 role="tab"
@@ -1053,39 +1108,57 @@ export default function AcademicsView({
           </div>
         </div>
 
-        {/* 1. Curriculum Overview */}
+        {/* ============================================================
+            1. CURRICULUM OVERVIEW
+        ============================================================ */}
         {subView === "curriculum" && (
           <div className="space-y-0 animate-fadeIn" id="academics-curriculum">
 
-            {/* ── Section 1: Overview ────────────────────────────── */}
-            <div id="section-overview" className="py-12">
+            {/* ============================================================
+                1a. OVERVIEW
+            ============================================================ */}
+            <section id="section-overview" className="py-12">
               <OverviewSection />
-            </div>
+            </section>
 
-            {/* ── Section 2: Finland / Cambridge Dual Core cards ── */}
-            <div id="section-dual-core" className="py-12 border-t border-slate-100">
+            {/* ============================================================
+                1b. FINLAND / CAMBRIDGE DUAL CORE
+            ============================================================ */}
+            <section id="section-dual-core" className="py-12">
               <DualAcademicCoreSection />
-            </div>
+            </section>
 
-            {/* ── Section 3: School Level Showcase ────────────── */}
-            <div id="section-school-levels" className="py-4 border-t border-slate-100">
+           
+
+            {/* ============================================================
+                1d. SCHOOL LEVELS SHOWCASE
+            ============================================================ */}
+            <section id="section-school-levels" className="py-4">
               <SchoolLevelsShowcaseSection setSubView={setSubView} />
-            </div>
+            </section>
 
-            {/* ── Section 4: Teaching Methodology ────────── */}
-            <div id="section-methodology" className="py-16 border-t border-slate-100">
+
+
+             {/* ============================================================
+                1c. TEACHING METHODOLOGY
+            ============================================================ */}
+            <section id="section-methodology" className="py-16">
               <TeachingMethodologySection />
-            </div>
+            </section>
 
-            {/* ── Section 5: Academics Hero Banner (NEW — placed last) ── */}
-            <div id="section-academics-hero" className="-mb-12">
+            {/* ============================================================
+                1e. ACADEMICS HERO BANNER
+            ============================================================ */}
+            <section id="section-academics-hero" className="-mb-12">
               <AcademicsHeroBanner />
-            </div>
+            </section>
 
           </div>
         )}
 
-        {/* 2. School Timings */}
+        {/* ============================================================
+            2. SCHOOL TIMINGS
+        ============================================================ */}
         {subView === "timings" && (
           <div className="max-w-4xl mx-auto space-y-10 animate-fadeIn" id="academics-timings">
             <SectionHeading
@@ -1133,7 +1206,9 @@ export default function AcademicsView({
           </div>
         )}
 
-        {/* 3. Academic Calendar */}
+        {/* ============================================================
+            3. ACADEMIC CALENDAR
+        ============================================================ */}
         {subView === "calendar" && (
           <div className="space-y-10 animate-fadeIn" id="academics-calendar">
             <SectionHeading
