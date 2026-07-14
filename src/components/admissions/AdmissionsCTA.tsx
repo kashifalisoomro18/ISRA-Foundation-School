@@ -88,7 +88,6 @@ export default function AdmissionsCTA() {
             </div>
           </div>
 
-
         </div>
       </div>
     </section>
