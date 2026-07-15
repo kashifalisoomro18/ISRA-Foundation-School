@@ -149,15 +149,17 @@ function SectionHeading({
   accent,
   description,
   subDescription,
+  dividerColor,
 }: {
   eyebrow: string;
   heading: React.ReactNode;
   accent?: React.ReactNode;
   description?: string;
   subDescription?: string;
+  dividerColor?: string;
 }) {
   return (
-    <div style={{ textAlign: "center", marginBottom: "72px" }}>
+    <div style={{ textAlign: "center", marginBottom: "52px" }}>
       <div
         style={{
           display: "flex",
@@ -197,7 +199,7 @@ function SectionHeading({
         {heading}
         {accent}
       </h2>
-      <div className="section-divider mx-auto" />
+      <div className="section-divider mx-auto" style={dividerColor ? { background: dividerColor } : undefined} />
       {description && (
         <p className="text-sm sm:text-base text-[#020816] leading-relaxed text-justify max-w-2xl mx-auto mt-4">
           {description}
@@ -218,14 +220,18 @@ function SectionHeading({
 
 function OverviewSection() {
   return (
-    <div className="space-y-8" id="academics-overview">
-      <SectionHeading
-        eyebrow="Academic Program"
-        heading="Curriculum"
-        accent={<span style={{ color: "#60BADC" }}> Overview</span>}
-        description="The curriculum focuses on a rigorous and creative academic foundation that aims at developing intellectual curiosity, critical thinking, and problem-solving skills amongst our students."
-        subDescription="Our renowned curriculum and devoted faculty uphold the high standards we have maintained for nearly four decades."
-      />
+      <div className="space-y-8" id="academics-overview">
+     <SectionHeading
+  eyebrow={
+    <span style={{ fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>
+      Academic Program
+    </span>
+  }
+  heading= "Curriculum"
+  accent={<span style={{ color: "#60BADC" }}> Overview</span>}
+  description="The curriculum focuses on a rigorous and creative academic foundation that aims at developing intellectual curiosity, critical thinking, and problem-solving skills amongst our students."
+  subDescription="Our renowned curriculum and devoted faculty uphold the high standards we have maintained for nearly four decades."
+/>
 
       <div className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen bg-slate-100 ">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center p-8 sm:p-10">
@@ -274,11 +280,12 @@ const dualCore = [
 ];
 function DualAcademicCoreSection() {
   return (
-    <div className="space-y-10" id="dual-academic-blocks">
+  <div className="space-y-10" id="dual-academic-blocks">
       <SectionHeading
-        eyebrow="Dual Curriculum"
-        heading="Academic"
-        accent={<span style={{ color: "#F5C330" }}> Excellence</span>}
+      eyebrow={ <span style={{ fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>
+        Dual Curriculum</span> } 
+      heading="Academic"
+      accent={<span style={{ color: "#F5C330" }}> Excellence</span>}
       />
       <div className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen">
         <div className="max-w-[1600px] mx-auto px-6 sm:px-12 space-y-8 md:space-y-10">
@@ -299,8 +306,8 @@ function DualAcademicCoreSection() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: idx * 0.15 }}
                 whileHover={{ y: -6, transition: { duration: 0.25 } }}
-                className={`w-full md:w-[85%] overflow-hidden shadow-lg border border-slate-100 bg-white flex flex-col sm:flex-row ${
-                  isFirst ? "self-start ml-0" : "self-end ml-auto"
+                className={`w-full md:w-[85%] overflow-hidden shadow-lg border border-slate-100 bg-white flex flex-col mx-auto ${
+                  isFirst ? "sm:flex-row" : "sm:flex-row-reverse"
                 }`}
               >
                 {/* Photo / watermark panel */}
@@ -378,9 +385,13 @@ const methodology = [
 
 function TeachingMethodologySection() {
   return (
-    <div className="space-y-12" id="academics-methodology">
+    <div className="space-y-10 mb-12" id="academics-methodology">
       <SectionHeading
-        eyebrow="Our Approach"
+        eyebrow={
+          <span style={{ fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>
+            Our Approach
+          </span>
+        }
         heading="How We Bring Learning"
         accent={<span style={{ color: "#60BADC" }}> To Life</span>}
       />
@@ -440,20 +451,18 @@ function TeachingMethodologySection() {
 /* ------------------------------------------------------------------ */
 /* ACADEMICS HERO BANNER — added after Teaching Methodology            */
 /* ------------------------------------------------------------------ */
-
 function AcademicsHeroBanner() {
   return (
     <section
       id="academics-hero-banner"
-      className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen h-[auto] min-h-[500px] flex items-center overflow-hidden py-16 lg:py-24"
+      className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen h-[auto] min-h-[500px] flex items-center overflow-hidden"
+      style={{
+        backgroundImage: "url('/building-image1.jpg')",
+        backgroundAttachment: "fixed",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+      }}
     >
-      {/* Background image */}
-      <img
-        src="/building-image1.jpg"
-        alt=""
-        aria-hidden="true"
-        className="absolute inset-0 w-full h-full object-cover object-center"
-      />
 
       {/* Dark overlay so text stays readable */}
       <div
@@ -536,7 +545,33 @@ function AcademicsHeroBanner() {
 
       {/* CTAs */}
       <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
-        <a href="#academics-curriculum" className="curriculum-btn">
+        <a 
+          href="#academics-curriculum" 
+          className="curriculum-btn"
+          onClick={(e) => {
+            e.preventDefault();
+            const target = document.getElementById('academics-curriculum');
+            if (target) {
+              const targetPosition = target.getBoundingClientRect().top + window.scrollY;
+              const startPosition = window.scrollY;
+              const distance = targetPosition - startPosition;
+              const duration = 1500; // 1.5 seconds for a slower scroll
+              let start: number | null = null;
+
+              const step = (timestamp: number) => {
+                if (!start) start = timestamp;
+                const progress = timestamp - start;
+                const easeInOutCubic = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+                const percentage = Math.min(progress / duration, 1);
+                window.scrollTo(0, startPosition + distance * easeInOutCubic(percentage));
+                if (progress < duration) {
+                  window.requestAnimationFrame(step);
+                }
+              };
+              window.requestAnimationFrame(step);
+            }
+          }}
+        >
           <span className="curriculum-btn-bg"></span>
           <span className="curriculum-btn-content">
             Explore Curriculum 
@@ -548,6 +583,7 @@ function AcademicsHeroBanner() {
     </section>
   );
 }
+
 
 /* ------------------------------------------------------------------ */
 /* SCHOOL LEVELS OVERLAPPING SHOWCASE                                   */
@@ -562,13 +598,16 @@ function SchoolLevelsShowcaseSection({ setSubView }: SchoolLevelsShowcaseSection
   const goToCurriculum = () => setSubView("curriculum");
 
   return (
-    <section className="space-y-24 overflow-visible pt-32" id="fps-school-levels-showcase">
-      <SectionHeading
-        eyebrow="Academic Pathways"
+    <section className="space-y-16 overflow-visible pt-16" id="fps-school-levels-showcase">
+          <SectionHeading
+      eyebrow={
+  <span style={{ fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>
+    Academic Pathways
+  </span>
+}
         heading="Levels "
         accent={<span style={{ color: "#60BADC" }}> Offered</span>}
       />
-
       {/* 1. Elementary School Block (Navy Theme - Match Reference Image 1) */}
       <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 my-50" id="elementary-level-card">
         <div className="relative my-20">
@@ -722,7 +761,7 @@ function SchoolLevelsShowcaseSection({ setSubView }: SchoolLevelsShowcaseSection
           <motion.div
             whileHover={{ y: -10 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="bg-[#F5C330] p-8 sm:p-12 lg:p-16 relative overflow-visible shadow-lg hover:shadow-2xl transition-shadow duration-500 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px] w-full sm:w-[92%] ml-auto"
+            className="bg-[#F5C330] p-8 sm:p-12 lg:p-16 relative overflow-visible shadow-lg hover:shadow-2xl transition-shadow duration-500 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px] w-full sm:w-[92%] "
           >
 
             {/* Left Column: Narrative details and button — slides in from the left */}
@@ -1039,8 +1078,7 @@ export default function AcademicsView({
       <section
         className="relative h-[420px] lg:h-[430px] overflow-hidden"
         style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1600&q=80')",
+          backgroundImage: "url('building-image1.jpg')",
           backgroundAttachment: "fixed",
           backgroundPosition: "center",
           backgroundSize: "cover",
@@ -1070,7 +1108,7 @@ export default function AcademicsView({
           >
             <h1
               style={{
-                fontSize: "clamp(48px, 6vw, 72px)",
+                fontSize: "clamp(56px, 7vw, 80px)",
                 fontWeight: 750,
                 lineHeight: "1",
                 letterSpacing: "-3px",
