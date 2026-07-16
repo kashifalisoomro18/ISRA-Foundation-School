@@ -267,7 +267,12 @@ const dualCore = [
     desc: "Sensory-led, active exploration modules built with Finnish education consultants. We guide student confidence, tactile exploration, child-centric discovery, and cooperative communication.",
     tags: "PRE-NURSERY • NURSERY • KINDERGARTEN",
     tone: "blue",
-    Icon: ShieldCheck,
+    image: "/finland_hei.png",
+    Icon: () => (
+      <div className="bg-[#60BADC]  p-1.5 text-white mr-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+    )
   },
   {
     eyebrow: "MIDDLE & HIGH SCHOOL",
@@ -275,7 +280,12 @@ const dualCore = [
     desc: "Intensive syllabus, board diagnostic mock-evaluations, certified laboratory work, and advanced analytical reasoning designed to prepare change-makers for global tertiary pathways.",
     tags: "GRADES 6-8 • CAMBRIDGE CAIE O & A LEVELS",
     tone: "gold",
-    Icon: GraduationCap,
+    image: "/cambridge_rigor.png",
+    Icon: () => (
+      <div className="bg-[#F5C330]  p-1.5 text-white mr-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+      </div>
+    )
   },
 ];
 function DualAcademicCoreSection() {
@@ -289,15 +299,10 @@ function DualAcademicCoreSection() {
       dividerColor="#60BADC"
       />
       <div className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen">
-        <div className="max-w-[1600px] mx-auto px-6 sm:px-12 space-y-8 md:space-y-10">
-          {dualCore.map(({ eyebrow, title, desc, tags, tone, Icon }, idx) => {
+        <div className="max-w-[1600px] mx-auto px-6 sm:px-12 space-y-8 md:space-y-20">
+          {dualCore.map(({ eyebrow, title, desc, tags, tone, image, Icon }, idx) => {
             const isBlue = tone === "blue";
             const accentColor = isBlue ? "#60BADC" : "#F5C330";
-            const initials = title
-              .split(" ")
-              .map((w) => w[0])
-              .slice(0, 2)
-              .join("");
             const isFirst = idx === 0;
             return (
               <motion.div
@@ -307,47 +312,60 @@ function DualAcademicCoreSection() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: idx * 0.15 }}
                 whileHover={{ y: -6, transition: { duration: 0.25 } }}
-                className={`w-full md:w-[85%] overflow-hidden shadow-lg border border-slate-100 bg-white flex flex-col mx-auto ${
+                className={`w-full md:w-[85%] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-slate-50   bg-white flex flex-col mx-auto ${
                   isFirst ? "sm:flex-row" : "sm:flex-row-reverse"
                 }`}
               >
                 {/* Photo / watermark panel */}
                 <div
-                  className={`relative min-h-[220px] sm:min-h-[280px] sm:w-[42%] flex items-center justify-center overflow-hidden ${
-                    isBlue
-                      ? "bg-gradient-to-br from-slate-500 via-slate-700 to-slate-950"
-                      : "bg-gradient-to-br from-amber-200 via-amber-500 to-slate-900"
-                  }`}
+                  className="relative min-h-[220px] sm:min-h-[320px] sm:w-[45%] flex items-center justify-center"
                 >
-                  <span className="font-black text-white/20 text-8xl sm:text-9xl select-none">
-                    {initials}
-                  </span>
-                  <div className="absolute top-4 left-4 w-9 h-9 bg-black/20 backdrop-blur-sm flex items-center justify-center">
-                    <Icon className="w-4 h-4 text-white/90" strokeWidth={1.75} />
-                  </div>
-                  <div
-                    className="absolute bottom-4 left-4 font-mono text-[11px] font-extrabold px-2.5 py-1"
-                    style={{ backgroundColor: accentColor, color: "#0B1220" }}
-                  >
-                    {String(idx + 1).padStart(2, "0")} / {String(dualCore.length).padStart(2, "0")}
-                  </div>
+                  <img src={image} alt={title} className="absolute inset-0 w-full h-full object-cover" />
+                  <div className={`absolute inset-0 opacity-40 ${isBlue ? 'bg-[#60BADC]' : 'bg-[#F5C330]'}`}></div>
+                  
+                  {/* SVG overlay to create the curve */}
+                  {isFirst ? (
+                    <svg className="absolute inset-y-0 -right-[1px] h-full w-16 sm:w-32 text-white hidden sm:block" preserveAspectRatio="none" viewBox="0 0 100 100">
+                      <path fill="currentColor" d="M100 0 C40 20 20 80 100 100 Z" />
+                    </svg>
+                  ) : (
+                    <svg className="absolute inset-y-0 -left-[1px] h-full w-16 sm:w-32 text-white hidden sm:block" preserveAspectRatio="none" viewBox="0 0 100 100">
+                      <path fill="currentColor" d="M0 0 C60 20 80 80 0 100 Z" />
+                    </svg>
+                  )}
                 </div>
 
                 {/* Info panel */}
-                <div className="sm:w-[58%] p-6 sm:p-10 space-y-4 flex flex-col justify-center">
-                  <span
-                    className="font-mono text-[10px] uppercase tracking-widest font-extrabold w-fit px-2.5 py-1 rounded-full"
-                    style={{ backgroundColor: `${accentColor}1A`, color: accentColor }}
-                  >
-                    {eyebrow}
-                  </span>
-                  <h3 className="text-2xl sm:text-3xl font-black text-slate-900 leading-tight tracking-tight uppercase">
+                <div className="sm:w-[55%] p-8 sm:p-14 space-y-5 flex flex-col justify-center relative">
+                  {/* Decorative background elements */}
+                  {isFirst ? (
+                    <>
+                      <svg className="absolute top-8 right-10 w-12 h-12 text-blue-100/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      <svg className="absolute bottom-10 right-20 w-16 h-16 text-blue-100/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1"><path d="M17.5 19c-2.5 0-3-2.5-3-2.5C14 15 11.5 15 11.5 15c-2.5 0-3 2.5-3 2.5s-.5 2.5-3 2.5a4 4 0 1 1 0-8c0-1.5 1.5-4.5 5.5-4.5 1 0 2.5.5 3.5 1.5 2-3 5.5-2.5 6-2.5 3 0 4.5 2.5 4.5 4.5a4 4 0 1 1-7.5 3.5z"/></svg>
+                    </>
+                  ) : (
+                    <>
+                      <svg className="absolute top-10 right-20 w-12 h-12 text-yellow-100/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1"><path d="M9 18h6M10 22h4M12 2v1M12 7v1M4 12H3M21 12h-1M6.3 6.3l-.7-.7M18.4 6.3l.7-.7M6.3 17.7l-.7.7M18.4 17.7l.7.7"/><circle cx="12" cy="12" r="4"/></svg>
+                      <svg className="absolute bottom-10 left-10 w-14 h-14 text-yellow-100/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    </>
+                  )}
+                  
+                  <div className="flex items-center">
+                    <Icon />
+                    <span
+                      className="font-bold text-xs uppercase tracking-widest px-3 py-1.5 "
+                      style={{ backgroundColor: `${accentColor}15`, color: accentColor }}
+                    >
+                      {eyebrow}
+                    </span>
+                  </div>
+                  <h3 className="text-3xl sm:text-4xl font-black text-[#0d1f3c] leading-tight tracking-tight uppercase">
                     {title}
                   </h3>
-                  <div className="h-1 w-14" style={{ backgroundColor: accentColor }}></div>
-                  <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">{desc}</p>
+                  <div className="h-1 w-16" style={{ backgroundColor: accentColor }}></div>
+                  <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-medium max-w-lg">{desc}</p>
                   <div
-                    className="text-[10px] sm:text-xs font-bold uppercase tracking-widest"
+                    className="text-xs sm:text-sm font-bold uppercase tracking-widest pt-2"
                     style={{ color: accentColor }}
                   >
                     {tags}
@@ -456,12 +474,9 @@ function AcademicsHeroBanner() {
   return (
     <section
       id="academics-hero-banner"
-      className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen h-[auto] min-h-[500px] flex items-center overflow-hidden"
+      className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen h-[auto] min-h-[500px] flex items-center bg-fixed bg-center bg-cover"
       style={{
         backgroundImage: "url('/building-image1.jpg')",
-        backgroundAttachment: "fixed",
-        backgroundPosition: "center",
-        backgroundSize: "cover",
       }}
     >
 
@@ -476,7 +491,7 @@ function AcademicsHeroBanner() {
 
       {/* Content */}
       <div
-        className="relative z-[2] w-full"
+        className="relative z-[2] w-full "
         style={{
           display: "flex",
           flexDirection: "column",
@@ -496,11 +511,11 @@ function AcademicsHeroBanner() {
           marginBottom: 20,
         }}
       >
-        <span style={{ width: 32, height: 1, background: "#F5C330" }} />
+       
         <span
           style={{
             display: "inline-block",
-            color: "#F5C330",
+            color: "#ffffff",
             fontSize: "0.7rem",
             fontWeight: 800,
             padding: "2px 14px",
@@ -511,7 +526,7 @@ function AcademicsHeroBanner() {
         >
           Admissions Open 2026&ndash;27
         </span>
-        <span style={{ width: 32, height: 1, background: "#F5C330" }} />
+       
       </div>
 
       {/* Heading */}
@@ -599,7 +614,7 @@ function SchoolLevelsShowcaseSection({ setSubView }: SchoolLevelsShowcaseSection
   const goToCurriculum = () => setSubView("curriculum");
 
   return (
-    <section className="space-y-16 overflow-visible pt-16" id="fps-school-levels-showcase">
+    <section className="space-y-30 overflow-visible pt-40" id="fps-school-levels-showcase">
           <SectionHeading
       eyebrow={
   <span style={{ fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>
