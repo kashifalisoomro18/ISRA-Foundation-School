@@ -226,7 +226,7 @@ export default function AdmissionsProcess() {
         >
           Admission <span className="text-[#F5C330]">Process</span>
         </h2>
-        <div style={{ width:72, height:4, background:"#F5C330", margin:"0 auto 20px" }} />
+        <div style={{ width:72, height:4, background:"#60BADC", margin:"0 auto 20px" }} />
         <p style={{ fontSize: 16, color: "rgba(2,6,24,0.65)", maxWidth: 480, margin: "0 auto", lineHeight: 1.6 }}>
           A streamlined, transparent pathway designed to welcome your family into our community.
         </p>

@@ -286,7 +286,6 @@ function DualAcademicCoreSection() {
         Dual Curriculum</span> } 
       heading="Academic"
       accent={<span style={{ color: "#F5C330" }}> Excellence</span>}
-      dividerColor="#60BADC"
       />
       <div className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen">
         <div className="max-w-[1600px] mx-auto px-6 sm:px-12 space-y-8 md:space-y-10">
@@ -986,20 +985,20 @@ export default function AcademicsView({
         }
 
        .about-nav-tab {
-            padding: 10px 10px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            border-radius: 0px;
-            appearance: none;
-            -webkit-appearance: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            text-align: center;
-            border: none;
-            outline: none;
-          }
+        padding: 10px 10px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        border-radius: 0px;
+        appearance: none;
+        -webkit-appearance: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        text-align: center;
+        border: none;
+        outline: none;
+      }
 
 .about-nav-tab.active {
   background: #F5C330;

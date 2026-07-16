@@ -331,8 +331,8 @@ export default function Header({
             {activeDropdown === "about" && (
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-1 max-w-2xl">
                 <SubNavItem label="Who We Are" onClick={() => handleSubNav("about", "who-we-are")} delay={0} />
-                <SubNavItem label="Vision & Mission" onClick={() => handleSubNav("about", "vision-mission")} delay={40} />
                 <SubNavItem label="Principal's Message" onClick={() => handleSubNav("about", "principal")} delay={80} />
+                <SubNavItem label="Vision & Mission" onClick={() => handleSubNav("about", "vision-mission")} delay={40} />
                 <SubNavItem label="Management Team" onClick={() => handleSubNav("about", "management")} delay={120} />
                 <SubNavItem label="Our Faculty / Staff" onClick={() => handleSubNav("about", "faculty")} delay={160} />
               </div>

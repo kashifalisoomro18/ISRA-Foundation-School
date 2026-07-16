@@ -212,7 +212,7 @@ export default function AdmissionsFAQ() {
             fontWeight:900, color:"#0d1f3c",
             margin:"0 0 14px", lineHeight:1.15,
           }}>
-            Frequently Asked <span style={{ color:"#F5C330" }}>Questions</span>
+            Frequently Asked <span style={{ color:"#60badc" }}>Questions</span>
           </h2>
           <div style={{ width:72, height:4, background:"#F5C330", borderRadius:99, margin:"0 auto 18px" }} />
           <p style={{ color:"#64748b", fontSize:"1rem", maxWidth:460, margin:"0 auto", lineHeight:1.7 }}>

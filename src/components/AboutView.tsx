@@ -40,6 +40,7 @@ import {
   ExternalLink
 } from "lucide-react";
 import { motion, AnimatePresence, useInView } from "motion/react";
+import RibbonPathwaysSection from "./RibbonPathways";
 
 
 interface AboutViewProps {
@@ -785,15 +786,22 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
     font-weight:700;
 }
 
-        .bottom-cta {
-          background: linear-gradient(135deg, #1a3a6b 0%, #0f2d55 100%);
-        }
-        .section-divider {
-           width: 64px;
-          height: 4px;
-          background: #F5C330;
-          border-radius: 9999px;
-          margin-top: 16px;
+.bottom-cta {
+  background: linear-gradient(135deg, #1a3a6b 0%, #0f2d55 100%);
+}
+
+.section-divider {
+  width: 64px;
+  height: 4px;
+  background: #F5C330;
+  margin-top: 16px;
+}
+
+.section-divider1 {
+  width: 64px;
+  height: 4px;
+  background: #60BADC;
+  margin-top: 16px;
 }
 
   .about-nav-tab {
@@ -837,8 +845,8 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
           1. HERO SECTION
       ============================================================ */}
        <section
-    className="relative h-[420px] lg:h-[430px] overflow-hidden"
-    style={{
+      className="relative h-[420px] lg:h-[430px] overflow-hidden"
+      style={{
       backgroundImage: "url('building-image1.jpg')",
       backgroundAttachment: "fixed",
       backgroundPosition: "center",
@@ -883,7 +891,7 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
       {/* ============================================================
           2. ABOUT IFS — 2-column image + text
       ============================================================ */}
-      <section id="about-story" className="py-16 sm:py-20 px-6 lg:px-12 bg-white">
+      <section id="about-story" className="py-16 sm:py-20 px-6 lg:px-12 bg-white mt-25">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Image */}
           <motion.div
@@ -914,16 +922,16 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
             {/* <span style={{ display: "inline-block", color: "#00000098", fontSize: "0.7rem", fontWeight: 800, padding: "4px 12px", borderRadius: "10px", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "10px", textAlign: "left" }}>
               Our Foundation & History </span> */}
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0d1f3c] leading-tight">
-              About <span className="text-[#F5C330]">IFS</span>
+              About <span className="text-[#60BADC]">IFS</span>
             </h2>
             <div className="section-divider" />
-            <p className="text-slate-600 leading-relaxed text-base">
+            <p className="text-slate-600 leading-relaxed text-base text-justify">
               The Isra Foundation School (IFS) was established in 2016 to bridge the gap between premium international education and value-driven local roots. Operating under the banner of Isra Islamic Foundation and affiliated with Isra University, IFS represents a vibrant and ever-growing academic community.
             </p>
-            <p className="text-slate-600 leading-relaxed text-base">
+            <p className="text-slate-600 leading-relaxed text-base text-justify">
               IFS is firmly committed to serve as a vital bridge connecting international educational standards with our global community of students. This platform is designed to foster lifelong connections, celebrate student achievements, and involve graduates in the university's academic, research, and entrepreneurial initiatives.
             </p>
-            <p className="text-slate-600 leading-relaxed text-base">
+            <p className="text-slate-600 leading-relaxed text-base text-justify">
               Our students are not only the ambassadors of Isra University but also strategic partners who support innovation, leadership development, and societal impact across diverse professional sectors.
             </p>
           </motion.div>
@@ -1052,7 +1060,7 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
             >
               {/* Eyebrow */}
               <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
-                <div style={{ width: "32px", height: "3px", background: "#F5C330"}} />
+                <div style={{ width: "32px", height: "3px", background: "#60BADC"}} />
                   <span style={{ 
                     fontSize: "12px", 
                     fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace', 
@@ -1185,7 +1193,7 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
 
 
       {/* Vission & Mission */}
-
+      <RibbonPathwaysSection />
        {/* ============================================================
           3. BENEFITS & SERVICES — Shield-badge card grid
       ============================================================ */}
@@ -1322,8 +1330,8 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
               Leadership</span>
             <span className="w-8 h-px bg-[#020618]" />
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0d1f3c] mt-2">Management &amp; Board</h2>
-            <div className="section-divider mx-auto mt-2" />
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0d1f3c] mt-2">Management &amp; <span className="text-[#F5C330]">Board</span></h2>
+            <div className="section-divider1 mx-auto mt-2" />
             <p className="text-slate-500 text-sm mt-4 max-w-xl mx-auto leading-relaxed">
               Meet the visionary leaders who shape the direction, values, and academic standards of Isra Foundation School.
             </p>
@@ -1454,7 +1462,7 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
               Academic Faculty</span>
             <span className="w-8 h-px bg-[#020618]" />
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0d1f3c] mt-2">Faculty / Staff </h2>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0d1f3c] mt-2">Faculty / <span className="text-[#60BADC]">Staff</span> </h2>
             <div className="section-divider mx-auto mt-2" />
             <p className="text-slate-500 text-sm mt-4 max-w-xl mx-auto leading-relaxed">
               Specialist subject teachers for Cambridge O Level and A Level programmes. Scroll or swipe to explore.
@@ -1577,7 +1585,7 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
       {/* ============================================================
           9. STAY CONNECTED CTA (Bottom)
       ============================================================ */}
-      <section className="relative h-[420px] lg:h-[444.5px] flex items-center overflow-hidden">
+      <section className="relative h-[420px] lg:h-[544.5px] flex items-center overflow-hidden">
         {/* Background image */}
         <img
           src="/building-image.jpeg"
@@ -1608,14 +1616,56 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
               Be a part of a global community making a difference. Connect with IFS
               today and be part of the legacy of excellence at Isra Foundation Schools.
             </p>
-           <div className="flex flex-wrap gap-8 justify-center">
-        <button className="gold-btn text-base px-8 py-4">
-          Join IFS Today <ArrowRight className="w-5 h-5" />
-        </button>
-        <button className="outline-btn text-base px-8 py-4">
-          Contact Us <ExternalLink className="w-5 h-5" />
-        </button>
-      </div>
+
+            <div className="flex flex-wrap gap-6 justify-center mt-20">
+              <a href="#admissions-registration" className="success-btn" style={{ textDecoration: 'none' }}>
+                <span className="success-btn-bg"></span>
+                <span className="success-btn-content">
+                  Apply Now <ArrowRight className="w-5 h-5" />
+                </span></a>
+
+                {/* Google Form Button */}
+                <a 
+                  href="https://forms.gle" 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="inline-flex items-center justify-center gap-2 font-bold px-8 py-4" 
+                  style={{ 
+                    border: '2px solid rgba(255,255,255,0.2)', 
+                    color: 'white',
+                    textDecoration: 'none',
+                    
+                    // Left to right color fill ke liye background canvas layout
+                    backgroundImage: "linear-gradient(to right, rgba(245, 195, 48, 0.15) 50%, transparent 50%)",
+                    backgroundSize: "200% 100%",
+                    backgroundPosition: "right bottom",
+                    
+                    // Duration set ki hai taaki animation smoothly (0.4s) chale
+                    transition: "background-position 0.4s ease, border-color 0.4s ease, color 0.4s ease"
+                  }}
+                  onMouseEnter={e => {
+                    const target = e.currentTarget as HTMLAnchorElement;
+                    target.style.backgroundPosition = "left bottom";
+                    target.style.borderColor = "#F5C330"; // Hover par border blue
+                    target.style.color = "#F5C330";       // Hover par text blue
+                    
+                    const svg = target.querySelector("svg");
+                    if (svg) svg.style.stroke = "#F5C330"; // Icon blue
+                  }}
+                  onMouseLeave={e => {
+                    const target = e.currentTarget as HTMLAnchorElement;
+                    target.style.backgroundPosition = "right bottom";
+                    target.style.borderColor = "rgba(255,255,255,0.2)"; // Wapis original border
+                    target.style.color = "white";                       // Wapis white text
+                    
+                    const svg = target.querySelector("svg");
+                    if (svg) svg.style.stroke = "currentColor";          // Wapis white icon
+                  }}
+                >
+                  Google Form <ExternalLink className="w-5 h-5" />
+                </a>
+
+            </div>
           </div>
         </div>
       </section>

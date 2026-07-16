@@ -71,7 +71,7 @@ export default function BenefitsServices({ items }: BenefitsServicesProps) {
           >
             WHAT WE OFFER
           </span>
-          <span className="w-8 h-px bg-[#020618]" />
+          <span className="w-8 h-px bg-[#020618] " />
           </div>
 
           {/* heading */}
@@ -84,7 +84,7 @@ export default function BenefitsServices({ items }: BenefitsServicesProps) {
               lineHeight: 1.15,
             }}
           >
-            Benefits &amp; Services
+            Benefits &amp; <span className="text-[#60BADC]">Services</span>
           </h2>
 
           {/* gold underline */}
@@ -93,7 +93,6 @@ export default function BenefitsServices({ items }: BenefitsServicesProps) {
               width: "64px",
               height: "4px",
               background: "#F5C330",
-              borderRadius: "9999px",
               margin: "0 auto",
             }}
           />

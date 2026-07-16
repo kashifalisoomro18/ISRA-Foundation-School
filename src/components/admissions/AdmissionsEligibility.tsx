@@ -384,7 +384,7 @@ export default function AdmissionsEligibility() {
               </div>
 
               {/* CTA */}
-              <a
+              {/* <a
                 href="https://forms.gle/M9nuKcakF15TbsYQ9"
                 target="_blank"
                 rel="noreferrer"
@@ -407,7 +407,7 @@ export default function AdmissionsEligibility() {
                 }}
               >
                 Apply Now – It's Free 
-              </a>
+              </a> */}
             </div>
           </div>
         </div>

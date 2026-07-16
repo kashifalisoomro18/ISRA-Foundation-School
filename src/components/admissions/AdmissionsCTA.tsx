@@ -32,17 +32,26 @@ export default function AdmissionsCTA() {
             <p className="text-white text-sm font-bold uppercase tracking-widest mb-4">
               Limited Seats Available </p>
             <h2 className="text-4xl sm:text-6xl font-extrabold text-white mb-6">
-              Secure Your Child's <span className="text-[#60BADC]">Future</span> Today</h2>
+              Secure Your Child's <span className="text-[#F5C330]">Future</span> Today</h2>
             <p className="text-white text-base sm:text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
               Seats for the 2025–26 academic session are filling fast.
               Start the application process now and give your child the world-class
               education they deserve at ISRA Foundation Schools.</p>
             <div className="flex flex-wrap gap-6 justify-center">
-              <a href="#admissions-registration" className="success-btn" style={{ textDecoration: 'none' }}>
-                <span className="success-btn-bg"></span>
-                <span className="success-btn-content">
+              <a
+                href="#admissions-registration"
+                className="group relative overflow-hidden inline-flex items-center justify-center gap-2 font-bold px-8 py-4"
+                style={{
+                  textDecoration: 'none',
+                  background: 'white',
+                  color: '#020816',
+                }}
+              >
+                <span className="absolute inset-0 bg-[#f5C330] origin-left scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100" />
+                <span className="relative z-10 flex items-center gap-2">
                   Apply Now <ArrowRight className="w-5 h-5" />
-                </span></a>
+                </span>
+              </a>
 
                 {/* Google Form Button */}
                 <a 

@@ -51,7 +51,7 @@ export default function AdmissionsOnlineCTA() {
           padding: 20px 48px;
           background: linear-gradient(135deg, #F5C330 0%, #f0b800 100%);
           color: #0d1f3c;
-          font-weight: 900; font-size: 1.1rem;
+          font-weight: 700; font-size: 1.1rem;
           text-decoration: none; cursor: pointer;
           box-shadow: 0 12px 40px rgba(245,195,48,0.45);
           transition: transform 0.28s ease, box-shadow 0.28s ease;
@@ -221,7 +221,7 @@ export default function AdmissionsOnlineCTA() {
               onMouseEnter={() => setArrowHovered(true)}
               onMouseLeave={() => setArrowHovered(false)}
             >
-              <ArrowRight size={22} />
+              <ArrowRight size={20} />
             </div>
           </a>
         </div>

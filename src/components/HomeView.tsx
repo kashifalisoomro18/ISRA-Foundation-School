@@ -35,6 +35,8 @@ import {
   Briefcase,
 } from "lucide-react";
 
+import AdmissionsCTA from "./admissions/AdmissionsCTA.tsx"; // ya jo bhi relative path ho
+
 interface HomeViewProps {
   setView: (view: MainView) => void;
   setAboutSubView: (sub: AboutSubView) => void;
@@ -1146,127 +1148,8 @@ export default function HomeView({
           />
           <div style={{ width:72, height:4, background:"#60badc", margin:"-100px auto 18px" }} />
 
-        {/* 3. Elementary / Foundation Block (Soft Lilac-Gray Theme - single color family) */}
-        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 my-30" id="elementary-level-card">
-          <div className="relative">
-
-            {/* Background depth layers — right side, lavender family */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.94 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="pointer-events-none absolute -top-6 right-0 w-[38%] h-[16%] bg-[#cbb8ef]/70 hidden sm:block"
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.94 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.12 }}
-              className="pointer-events-none absolute top-[16%] right-0 w-[38%] h-[82%] bg-[#d8c9f4]/60 hidden sm:block"
-            />
-
-            {/* Main front card — light lavender #e1d8f7 */}
-            <motion.div
-              whileHover={{ y: -10 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="bg-[#e1d8f7] p-8 sm:p-12 lg:p-16 relative overflow-visible shadow-lg hover:shadow-2xl transition-shadow duration-500 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px] w-full sm:w-[92%]"
-            >
-
-              {/* Left Column: Framed portrait photo + Grade Levels badge + heading */}
-              <motion.div
-                initial={{ opacity: 0, x: -120, scale: 0.92 }}
-                whileInView={{ opacity: 1, x: 0, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                className="lg:col-span-6 relative flex flex-col justify-end min-h-[380px] sm:min-h-[440px] z-10 w-full"
-              >
-
-                {/* Image frame wrapper — light glass border, fits the lavender card */}
-                <div className="relative w-full h-[280px] sm:h-[320px]">
-
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-                    whileHover={{ scale: 1.02 }}
-                    className="absolute inset-0 w-[82%] sm:w-[78%] h-full overflow-hidden bg-white/60 backdrop-blur-sm p-2 shadow-[0_18px_40px_rgba(31,20,10,0.15)] z-10 border border-white/60"
-                  >
-                    <img
-                      src="assets/slider/slide2.jpg"
-                      alt="School building"
-                      className="w-full h-full object-cover object-center"
-                    />
-                  </motion.div>
-
-                  {/* Grade Levels badge — dark glass, readable on light lavender */}
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.5 }}
-                    className="absolute right-0 sm:right-2 bottom-6 bg-white/70 backdrop-blur-md border border-white/20 px-4 py-3.5 shadow-lg z-20 select-none"
-                  >
-                    <span className="text-[9px] sm:text-[11px] font-bold text-[020816] uppercase tracking-widest block font-mono">
-                      Grade Levels
-                    </span>
-                    <span className="text-xs sm:text-sm font-bold text-[#020816]]">
-                      Pre Nursery - Grade II
-                    </span>
-                  </motion.div>
-                </div>
-
-                {/* Heading — dark navy text on light lavender */}
-                <motion.div
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.7, delay: 0.55 }}
-                  className="relative z-30 mt-6 select-none"
-                >
-                  <h3 className="font-sans font-black text-[#020816] text-5xl sm:text-6xl lg:text-7xl leading-[0.85] tracking-tight">
-                    Elementary
-                    <span className="block font-sans font-light text-[#020816]/60 text-4xl sm:text-5xl mt-1">
-                      School
-                    </span>
-                  </h3>
-                </motion.div>
-              </motion.div>
-
-              {/* Right Column: Narrative + button — slides in from the right */}
-              <motion.div
-                initial={{ opacity: 0, x: 120, scale: 0.92 }}
-                whileInView={{ opacity: 1, x: 0, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                className="lg:col-span-6 lg:pl-16 z-20 space-y-6"
-              >
-                <p className="text-[#020816]/85 text-base sm:text-lg leading-relaxed font-normal max-w-md">
-                  At <strong className="text-[#020816] font-extrabold">IFS Elementary</strong>, we nurture the development of each child emotionally, academically, physically, socially, and artistically during their formative years.
-                </p>
-                <div className="pt-2">
-                  <button
-                    onClick={() => handleSubNav("academics", "curriculum")}
-                    className="group relative overflow-hidden bg-white text-slate-700 font-medium text-sm px-7 py-3  shadow-sm transition-all duration-300 hover:shadow-md cursor-pointer"
-                  >
-                    {/* Left to Right Background */}
-                    <span className="absolute inset-0 bg-[#020816] origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
-
-                    {/* Text */}
-                    <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
-                      More Details
-                    </span>
-                  </button>
-                </div>
-              </motion.div>
-
-            </motion.div>
-          </div>
-        </div>
-
-        {/* 1. Senior School Block (Sky Blue Theme - Match Reference Image 3) */}
-        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 my-50" id="senior-level-card">
+        {/* 2. Senior School Block (Sky Blue Theme - Match Reference Image 3) */}
+        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 my-30" id="senior-level-card">
           <div className="relative">
 
             {/* Background depth layers behind the card — right side, like reference */}
@@ -1390,7 +1273,7 @@ export default function HomeView({
           </div>
         </div>
 
-        {/* 2. Junior School Block (Yellow Theme - Match Reference Image 2) */}
+        {/* 3. Junior School Block (Yellow Theme - Match Reference Image 2) */}
         <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 my-50" id="junior-level-card">
           <div className="relative">  
 
@@ -1480,6 +1363,125 @@ export default function HomeView({
                       Grade III - Grade VII
                     </span>
                   </div>
+                </div>
+              </motion.div>
+
+            </motion.div>
+          </div>
+        </div>
+
+        {/* 1. Elementary / Foundation Block (Soft Lilac-Gray Theme - single color family) */}
+        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 my-50" id="elementary-level-card">
+          <div className="relative">
+
+            {/* Background depth layers — right side, lavender family */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="pointer-events-none absolute -top-6 right-0 w-[38%] h-[16%] bg-[#cbb8ef]/70 hidden sm:block"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.12 }}
+              className="pointer-events-none absolute top-[16%] right-0 w-[38%] h-[82%] bg-[#d8c9f4]/60 hidden sm:block"
+            />
+
+            {/* Main front card — light lavender #e1d8f7 */}
+            <motion.div
+              whileHover={{ y: -10 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="bg-[#e1d8f7] p-8 sm:p-12 lg:p-16 relative overflow-visible shadow-lg hover:shadow-2xl transition-shadow duration-500 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px] w-full sm:w-[92%]"
+            >
+
+              {/* Left Column: Framed portrait photo + Grade Levels badge + heading */}
+              <motion.div
+                initial={{ opacity: 0, x: -120, scale: 0.92 }}
+                whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                className="lg:col-span-6 relative flex flex-col justify-end min-h-[380px] sm:min-h-[440px] z-10 w-full"
+              >
+
+                {/* Image frame wrapper — light glass border, fits the lavender card */}
+                <div className="relative w-full h-[280px] sm:h-[320px]">
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                    whileHover={{ scale: 1.02 }}
+                    className="absolute inset-0 w-[82%] sm:w-[78%] h-full overflow-hidden bg-white/60 backdrop-blur-sm p-2 shadow-[0_18px_40px_rgba(31,20,10,0.15)] z-10 border border-white/60"
+                  >
+                    <img
+                      src="assets/slider/slide2.jpg"
+                      alt="School building"
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </motion.div>
+
+                  {/* Grade Levels badge — dark glass, readable on light lavender */}
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.5 }}
+                    className="absolute right-0 sm:right-2 bottom-6 bg-white/70 backdrop-blur-md border border-white/20 px-4 py-3.5 shadow-lg z-20 select-none"
+                  >
+                    <span className="text-[9px] sm:text-[11px] font-bold text-[020816] uppercase tracking-widest block font-mono">
+                      Grade Levels
+                    </span>
+                    <span className="text-xs sm:text-sm font-bold text-[#020816]]">
+                      Pre Nursery - Grade II
+                    </span>
+                  </motion.div>
+                </div>
+
+                {/* Heading — dark navy text on light lavender */}
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, delay: 0.55 }}
+                  className="relative z-30 mt-6 select-none"
+                >
+                  <h3 className="font-sans font-black text-[#020816] text-5xl sm:text-6xl lg:text-7xl leading-[0.85] tracking-tight">
+                    Elementary
+                    <span className="block font-sans font-light text-[#020816]/60 text-4xl sm:text-5xl mt-1">
+                      School
+                    </span>
+                  </h3>
+                </motion.div>
+              </motion.div>
+
+              {/* Right Column: Narrative + button — slides in from the right */}
+              <motion.div
+                initial={{ opacity: 0, x: 120, scale: 0.92 }}
+                whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                className="lg:col-span-6 lg:pl-16 z-20 space-y-6"
+              >
+                <p className="text-[#020816]/85 text-base sm:text-lg leading-relaxed font-normal max-w-md">
+                  At <strong className="text-[#020816] font-extrabold">IFS Elementary</strong>, we nurture the development of each child emotionally, academically, physically, socially, and artistically during their formative years.
+                </p>
+                <div className="pt-2">
+                  <button
+                    onClick={() => handleSubNav("academics", "curriculum")}
+                    className="group relative overflow-hidden bg-white text-slate-700 font-medium text-sm px-7 py-3  shadow-sm transition-all duration-300 hover:shadow-md cursor-pointer"
+                  >
+                    {/* Left to Right Background */}
+                    <span className="absolute inset-0 bg-[#020816] origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
+
+                    {/* Text */}
+                    <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
+                      More Details
+                    </span>
+                  </button>
                 </div>
               </motion.div>
 
@@ -2133,13 +2135,10 @@ export default function HomeView({
           )}
         </AnimatePresence>
       </section>
-
-
     </div>
-  </div>
-  
+    <AdmissionsCTA/>
+  </div>  
 );
-
 }
 
 
