@@ -42,7 +42,6 @@ import {
 import { motion, AnimatePresence, useInView } from "motion/react";
 import RibbonPathwaysSection from "./RibbonPathways";
 
-
 interface AboutViewProps {
   subView: AboutSubView;
   setSubView: (sub: AboutSubView) => void;
@@ -238,6 +237,7 @@ const boardMembers: BoardMember[] = [
     initials: "BS",
   },
   {
+
     name: "Ms. Elina Virtanen",
     title: "Head of Academics",
     description: "Ensuring every program meets the high standards our students deserve. Ms. Virtanen spearheads curriculum development, teacher training initiatives, and quality assurance protocols aligned with CAIE and HEI benchmarks.",
@@ -800,6 +800,14 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
 .section-divider1 {
   width: 64px;
   height: 4px;
+  background: #f5c330;
+  margin-top: 16px;
+}
+  
+
+.section-divider2 { 
+  width: 64px;
+  height: 4px;
   background: #60BADC;
   margin-top: 16px;
 }
@@ -1330,7 +1338,7 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
               Leadership</span>
             <span className="w-8 h-px bg-[#020618]" />
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0d1f3c] mt-2">Management &amp; <span className="text-[#F5C330]">Board</span></h2>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0d1f3c] mt-2">Management &amp; <span className="text-[#60BADC]">Board</span></h2>
             <div className="section-divider1 mx-auto mt-2" />
             <p className="text-slate-500 text-sm mt-4 max-w-xl mx-auto leading-relaxed">
               Meet the visionary leaders who shape the direction, values, and academic standards of Isra Foundation School.
@@ -1462,8 +1470,8 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
               Academic Faculty</span>
             <span className="w-8 h-px bg-[#020618]" />
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0d1f3c] mt-2">Faculty / <span className="text-[#60BADC]">Staff</span> </h2>
-            <div className="section-divider mx-auto mt-2" />
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0d1f3c] mt-2">Faculty / <span className="text-[#f5c330]">Staff</span> </h2>
+            <div className="section-divider2 mx-auto mt-2" />
             <p className="text-slate-500 text-sm mt-4 max-w-xl mx-auto leading-relaxed">
               Specialist subject teachers for Cambridge O Level and A Level programmes. Scroll or swipe to explore.
             </p>

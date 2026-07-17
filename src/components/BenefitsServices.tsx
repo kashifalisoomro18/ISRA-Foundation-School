@@ -84,7 +84,7 @@ export default function BenefitsServices({ items }: BenefitsServicesProps) {
               lineHeight: 1.15,
             }}
           >
-            Benefits &amp; <span className="text-[#60BADC]">Services</span>
+            Benefits &amp; <span className="text-[#f5c330]">Services</span>
           </h2>
 
           {/* gold underline */}
@@ -92,7 +92,7 @@ export default function BenefitsServices({ items }: BenefitsServicesProps) {
             style={{
               width: "64px",
               height: "4px",
-              background: "#F5C330",
+              background: "#60badc",  
               margin: "0 auto",
             }}
           />
