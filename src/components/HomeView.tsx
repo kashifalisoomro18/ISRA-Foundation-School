@@ -472,12 +472,12 @@ export default function HomeView({
                       className="flex items-center gap-3 mb-7"
                     >
                       <span
-                        className="text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-sm"
+                        className="text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1.5 "
                         style={{ background: heroSlides[activeSlide].accent, color: "#04080c" }}
                       >
                         {heroSlides[activeSlide].category}
                       </span>
-                      <span className="text-white/55 text-xs font-semibold tracking-wide hidden sm:block">
+                      <span className="text-white text-xs font-semibold tracking-wide hidden sm:block">
                         {heroSlides[activeSlide].eyebrow}
                       </span>
                     </motion.div>
@@ -519,8 +519,8 @@ export default function HomeView({
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.75 }}
                     >
-                      <div className="shrink-0 w-1 rounded-full mt-1" style={{ height: 52, background: heroSlides[activeSlide].accent }} />
-                      <p className="text-white/65 leading-relaxed" style={{ fontSize: "clamp(0.85rem, 1.3vw, 1.15rem)", maxWidth: 600 }}>
+                      <div className="shrink-0 w-1  mt-1" style={{ height: 52, background: heroSlides[activeSlide].accent }} />
+                      <p className="text-white leading-relaxed" style={{ fontSize: "clamp(0.85rem, 1.3vw, 1.15rem)", maxWidth: 600 }}>
                         {heroSlides[activeSlide].sub}
                       </p>
                     </motion.div>
