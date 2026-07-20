@@ -333,7 +333,9 @@ export default function FacilitiesView() {
           backgroundImage: "url('/building-image1.jpg')",
           backgroundAttachment: "fixed",
           backgroundPosition: "center",
-          backgroundSize: "cover",
+          backgroundSize: "100%",
+          backgroundRepeat: "no-repeat",
+         
         }}
       >
         <div
