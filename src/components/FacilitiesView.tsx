@@ -276,7 +276,7 @@ function FacilityCard({
 
         {hasImages && !expanded && (
           <Plus
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-12 h-12 text-[#60BADC] pointer-events-none"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-12 h-12 text-[#60BADC] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             strokeWidth={2}
             style={{ filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.6))" }}
             aria-hidden="true"
@@ -377,12 +377,12 @@ export default function FacilitiesView() {
       {/* ============================================================
           2. FACILITIES GRID SECTION
       ============================================================ */}
-      <section id="facilities-grid-section" style={{ background: "#f8fafc", padding: "150px 32px 64px" }}>
+      <section id="facilities-grid-section" style={{ background: "#f8fafc", padding: "180px 32px 64px" }}>
         <div style={{ maxWidth: "1440px", margin: "0 auto" }}>
 
           {/* ── Section header ─────────────────────────────────── */}
           <div style={{ textAlign: "center", marginBottom: "56px" }}>
-            <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="flex items-center justify-center gap-3 mb-9">
               <span className="w-8 h-px bg-[#020618]" />
               <span
                 style={{
@@ -409,14 +409,14 @@ export default function FacilitiesView() {
               lineHeight: 1.15,
             }}
           >
-            Explore Our Campus <span style={{ color: "#60BADC" }}>Facilities</span>
+            Explore Our Campus <span style={{ color: "#F5C330" }}><br/>Facilities</span>
           </h2>
             <div
               style={{
                 width: "64px",
                 height: "4px",
-                background: "#F5C330",
-                borderRadius: "9999px",
+                background: "#60BADC",
+                borderRadius: "0px",
                 margin: "0 auto",
               }}
             />
@@ -425,10 +425,10 @@ export default function FacilitiesView() {
               style={{
                 maxWidth: "720px",
                 margin: "24px auto 0",
-                color: "#475569",
+                color: "#020816",
                 fontSize: "1rem",
                 lineHeight: 1.75,
-                textAlign: "center",
+                textAlign: "justify",
               }}
             >
               Every space on campus is designed with purpose — from fully equipped science labs to
