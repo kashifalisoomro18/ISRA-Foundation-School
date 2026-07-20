@@ -423,7 +423,7 @@ export default function FacilitiesView() {
               }}
             />
 
-            <p
+           {/* <p
               style={{
                 maxWidth: "720px",
                 margin: "24px auto 0",
@@ -438,7 +438,7 @@ export default function FacilitiesView() {
               classroom. Our facilities reflect the same standard of excellence we've upheld for
               nearly four decades, built to nurture curiosity, confidence, and growth in every
               student who walks through them.
-            </p>
+            </p> */}
           </div>
 
           {/* ── Facility cards — each one written out separately ─── */}
