@@ -1148,7 +1148,7 @@ export default function HomeView({
           />
           <div style={{ width:72, height:4, background:"#60badc", margin:"-100px auto 18px" }} />
 
-        {/* 2. Senior School Block (Sky Blue Theme - Match Reference Image 3) */}
+        {/* 1. Senior School Block (Sky Blue Theme - Match Reference Image 3) */}
         <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 my-30" id="senior-level-card">
           <div className="relative">
 
@@ -1273,7 +1273,7 @@ export default function HomeView({
           </div>
         </div>
 
-        {/* 3. Junior School Block (Yellow Theme - Match Reference Image 2) */}
+        {/* 2. Junior School Block (Yellow Theme - Match Reference Image 2) */}
         <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 my-50" id="junior-level-card">
           <div className="relative">  
 
@@ -1370,7 +1370,7 @@ export default function HomeView({
           </div>
         </div>
 
-        {/* 1. Elementary / Foundation Block (Soft Lilac-Gray Theme - single color family) */}
+        {/* 3. Elementary / Foundation Block (Soft Lilac-Gray Theme - single color family) */}
         <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 my-50" id="elementary-level-card">
           <div className="relative">
 

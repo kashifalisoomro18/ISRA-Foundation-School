@@ -853,13 +853,13 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
           1. HERO SECTION
       ============================================================ */}
        <section
-      className="relative h-[420px] lg:h-[430px] overflow-hidden"
-      style={{
-      backgroundImage: "url('building-image1.jpg')",
-      backgroundAttachment: "fixed",
-      backgroundPosition: "center",
-      backgroundSize: "cover",
-    }}>
+        className="relative h-[420px] lg:h-[430px] overflow-hidden"
+        style={{
+        backgroundImage: "url('building-image1.jpg')",
+        backgroundAttachment: "fixed",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+      }}>
           {/* Theme overlay: dark navy with subtle yellow accent at bottom */}`
         <div
           className="absolute inset-0 z-[1]"
@@ -1478,37 +1478,37 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
           </motion.div>
 
           {/* Tab switcher */}
-          <div className="flex justify-center mb-10">
-            <div className="flex gap-2 bg-[#0d1f3c] p-1.5 rounded-none">
-              {["olevel", "alevel"].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className="relative px-8 py-3 text-sm font-semibold uppercase tracking-wider overflow-hidden"
-                >
-                  {activeTab === tab && (
-                    <motion.div
-                      layoutId="activeTab"
-                      className="absolute inset-0 bg-primary z-0"
-                      transition={{
-                        type: "spring",
-                        stiffness: 200,
-                        damping: 30,
-                      }}
-                    />
-                  )}
-
-                  <span
-                    className={`relative z-10 transition-colors duration-300 ${
-                      activeTab === tab ? "text-[#0D1F3C]" : "text-white"
-                    }`}
+            <div className="flex justify-center mb-10">
+              <div className="flex gap-2 bg-[#0d1f3c] p-1.5 rounded-none">
+                {["olevel", "alevel"].map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className="relative px-8 py-3 text-sm font-semibold uppercase tracking-wider overflow-hidden"
                   >
-                    {tab === "olevel" ? "O Level" : "A Level"}
-                  </span>
-                </button>
-              ))}
+                    {activeTab === tab && (
+                      <motion.div
+                        layoutId="activeTab"
+                        className="absolute inset-0 bg-primary z-0"
+                        transition={{
+                          type: "spring",
+                          stiffness: 200,
+                          damping: 30,
+                        }}
+                      />
+                    )}
+
+                    <span
+                      className={`relative z-10 transition-colors duration-300 ${
+                        activeTab === tab ? "text-[#0D1F3C]" : "text-white"
+                      }`}
+                    >
+                      {tab === "olevel" ? "O Level" : "A Level"}
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
 
           <AnimatePresence mode="wait">
             {activeTab === 'olevel' ? (

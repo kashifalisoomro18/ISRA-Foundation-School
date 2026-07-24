@@ -479,7 +479,7 @@ export default function Header({
             onClick={() => handleNav("activities")}
             className="w-full text-left px-4 py-2.5 text-base font-semibold text-slate-800 hover:bg-slate-50 rounded-lg transition-colors duration-200"
           >
-            Student Life (Co-curricular)
+            Co-curricular
           </button>
           <button
             onClick={() => handleNav("news-events")}

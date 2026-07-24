@@ -41,10 +41,7 @@ export default function Footer({
         {/* About IFS Column */}
         <div className="space-y-4">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-11 bg-slate-900 flex flex-col justify-center items-center rounded-sm border border-primary/20 shadow-sm">
-              <div className="text-white font-serif text-sm font-bold leading-none tracking-wider">I</div>
-              <div className="h-0.5 w-5 bg-primary mt-0.5"></div>
-            </div>
+            
             <div className="flex flex-col">
               <h3 className="font-serif text-base font-bold text-white tracking-tight leading-none mb-0.5">
                 ISRA FOUNDATION
@@ -54,15 +51,15 @@ export default function Footer({
               </span>
             </div>
           </div>
-          <p className="text-sm text-gray-400 leading-relaxed">
+          <p className="text-sm text-gray-300 leading-relaxed text-justify ">
             Founded in 2016 by the Isra Islamic Foundation, bridging world-class academic excellence with deep-rooted moral and ethical principles.
           </p>
-          <div className="flex items-center gap-3 pt-2">
+          <div className="flex items-center gap-3 pt-4">
             <a
               href="https://facebook.com/IsraFoundationSchools"
               target="_blank"
               rel="noreferrer"
-              className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-gray-400 hover:text-primary hover:bg-slate-700 transition-colors"
+              className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-gray-300 hover:text-primary hover:bg-slate-700 transition-colors"
               aria-label="Facebook"
             >
               <Facebook className="w-4 h-4" />
@@ -71,7 +68,7 @@ export default function Footer({
               href="https://instagram.com/IsraFoundationSchools"
               target="_blank"
               rel="noreferrer"
-              className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-gray-400 hover:text-primary hover:bg-slate-700 transition-colors"
+              className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-gray-300 hover:text-primary hover:bg-slate-700 transition-colors"
               aria-label="Instagram"
             >
               <Instagram className="w-4 h-4" />
@@ -80,7 +77,7 @@ export default function Footer({
               href="https://youtube.com/c/IsraFoundationSchools"
               target="_blank"
               rel="noreferrer"
-              className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-gray-400 hover:text-primary hover:bg-slate-700 transition-colors"
+              className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-gray-300 hover:text-primary hover:bg-slate-700 transition-colors"
               aria-label="YouTube"
             >
               <Youtube className="w-4 h-4" />
@@ -97,7 +94,7 @@ export default function Footer({
             <li>
               <button
                 onClick={() => handleNav("home")}
-                className="text-gray-400 hover:text-primary flex items-center gap-1.5 transition-colors group text-left"
+                className="text-gray-300 hover:text-primary flex items-center gap-1.5 transition-colors group text-left"
               >
                 <ArrowRight className="w-3.5 h-3.5 text-primary group-hover:translate-x-1 transition-transform" />
                 Home Dashboard
@@ -106,7 +103,7 @@ export default function Footer({
             <li>
               <button
                 onClick={() => handleSubNav("about", "who-we-are")}
-                className="text-gray-400 hover:text-primary flex items-center gap-1.5 transition-colors group text-left"
+                className="text-gray-300 hover:text-primary flex items-center gap-1.5 transition-colors group text-left"
               >
                 <ArrowRight className="w-3.5 h-3.5 text-primary group-hover:translate-x-1 transition-transform" />
                 About Our History
@@ -115,7 +112,7 @@ export default function Footer({
             <li>
               <button
                 onClick={() => handleSubNav("admissions", "process")}
-                className="text-gray-400 hover:text-primary flex items-center gap-1.5 transition-colors group text-left"
+                className="text-gray-300 hover:text-primary flex items-center gap-1.5 transition-colors group text-left"
               >
                 <ArrowRight className="w-3.5 h-3.5 text-primary group-hover:translate-x-1 transition-transform" />
                 Admission Process
@@ -124,7 +121,7 @@ export default function Footer({
             <li>
               <button
                 onClick={() => handleSubNav("academics", "curriculum")}
-                className="text-gray-400 hover:text-primary flex items-center gap-1.5 transition-colors group text-left"
+                className="text-gray-300 hover:text-primary flex items-center gap-1.5 transition-colors group text-left"
               >
                 <ArrowRight className="w-3.5 h-3.5 text-primary group-hover:translate-x-1 transition-transform" />
                 Finland & Cambridge Curricula
@@ -133,7 +130,7 @@ export default function Footer({
             <li>
               <button
                 onClick={() => handleNav("facilities")}
-                className="text-gray-400 hover:text-primary flex items-center gap-1.5 transition-colors group text-left"
+                className="text-gray-300 hover:text-primary flex items-center gap-1.5 transition-colors group text-left"
               >
                 <ArrowRight className="w-3.5 h-3.5 text-primary group-hover:translate-x-1 transition-transform" />
                 Campus Facilities
@@ -142,7 +139,7 @@ export default function Footer({
             <li>
               <button
                 onClick={() => handleNav("careers")}
-                className="text-gray-400 hover:text-primary flex items-center gap-1.5 transition-colors group text-left"
+                className="text-gray-300 hover:text-primary flex items-center gap-1.5 transition-colors group text-left"
               >
                 <ArrowRight className="w-3.5 h-3.5 text-primary group-hover:translate-x-1 transition-transform" />
                 Join Our Team (Careers)
@@ -157,7 +154,7 @@ export default function Footer({
             Accreditations
           </h4>
           <div className="space-y-4">
-            <div className="flex gap-3 bg-slate-900 p-3 rounded-lg border border-slate-800">
+            <div className="flex gap-3 bg-slate-900 p-3  border border-slate-800">
               <Award className="w-8 h-8 text-primary flex-shrink-0" />
               <div>
                 <h5 className="font-semibold text-xs text-primary">CAIE Registered</h5>
@@ -166,7 +163,7 @@ export default function Footer({
                 </p>
               </div>
             </div>
-            <div className="flex gap-3 bg-slate-900 p-3 rounded-lg border border-slate-800">
+            <div className="flex gap-3 bg-slate-900 p-3  border border-slate-800">
               <Award className="w-8 h-8 text-secondary flex-shrink-0" />
               <div>
                 <h5 className="font-semibold text-xs text-secondary">Finland Partnership</h5>
@@ -175,7 +172,7 @@ export default function Footer({
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2 text-xs text-gray-400 pl-1">
+            <div className="flex items-center gap-2 text-xs text-gray-300 pl-1">
               <Clock className="w-4 h-4 text-primary" />
               <span>Office: Mon - Fri: 8:00 AM - 2:40 PM</span>
             </div>
@@ -188,24 +185,24 @@ export default function Footer({
             Reach Us
           </h4>
           <div className="space-y-2 text-sm">
-            <p className="flex items-start gap-2 text-gray-400">
+            <p className="flex items-start gap-2 text-gray-300">
               <MapPin className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
               <span className="leading-snug">
                 Isra Town, Hyderabad Bypass, Hyderabad, Sindh, Pakistan.
               </span>
             </p>
-            <p className="flex items-center gap-2 text-gray-400">
+            <p className="flex items-center gap-2 text-gray-300">
               <Phone className="w-4 h-4 text-primary flex-shrink-0" />
               <span>+92 317 3700049 / 022 111 111 IFS</span>
             </p>
-            <p className="flex items-center gap-2 text-gray-400">
+            <p className="flex items-center gap-2 text-gray-300">
               <Mail className="w-4 h-4 text-primary flex-shrink-0" />
               <span>israfoundationschools@gmail.com</span>
             </p>
           </div>
 
           {/* Clean Google Maps Embed */}
-          <div className="w-full h-28 rounded-lg overflow-hidden border border-slate-800 relative bg-slate-900 shadow">
+          <div className="w-full h-28  overflow-hidden border border-slate-800 relative bg-slate-900 shadow">
             {/* The real map embed pointed to Hyderabad Bypass */}
             <iframe
               title="Isra Foundation Schools Location Map"
@@ -223,12 +220,12 @@ export default function Footer({
 
       {/* Under Footer Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4">
-        <p className="text-xs text-gray-500 font-mono text-center sm:text-left">
+        <p className="text-xs text-gray-400 font-mono text-center sm:text-left">
           &copy; 2026 Isra Foundation Schools (IFS). All Rights Reserved. Built for premium education.
         </p>
-        <div className="flex gap-4 text-xs text-gray-500 font-mono">
+        <div className="flex gap-4 text-xs text-gray-400 font-mono">
           <span>Affiliated with Isra University</span>
-          <span>|</span>
+          {/* <span>|</span>
           <a
             href="https://wa.me/923173700049"
             target="_blank"
@@ -236,7 +233,7 @@ export default function Footer({
             className="hover:text-primary transition-colors"
           >
             WhatsApp Helpdesk
-          </a>
+          </a> */}
         </div>
       </div>
     </footer>

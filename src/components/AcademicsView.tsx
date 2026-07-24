@@ -15,12 +15,13 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-
 const COLORS = {
   ink: "#0d1f3c",
   gold: "#F5C330",
   blue: "#60BADC",
 };
+
+import AcademictHero from "./AcademicHero";
 
 function useReveal(threshold = 0.3) {
   const ref = useRef<HTMLDivElement>(null);
@@ -220,7 +221,7 @@ function SectionHeading({
 
 function OverviewSection() {
   return (
-      <div className="space-y-8" id="academics-overview">
+      <div className="space-y-8 pt-10" id="academics-overview">
      <SectionHeading
   eyebrow={
     <span style={{ fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>
@@ -290,7 +291,7 @@ const dualCore = [
 ];
 function DualAcademicCoreSection() {
   return (
-  <div className="space-y-10" id="dual-academic-blocks">
+  <div className="space-y-10 pt-20" id="dual-academic-blocks">
       <SectionHeading
       eyebrow={ <span style={{ fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>
         Dual Curriculum</span> } 
@@ -403,7 +404,7 @@ const methodology = [
 
 function TeachingMethodologySection() {
   return (
-    <div className="space-y-10 mb-12" id="academics-methodology">
+    <div className="space-y-10 pt-20" id="academics-methodology">
       <SectionHeading
         eyebrow={
           <span style={{ fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>
@@ -411,7 +412,7 @@ function TeachingMethodologySection() {
           </span>
         }
         heading="How We Bring Learning"
-        accent={<span style={{ color: "#60BADC" }}> To Life</span>}
+        accent={<span style={{ color: "#60BADC" }}> <br />To Life</span>}
       />
 
       {/* Methodology cards - EXACT "Why Choose Isra Foundation" card style from HomeView */}
@@ -516,9 +517,8 @@ function AcademicsHeroBanner() {
             display: "inline-block",
             color: "#ffffff",
             fontSize: "0.7rem",
-            fontWeight: 800,
+            fontWeight: 700,
             padding: "2px 14px",
-            borderRadius: 10,
             letterSpacing: "0.12em",
             textTransform: "uppercase",
           }}
@@ -548,7 +548,7 @@ function AcademicsHeroBanner() {
         style={{
           maxWidth: 600,
           fontSize: "1rem",
-          color: "rgba(255,255,255,0.82)",
+          color: "#ffffff",
           lineHeight: 1.7,
           margin: "0 0 30px",
         }}
@@ -613,367 +613,416 @@ function SchoolLevelsShowcaseSection({ setSubView }: SchoolLevelsShowcaseSection
   const goToCurriculum = () => setSubView("curriculum");
 
   return (
-    <section className="space-y-30 overflow-visible pt-40" id="fps-school-levels-showcase">
+    <section className="space-y-30 overflow-visible pt-20" id="fps-school-levels-showcase">
           <SectionHeading
       eyebrow={
-  <span style={{ fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>
-    Academic Pathways
-  </span>
+      <span style={{ fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>
+        Academic Pathways
+      </span>
 }
         heading="Levels "
         accent={<span style={{ color: "#60BADC" }}> Offered</span>}
       />
-      {/* 1. Elementary School Block (Navy Theme - Match Reference Image 1) */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 my-50" id="elementary-level-card">
-        <div className="relative my-20">
+        {/* 1. Senior School Block (Sky Blue Theme - Match Reference Image 3) */}
+        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 my-30" id="senior-level-card">
+          <div className="relative">
 
-          {/* Background depth layers — right side, matches Junior/Senior pattern */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.94 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="pointer-events-none absolute -top-6 right-0 w-[38%] h-[16%]  bg-[#81838c]/70 hidden sm:block"
-          />
-          <motion.div
-            initial={{ opacity: 0, scale: 0.94 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.12 }}
-            className="pointer-events-none absolute top-[16%] right-0 w-[38%] h-[82%]  bg-[#81838c]/50 hidden sm:block"
-          />
-
-          {/* Main front card */}
-          <motion.div
-            whileHover={{ y: -10 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="bg-[#0d1f3c] p-8 sm:p-12 lg:p-16 relative overflow-visible shadow-lg hover:shadow-2xl transition-shadow duration-500 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px] w-full sm:w-[92%]"
-          >
-
-            {/* Left Column: Image collage + heading — slides in from the left */}
+            {/* Background depth layers behind the card — right side, like reference */}
             <motion.div
-              initial={{ opacity: 0, x: -120, scale: 0.92 }}
-              whileInView={{ opacity: 1, x: 0, scale: 1 }}
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:col-span-6 relative flex flex-col justify-end min-h-[380px] sm:min-h-[440px] z-10 w-full"
+              transition={{ duration: 0.8 }}
+              className="pointer-events-none absolute -top-6 right-0 w-[38%] h-[16%]  bg-[#BAE6FD]/50 hidden sm:block"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.12 }}
+              className="pointer-events-none absolute top-[16%] right-0 w-[38%] h-[82%] bg-[#7DD3FC] hidden sm:block"
+            />
+
+            {/* Main front card */}
+            <motion.div
+              whileHover={{ y: -10 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="bg-[#BAE6FD] p-8 sm:p-12 lg:p-16 relative overflow-visible shadow-lg hover:shadow-2xl transition-shadow duration-500 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px] w-full sm:w-[92%]"
             >
 
-              {/* Image stack wrapper */}
-              <div className="relative w-full h-[280px] sm:h-[320px]">
+              {/* Left Column: Image collage + heading */}
+              <div className="lg:col-span-6 relative flex flex-col justify-end min-h-[380px] sm:min-h-[440px] z-10 w-full">
 
-                {/* Top polygon image */}
+                {/* Image stack wrapper */}
+                <div className="relative w-full h-[280px] sm:h-[320px]">
+
+                  {/* Top polygon image — blue-tinted graduation photo */}
+                  <motion.div
+                    initial={{ opacity: 0, y: -60 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.35, ease: "easeOut" }}
+                    whileHover={{ scale: 1.04 }}
+                    className="absolute left-[20%] sm:left-[24%] -top-6 w-[60%] sm:w-[56%] h-[85%] overflow-hidden shadow-[0_20px_45px_rgba(16,24,40,0.22)] z-10"
+                    style={{ clipPath: "polygon(10% 0%, 100% 4%, 88% 100%, 0% 90%)" }}
+                  >
+                    <img
+                      src="assets/slider/slide51.jpg"
+                      alt="Senior school graduates"
+                      className="w-full h-full object-cover object-center"
+                    />
+                    {/* Blue color-wash overlay to match reference tint */}
+                    <div className="absolute inset-0 bg-[#1d4ed8]/50 mix-blend-color" />
+                  </motion.div>
+
+                  {/* Tilted side photo — group graduation shot */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -50, rotate: -12 }}
+                    whileInView={{ opacity: 1, x: 0, rotate: -8 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
+                    whileHover={{ scale: 1.05, rotate: -4 }}
+                    className="absolute left-0 bottom-[8%] w-[34%] sm:w-[30%] aspect-[4/5]  overflow-hidden bg-white p-1 shadow-[0_16px_35px_rgba(16,24,40,0.20)] border border-white z-20"
+                  >
+                    <img
+                      src="assets/slider/559005353_1378177237650043_1854500200270735487_n.jpg"
+                      alt="Graduation ceremony group"
+                      className="w-full h-full object-cover object-top"
+                    />
+                  </motion.div>
+                </div>
+
+                {/* Heading — sits directly under image stack */}
                 <motion.div
-                  initial={{ opacity: 0, y: -60 }}
+                  initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: 0.35, ease: "easeOut" }}
-                  whileHover={{ scale: 1.04 }}
-                  className="absolute left-[20%] sm:left-[24%] -top-6 w-[60%] sm:w-[56%] h-[85%] overflow-hidden shadow-[0_20px_45px_rgba(16,24,40,0.22)] z-10"
-                  style={{ clipPath: "polygon(10% 0%, 100% 4%, 88% 100%, 0% 90%)" }}
+                  transition={{ duration: 0.7, delay: 0.5 }}
+                  className="relative z-30 mt-4 select-none"
                 >
-                  <img
-                    src="assets/slider/slide2.jpg"
-                    alt="School building"
-                    className="w-full h-full object-cover object-center"
-                  />
-                  <div className="absolute inset-0 bg-[#1d4ed8]/40 mix-blend-color" />
-                </motion.div>
-
-                {/* Tilted side photo */}
-                <motion.div
-                  initial={{ opacity: 0, x: -50, rotate: -12 }}
-                  whileInView={{ opacity: 1, x: 0, rotate: -8 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
-                  whileHover={{ scale: 1.05, rotate: -4 }}
-                  className="absolute left-0 bottom-[8%] w-[34%] sm:w-[30%] aspect-[4/5] rounded-sm overflow-hidden bg-white p-1 shadow-[0_16px_35px_rgba(16,24,40,0.20)] border border-white z-20"
-                >
-                  <img
-                    src="assets/slider/g1.jpg"
-                    alt="Elementary student"
-                    className="w-full h-full object-cover object-top"
-                  />
-                </motion.div>
-              </div>
-
-              {/* Heading — sits directly under image stack, gap removed */}
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: 0.5 }}
-                className="relative z-30 mt-0 select-none"
-              >
-                <h3 className="font-black text-white text-5xl sm:text-6xl lg:text-7xl leading-[0.85] tracking-tight">
-                  Elementary
-                  <span className="block font-light text-white text-4xl sm:text-5xl mt-1">
-                    School
-                  </span>
-                </h3>
-                <div className="mt-5 space-y-0.5">
-                  <span className="text-[10px] sm:text-[11px] font-bold text-white uppercase tracking-widest block font-mono">
-                    Grade Levels
-                  </span>
-                  <span className="text-sm sm:text-base font-black text-white">
-                    Pre Nursery to Grade II
-                  </span>
-                </div>
-              </motion.div>
-            </motion.div>
-
-            {/* Right Column: Narrative + button — slides in from the right */}
-            <motion.div
-              initial={{ opacity: 0, x: 120, scale: 0.92 }}
-              whileInView={{ opacity: 1, x: 0, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:col-span-6 lg:pl-16 z-20 space-y-6"
-            >
-              <p className="text-white text-base sm:text-lg leading-relaxed font-normal max-w-md">
-                At <strong className="text-[#F5C330] font-bold">IFS Elementary</strong>, we nurture the development of each child emotionally, academically, physically, socially, and artistically during their formative years.
-              </p>
-            {/*
-<div className="pt-2">
-  <button
-    onClick={goToCurriculum}
-    className="group relative overflow-hidden bg-white text-[#0d1f3c] font-bold text-sm px-7 py-3 shadow-sm transition-all duration-300 hover:shadow-md cursor-pointer uppercase tracking-wide"
-  >
-    <span className="absolute inset-0 bg-[#F5C330] origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
-
-    <span className="relative z-10 flex items-center gap-2 transition-colors duration-300 group-hover:text-[#0d1f3c]">
-      More Details <ArrowRight className="w-4 h-4" />
-    </span>
-  </button>
-</div>
-*/}
-            </motion.div>
-
-          </motion.div>
-        </div>
-      </div>
-
-      {/* 2. Junior School Block (Gold Theme - Match Reference Image 2) */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16" id="junior-level-card">
-        <div className="relative">
-
-          {/* Background depth layers behind the whole card */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.94 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="pointer-events-none absolute -top-4 left-2 sm:left-6 w-[70%] sm:w-[42%] h-[85%] bg-[#F5C330]/40 hidden sm:block"
-          />
-          <motion.div
-            initial={{ opacity: 0, scale: 0.94 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.12 }}
-            className="pointer-events-none absolute top-6 left-8 sm:left-14 w-[65%] sm:w-[38%] h-[75%]  bg-[#F5C330]/25 hidden sm:block"
-          />
-
-          <motion.div
-            whileHover={{ y: -10 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="bg-[#F5C330] p-8 sm:p-12 lg:p-16 relative overflow-visible shadow-lg hover:shadow-2xl transition-shadow duration-500 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px] w-full sm:w-[92%] "
-          >
-
-            {/* Left Column: Narrative details and button — slides in from the left */}
-            <motion.div
-              initial={{ opacity: 0, x: -120, scale: 0.92 }}
-              whileInView={{ opacity: 1, x: 0, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:col-span-6 z-20 space-y-6 lg:pr-12"
-            >
-              <p className="text-[#0d1f3c] text-base sm:text-lg leading-relaxed font-normal max-w-md">
-                At <strong className="text-[#0d1f3c] font-extrabold">IFS, we consider Junior schools</strong> as an opportunity for students to explore and develop their cognitive, social, and physical skills.
-              </p>
-              {/*
-<div className="pt-2">
-  <button
-    onClick={goToCurriculum}
-    className="group relative overflow-hidden bg-white text-[#0d1f3c] font-bold text-sm px-7 py-3 shadow-sm transition-all duration-300 hover:shadow-md cursor-pointer uppercase tracking-wide"
-  >
-    <span className="absolute inset-0 bg-[#0d1f3c] origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
-
-    <span className="relative z-10 flex items-center gap-2 transition-colors duration-300 group-hover:text-white">
-      More Details <ArrowRight className="w-4 h-4" />
-    </span>
-  </button>
-</div>
-*/}
-              </motion.div>
-
-            {/* Right Column: Large image block with golden tint and overlaid text — slides in from the right */}
-            <motion.div
-              initial={{ opacity: 0, x: 120, scale: 0.92 }}
-              whileInView={{ opacity: 1, x: 0, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:col-span-6 relative h-[400px] sm:h-[440px] flex items-center justify-center w-full"
-            >
-              <div className="absolute inset-0 -top-6 sm:-top-10 bg-slate-950  overflow-hidden shadow-xl z-10 group">
-                <img
-                  src="assets/slider/slide4.jpg"
-                  alt="Junior school students in lab"
-                  className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
-                />
-                {/* Golden color-wash overlay */}
-                <div className="absolute inset-0 bg-[#F5C330]/40 mix-blend-color z-15" />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent z-20" />
-
-                {/* Heading — bold + light on two lines, like Elementary card */}
-                <div className="absolute bottom-20 sm:bottom-24 left-6 z-30 select-none">
-                  <h3 className="font-black text-white text-4xl sm:text-5xl leading-[0.9] tracking-tight">
-                    Junior
-                    <span className="block font-light text-white/90 text-3xl sm:text-4xl mt-0.5">
+                  <h3 className="font-sans font-black text-[#0f172a] text-5xl sm:text-6xl lg:text-7xl leading-[0.85] tracking-tight">
+                    Senior
+                    <span className="block font-sans font-light text-slate-500 text-4xl sm:text-5xl mt-1">
                       School
                     </span>
                   </h3>
-                </div>
-
-                {/* Grade levels — separate text, below heading */}
-                <div className="absolute bottom-6 left-6 z-30 space-y-0.5 select-none">
-                  <span className="text-[10px] sm:text-[11px] font-bold text-white uppercase tracking-widest block font-mono">
-                    Grade Levels
-                  </span>
-                  <span className="text-sm sm:text-base font-black text-white ">
-                    Grade III - Grade VII
-                  </span>
-                </div>
-              </div>
-            </motion.div>
-
-          </motion.div>
-        </div>
-      </div>
-
-      {/* 3. Senior School Block (Sky Blue Theme - Match Reference Image 3) */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 my-50" id="senior-level-card">
-        <div className="relative">
-
-          {/* Background depth layers behind the card — right side, like reference */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.94 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="pointer-events-none absolute -top-6 right-0 w-[38%] h-[16%]  bg-[#60BADC]/30 hidden sm:block"
-          />
-          <motion.div
-            initial={{ opacity: 0, scale: 0.94 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.12 }}
-            className="pointer-events-none absolute top-[16%] right-0 w-[38%] h-[82%] bg-[#60BADC]/60 hidden sm:block"
-          />
-
-          {/* Main front card */}
-          <motion.div
-            whileHover={{ y: -10 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="bg-[#BAE6FD] p-8 sm:p-12 lg:p-16 relative overflow-visible shadow-lg hover:shadow-2xl transition-shadow duration-500 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px] w-full sm:w-[92%]"
-          >
-
-            {/* Left Column: Image collage + heading */}
-            <div className="lg:col-span-6 relative flex flex-col justify-end min-h-[380px] sm:min-h-[440px] z-10 w-full">
-
-              {/* Image stack wrapper */}
-              <div className="relative w-full h-[280px] sm:h-[320px]">
-
-                {/* Top polygon image — blue-tinted graduation photo */}
-                <motion.div
-                  initial={{ opacity: 0, y: -60 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: 0.35, ease: "easeOut" }}
-                  whileHover={{ scale: 1.04 }}
-                  className="absolute left-[20%] sm:left-[24%] -top-6 w-[60%] sm:w-[56%] h-[85%] overflow-hidden shadow-[0_20px_45px_rgba(16,24,40,0.22)] z-10"
-                  style={{ clipPath: "polygon(10% 0%, 100% 4%, 88% 100%, 0% 90%)" }}
-                >
-                  <img
-                    src="assets/slider/slide51.jpg"
-                    alt="Senior school graduates"
-                    className="w-full h-full object-cover object-center"
-                  />
-                  {/* Blue color-wash overlay to match reference tint */}
-                  <div className="absolute inset-0 bg-[#60BADC]/50 mix-blend-color" />
-                </motion.div>
-
-                {/* Tilted side photo — group graduation shot */}
-                <motion.div
-                  initial={{ opacity: 0, x: -50, rotate: -12 }}
-                  whileInView={{ opacity: 1, x: 0, rotate: -8 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
-                  whileHover={{ scale: 1.05, rotate: -4 }}
-                  className="absolute left-0 bottom-[8%] w-[34%] sm:w-[30%] aspect-[4/5]  overflow-hidden bg-white p-1 shadow-[0_16px_35px_rgba(16,24,40,0.20)] border border-white z-20"
-                >
-                  <img
-                    src="assets/slider/559005353_1378177237650043_1854500200270735487_n.jpg"
-                    alt="Graduation ceremony group"
-                    className="w-full h-full object-cover object-top"
-                  />
+                  <div className="mt-5 space-y-0.5">
+                    <span className="text-[10px] sm:text-[11px] font-bold text-slate-600 uppercase tracking-widest block font-mono">
+                      Grade Levels
+                    </span>
+                    <span className="text-sm sm:text-base font-black text-slate-950">
+                      Grade VIII - Grade XI
+                    </span>
+                  </div>
                 </motion.div>
               </div>
 
-              {/* Heading — sits directly under image stack, gap removed */}
+              {/* Right Column: Narrative details and button */}
               <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: 60 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: 0.5 }}
-                className="relative z-30 mt-0 select-none"
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.15 }}
+                className="lg:col-span-6 lg:pl-16 z-20 space-y-6"
               >
-                <h3 className="font-black text-[#0d1f3c] text-5xl sm:text-6xl lg:text-7xl leading-[0.85] tracking-tight">
-                  Senior
-                  <span className="block font-light text-slate-500 text-4xl sm:text-5xl mt-1">
-                    School
-                  </span>
-                </h3>
-                <div className="mt-5 space-y-0.5">
-                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-600 uppercase tracking-widest block font-mono">
-                    Grade Levels
-                  </span>
-                  <span className="text-sm sm:text-base font-black text-slate-950">
-                    Grade VIII - Grade XI
-                  </span>
+                <p className="text-slate-800 text-base sm:text-lg leading-relaxed font-normal max-w-md">
+                  <strong className="text-slate-950 font-bold">IFS Senior</strong> schools strike a perfect harmony between a rigorous curriculum and an active co-curricular program. The aim of the senior school is to prepare our students for A Level, university and beyond.
+                </p>
+                
+                </motion.div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* 2. Junior School Block (Yellow Theme - Match Reference Image 2) */}
+        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 my-50" id="junior-level-card">
+          <div className="relative">  
+
+            {/* Background depth layers behind the whole card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="pointer-events-none absolute -top-4 left-2 sm:left-6 w-[70%] sm:w-[42%] h-[85%] bg-[#FEF08A]/70 hidden sm:block"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.12 }}
+              className="pointer-events-none absolute top-6 left-8 sm:left-14 w-[65%] sm:w-[38%] h-[75%]  bg-[#FDE047]/50 hidden sm:block"
+            />
+
+            <motion.div
+              whileHover={{ y: -10 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="bg-[#FDE047]  p-8 sm:p-12 lg:p-16 relative overflow-visible shadow-lg hover:shadow-2xl transition-shadow duration-500 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px] w-full sm:w-[92%] ml-auto"
+            >
+
+              {/* Left Column: Narrative details and button — slides in from the left */}
+              <motion.div
+                initial={{ opacity: 0, x: -120, scale: 0.92 }}
+                whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                className="lg:col-span-6 z-20 space-y-6 lg:pr-12"
+              >
+                <p className="text-slate-900 text-base sm:text-lg leading-relaxed font-normal max-w-md">
+                  At <strong className="text-[#020618] font-extrabold">IFS, we consider Junior schools</strong> as an opportunity for students to explore and develop their cognitive, social, and physical skills.
+                </p>
+
+              </motion.div>
+
+              {/* Right Column: Large image block with golden tint and overlaid text — slides in from the right */}
+              <motion.div
+                initial={{ opacity: 0, x: 120, scale: 0.92 }}
+                whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                className="lg:col-span-6 relative h-[400px] sm:h-[440px] flex items-center justify-center w-full"
+              >
+                <div className="absolute inset-0 -top-6 sm:-top-10 bg-slate-950  overflow-hidden shadow-xl z-10 group">
+                  <img
+                    src="assets/slider/slide4.jpg"
+                    alt="Junior school students in lab"
+                    className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
+                  />
+                  {/* Golden color-wash overlay */}
+                  <div className="absolute inset-0 bg-[#FCD34D]/45 mix-blend-color z-15" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent z-20" />
+
+                  {/* Heading — bold + light on two lines, like Elementary card */}
+                  <div className="absolute bottom-20 sm:bottom-24 left-6 z-30 select-none">
+                    <h3 className="font-sans font-black text-white text-4xl sm:text-5xl leading-[0.9] tracking-tight">
+                      Junior
+                      <span className="block font-light text-white/90 text-3xl sm:text-4xl mt-0.5">
+                        School
+                      </span>
+                    </h3>
+                  </div>
+
+                  {/* Grade levels — separate, dark charcoal text, below heading */}
+                  <div className="absolute bottom-6 left-6 z-30 space-y-0.5 select-none">
+                    <span className="text-[10px] sm:text-[11px] font-bold text-white uppercase tracking-widest block font-mono">
+                      Grade Levels
+                    </span>
+                    <span className="text-sm sm:text-base font-black text-white ">
+                      Grade III - Grade VII
+                    </span>
+                  </div>
                 </div>
               </motion.div>
-            </div>
 
-            {/* Right Column: Narrative details and button */}
-            <motion.div
-              initial={{ opacity: 0, x: 60 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.15 }}
-              className="lg:col-span-6 lg:pl-16 z-20 space-y-6"
-            >
-              <p className="text-slate-800 text-base sm:text-lg leading-relaxed font-normal max-w-md">
-                <strong className="text-[#0d1f3c] font-bold">IFS Senior</strong> schools strike a perfect harmony between a rigorous curriculum and an active co-curricular program. The aim of the senior school is to prepare our students for A Level, university and beyond.
-              </p>
-             {/*
-<div className="pt-2">
-  <button
-    onClick={goToCurriculum}
-    className="group relative overflow-hidden bg-white text-[#0d1f3c] font-bold text-sm px-7 py-3 shadow-sm transition-all duration-300 hover:shadow-md cursor-pointer uppercase tracking-wide"
-  >
-    <span className="absolute inset-0 bg-[#0d1f3c] origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
-
-    <span className="relative z-10 flex items-center gap-2 transition-colors duration-300 group-hover:text-white">
-      More Details <ArrowRight className="w-4 h-4" />
-    </span>
-  </button>
-</div>
-*/}
             </motion.div>
-
-          </motion.div>
+          </div>
         </div>
-      </div>
+
+        {/* 3. Elementary / Foundation Block (Soft Lilac-Gray Theme - single color family) */}
+        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 my-50" id="elementary-level-card">
+          <div className="relative">
+
+            {/* Background depth layers — right side, lavender family */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="pointer-events-none absolute -top-6 right-0 w-[38%] h-[16%] bg-[#cbb8ef]/70 hidden sm:block"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.12 }}
+              className="pointer-events-none absolute top-[16%] right-0 w-[38%] h-[82%] bg-[#d8c9f4]/60 hidden sm:block"
+            />
+
+            {/* Main front card — light lavender #e1d8f7 */}
+            <motion.div
+              whileHover={{ y: -10 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="bg-[#e1d8f7] p-8 sm:p-12 lg:p-16 relative overflow-visible shadow-lg hover:shadow-2xl transition-shadow duration-500 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px] w-full sm:w-[92%]"
+            >
+
+              {/* Left Column: Framed portrait photo + Grade Levels badge + heading */}
+              <motion.div
+                initial={{ opacity: 0, x: -120, scale: 0.92 }}
+                whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                className="lg:col-span-6 relative flex flex-col justify-end min-h-[380px] sm:min-h-[440px] z-10 w-full"
+              >
+
+                {/* Image frame wrapper — light glass border, fits the lavender card */}
+                <div className="relative w-full h-[280px] sm:h-[320px]">
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                    whileHover={{ scale: 1.02 }}
+                    className="absolute inset-0 w-[82%] sm:w-[78%] h-full overflow-hidden bg-white/60 backdrop-blur-sm p-2 shadow-[0_18px_40px_rgba(31,20,10,0.15)] z-10 border border-white/60"
+                  >
+                    <img
+                      src="assets/slider/slide2.jpg"
+                      alt="School building"
+                      className="w-full h-full object-cover object-center"
+                    />
+                  </motion.div>
+
+                  {/* Grade Levels badge — dark glass, readable on light lavender */}
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.5 }}
+                    className="absolute right-0 sm:right-2 bottom-6 bg-white/70 backdrop-blur-md border border-white/20 px-4 py-3.5 shadow-lg z-20 select-none"
+                  >
+                    <span className="text-[9px] sm:text-[11px] font-bold text-[020816] uppercase tracking-widest block font-mono">
+                      Grade Levels
+                    </span>
+                    <span className="text-xs sm:text-sm font-bold text-[#020816]]">
+                      Pre Nursery - Grade II
+                    </span>
+                  </motion.div>
+                </div>
+
+                {/* Heading — dark navy text on light lavender */}
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, delay: 0.55 }}
+                  className="relative z-30 mt-6 select-none"
+                >
+                  <h3 className="font-sans font-black text-[#020816] text-5xl sm:text-6xl lg:text-7xl leading-[0.85] tracking-tight">
+                    Elementary
+                    <span className="block font-sans font-light text-[#020816]/60 text-4xl sm:text-5xl mt-1">
+                      School
+                    </span>
+                  </h3>
+                </motion.div>
+              </motion.div>
+
+              {/* Right Column: Narrative + button — slides in from the right */}
+              <motion.div
+                initial={{ opacity: 0, x: 120, scale: 0.92 }}
+                whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                className="lg:col-span-6 lg:pl-16 z-20 space-y-6"
+              >
+                <p className="text-[#020816]/85 text-base sm:text-lg leading-relaxed font-normal max-w-md">
+                  At <strong className="text-[#020816] font-extrabold">IFS Elementary</strong>, we nurture the development of each child emotionally, academically, physically, socially, and artistically during their formative years.
+                </p>
+
+              </motion.div>
+
+            </motion.div>
+          </div>
+        </div>
+        
+        {/* 4. A-Level / Sixth Form Block (Violet Theme - matches Elementary/Junior/Senior pattern) */}
+        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 my-50" id="alevel-level-card">
+          <div className="relative">
+
+            {/* Background depth layers behind the whole card — left side, mint-teal family */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="pointer-events-none absolute -top-4 left-2 sm:left-6 w-[70%] sm:w-[42%] h-[85%] bg-[#C6F1EB]/70 hidden sm:block"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.12 }}
+              className="pointer-events-none absolute top-6 left-8 sm:left-14 w-[65%] sm:w-[38%] h-[75%] bg-[#ADEBE1]/60 hidden sm:block"
+            />
+
+            <motion.div
+              whileHover={{ y: -10 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="bg-[#91E5DB] p-8 sm:p-12 lg:p-16 relative overflow-visible shadow-lg hover:shadow-2xl transition-shadow duration-500 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[460px] w-full sm:w-[92%] ml-auto"
+            >
+
+              {/* Left Column: Narrative details and button — slides in from the left */}
+              <motion.div
+                initial={{ opacity: 0, x: -120, scale: 0.92 }}
+                whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                className="lg:col-span-6 z-20 space-y-6 lg:pr-12"
+              >
+                {/* Small eyebrow tag — gives this card its own top-of-column identity */}
+                {/* <span className="inline-block text-[10px] sm:text-[11px] font-bold text-[#020618] uppercase tracking-widest font-mono border-b-2 border-[#020618] pb-1">
+                  Beyond Senior School
+                </span> */}
+
+                <p className="text-[#020618] text-base sm:text-lg leading-relaxed font-normal max-w-md">
+                  At <strong className="text-[#020618] font-extrabold">IFS A-Level</strong>, students are guided towards academic excellence and independent thinking, preparing them fully for university and the world beyond.
+                </p>
+
+              </motion.div>
+
+              {/* Right Column: Angled image block, heading at top, floating grade badge on corner */}
+              <motion.div
+                initial={{ opacity: 0, x: 120, scale: 0.92 }}
+                whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                className="lg:col-span-6 relative h-[420px] sm:h-[460px] flex items-center justify-center w-full"
+              >
+                {/* Image with angled top edge instead of a plain rectangle */}
+                <div
+                  className="absolute inset-0 -top-6 sm:-top-10 bg-slate-950 overflow-hidden shadow-xl z-10 group"
+                  style={{ clipPath: "polygon(0% 6%, 100% 0%, 100% 100%, 0% 100%)" }}
+                >
+                  <img
+                    src="assets/slider/slide6.jpg"
+                    alt="A-Level students"
+                    className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
+                  />
+                  {/* Mint-teal color-wash overlay, matches new card theme */}
+                  <div className="absolute inset-0 bg-[#91E5DB]/45 mix-blend-color z-15" />
+                  <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-transparent to-transparent z-20" />
+
+                  {/* Heading — moved to TOP of image (Junior's sits at the bottom) */}
+                  <div className="absolute top-8 sm:top-10 left-6 z-30 select-none">
+                    <h3 className="font-sans font-black text-white text-4xl sm:text-5xl leading-[0.9] tracking-tight">
+                      A-Level
+                      <span className="block font-light text-white/90 text-3xl sm:text-4xl mt-0.5">
+                        Sixth Form
+                      </span>
+                    </h3>
+                  </div>
+                </div>
+
+                {/* Floating white "Grade Levels" badge overlapping the bottom-left corner */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, delay: 0.4 }}
+                  className="absolute -bottom-4 left-4 sm:left-6 z-30 bg-white px-5 py-3 shadow-lg select-none"
+                >
+                  <span className="text-[10px] sm:text-[11px] font-bold text-[#020816] uppercase tracking-widest block font-mono">
+                    Grade Levels
+                  </span>
+                  <span className="text-sm sm:text-base font-bold text-[#020816]">
+                    Grade XII - Grade XIII
+                  </span>
+                </motion.div>
+              </motion.div>
+
+            </motion.div>
+          </div>
+        </div>
+
     </section>
   );
 }
@@ -1037,22 +1086,20 @@ export default function AcademicsView({
   align-items: center;
   justify-content: center;
   padding: 15px 26px;
-  background: #F5C330;
-  color: #ffffffff;
+  background: #ffffff;
+  color: #020816;
   border-radius: 0;
   box-sizing: border-box;
-  font-weight: 800;
+  font-weight: 600;
   font-size: 14px;
   border: none;
   cursor: pointer;
   transition: color .35s ease, transform 0.25s ease, box-shadow 0.25s ease;
   text-decoration: none;
-  box-shadow: 0 8px 24px rgba(245,195,48,0.35);
 }
 
 .curriculum-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 16px 36px rgba(245,195,48,0.5);
 }
 
 .curriculum-btn-bg {
@@ -1088,59 +1135,13 @@ export default function AcademicsView({
   transition: .3s;
 }
       `}</style>
-
       {/* Immersive hero — matches About's hero exactly (image + navy gradient + gold accent line) */}
-      <section
-        className="relative h-[420px] lg:h-[430px] overflow-hidden"
-        style={{
-          backgroundImage: "url('building-image1.jpg')",
-          backgroundAttachment: "fixed",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-        }}
-      >
-        <div
-          className="absolute inset-0 z-[1]"
-          style={{
-            background:
-              "linear-gradient(90deg, rgba(11,32,63,0.80) 0%, rgba(11,32,63,0.55) 100%)",
-          }}
-        />
-        <div
-          className="absolute bottom-0 left-0 right-0 h-[4px] z-[2]"
-          style={{
-            background:
-              "linear-gradient(90deg, transparent 0%, #F5C330 30%, #F5C330 70%, transparent 100%)",
-          }}
-        />
+      <AcademictHero />
 
-        <div className="relative z-[3] max-w-7xl mx-auto h-full flex items-end px-8 lg:px-16 pb-12 lg:pb-16">
-          <motion.div
-            className="-ml-20"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            <h1
-              style={{
-                fontSize: "clamp(56px, 7vw, 80px)",
-                fontWeight: 750,
-                lineHeight: "1",
-                letterSpacing: "-3px",
-                color: "#ffffff",
-                fontFamily: "Inter, sans-serif",
-                margin: 0,
-              }}
-            >
-              ACADEMICS
-            </h1>
-          </motion.div>
-        </div>
-      </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         {/* Sub-nav  */}
-        <div className="flex justify-center mb-14" id="academics-nav">
+        <div className="flex justify-center mb-10" id="academics-nav">
           <div className="flex w-full max-w-3xl bg-[#0d1f3c] p-2">
             {[
               { id: "curriculum", label: "Curriculum Overview" },
@@ -1150,12 +1151,32 @@ export default function AcademicsView({
               <button
                 key={tab.id}
                 onClick={() => setSubView(tab.id as AcademicsSubView)}
-                className={`about-nav-tab flex-1 ${subView === tab.id ? "active" : ""}`}
+                className="relative flex-1 py-3 text-sm font-semibold uppercase tracking-wider overflow-hidden"
                 id={`nav-${tab.id}`}
                 aria-selected={subView === tab.id}
                 role="tab"
               >
-                {tab.label}
+                {subView === tab.id && (
+                  <motion.div
+                    layoutId="activeTab"
+                    className="absolute inset-0 bg-[#F5C330] z-0"
+                    transition={{
+                      type: "spring",
+                      stiffness: 220,
+                      damping: 28,
+                    }}
+                  />
+                )}
+
+                <span
+                  className={`relative z-10 transition-colors duration-300 ${
+                    subView === tab.id
+                      ? "text-[#0D1F3C]"
+                      : "text-white"
+                  }`}
+                >
+                  {tab.label}
+                </span>
               </button>
             ))}
           </div>
@@ -1165,7 +1186,7 @@ export default function AcademicsView({
             1. CURRICULUM OVERVIEW
         ============================================================ */}
         {subView === "curriculum" && (
-          <div className="space-y-0 animate-fadeIn" id="academics-curriculum">
+          <div className="space-y-0 animate-fadeIn " id="academics-curriculum">
 
             {/* ============================================================
                 1a. OVERVIEW
@@ -1177,11 +1198,17 @@ export default function AcademicsView({
             {/* ============================================================
                 1b. FINLAND / CAMBRIDGE DUAL CORE
             ============================================================ */}
-            <section id="section-dual-core" className="py-12">
+            <section id="section-dual-core" className="py-12 ">
               <DualAcademicCoreSection />
             </section>
 
-           
+            {/* ============================================================
+                1c. TEACHING METHODOLOGY
+            ============================================================ */}
+            <section id="section-methodology" className="py-16">
+              <TeachingMethodologySection />
+            </section>
+
 
             {/* ============================================================
                 1d. SCHOOL LEVELS SHOWCASE
@@ -1192,17 +1219,11 @@ export default function AcademicsView({
 
 
 
-             {/* ============================================================
-                1c. TEACHING METHODOLOGY
-            ============================================================ */}
-            <section id="section-methodology" className="py-16">
-              <TeachingMethodologySection />
-            </section>
 
             {/* ============================================================
                 1e. ACADEMICS HERO BANNER
             ============================================================ */}
-            <section id="section-academics-hero" className="-mb-12">
+            <section id="section-academics-hero" className="-mb-20">
               <AcademicsHeroBanner />
             </section>
 
