@@ -584,7 +584,7 @@ export default function ActivitiesView() {
     </h2>
 
     {/* Accent Line */}
-    <div className="w-25 h-1 bg-[#60BADC]  mx-auto mt-8 mb-8" />
+    <div className="w-25 h-1 bg-[#60BADC] mx-auto mt-8 mb-8 " />
 
     {/* Paragraphs wrapper — squiggle lives only here, scoped to this block */}
     <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[#F3F5FA] py-20">
@@ -661,9 +661,32 @@ export default function ActivitiesView() {
             {/* ============================================================
                 4a. HOUSE SYSTEM (4 Distinct Cards Unrolled)
             ============================================================ */}
-            <section id="house-system" className="pb-24 px-6 lg:px-12 mt-20">
-              <div className="max-w-7xl mx-auto space-y-24">
-                
+           <section id="house-system" className="pb-24 px-6 lg:px-12 mt-6">
+              <div className="max-w-7xl mx-auto">
+
+                {/* ── Section header ─────────────────────────────────── */}
+                <motion.div
+                  className="text-center mb-30"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <h2 className="text-4xl sm:text-5xl font-black text-[#020816] mb-6">
+                    Four Houses <br />
+                    <span className="text-[#60BADC]">One School , One Family</span>
+                  </h2>
+                  <p className="text-[#020816] text-lg max-w-2xl mx-auto">
+                    At Isra Foundation School, we believe that life outside the
+                    classroom is just as important as the learning that happens
+                    inside it. Our House System and carefully curated
+                    educational trips are designed to build confidence, teamwork,
+                    and real-world understanding in every student.
+                  </p>
+                </motion.div>
+
+              <div className="space-y-24">
+
                 {/* House 1: Peridots */}
                 <motion.div 
                   className="house-block flex flex-col lg:flex-row items-stretch"
@@ -949,9 +972,10 @@ export default function ActivitiesView() {
                         </span>
                       </div>*/}
                     </div>
-                  </div>
+                  </div>  
                 </motion.div>
 
+              </div>
               </div>
             </section>
 
@@ -1002,11 +1026,11 @@ export default function ActivitiesView() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5 }}
                 >
-                  <h2 className="text-4xl sm:text-5xl font-black text-[#0d1f3c] mb-6">
+                  <h2 className="text-4xl sm:text-5xl font-black text-[#020816] mb-6">
                     Learning Beyond <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F5C330] to-[#f8d873]">The Classroom</span>
+                    <span className="text-[#F5C330]">The Classroom</span>
                   </h2>
-                  <p className="text-slate-600 text-lg max-w-2xl mx-auto">
+                  <p className="text-[#020816] text-lg max-w-2xl mx-auto">
                     Our educational trips transform classroom lessons into
                     unforgettable real-world experiences through exploration and
                     discovery. Click any trip to view its gallery in full size.
@@ -1057,7 +1081,7 @@ export default function ActivitiesView() {
       {/* ============================================================
           WHAT STUDENTS GAIN (Benefits & Services Style)
       ============================================================ */}
-      <section className="py-24 px-6 lg:px-12 bg-slate-50 border-t border-slate-100">
+      <section className="py-24 px-6 lg:px-12 bg-slate-50 border-t border-[#020816]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <div className="flex items-center justify-center gap-4 mb-4">
@@ -1079,10 +1103,10 @@ export default function ActivitiesView() {
               </span>
               <span className="w-8 h-px bg-[#020618]" />
             </div>
-            <h2 className="text-4xl sm:text-5xl font-black text-[#0d1f3c] mb-4">
-              What Students Gain
-            </h2>
-            <div className="w-16 h-1 bg-[#F5C330] mx-auto"></div>
+           <h2 className="text-4xl sm:text-5xl font-black text-[#020816] mb-4">
+  What <span className="text-[#F5C330]">Students</span> Gain
+</h2>
+            <div className="w-16 h-1 bg-[#60BADC] mx-auto"></div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 max-w-5xl mx-auto">
@@ -1289,9 +1313,20 @@ export default function ActivitiesView() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-           {/* <span className="glass-badge mb-6">
-              <ShieldCheck className="w-4 h-4 text-[#F5C330]" /> Join The Spirit
-            </span> */}
+          <span
+          style={{
+            display: "inline-block",
+            color: "#ffffff",
+            fontSize: "12px",
+            fontWeight: 800,
+            padding: "2px 14px",
+            borderRadius: 10,
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+          }}
+        >
+          EXPLORE Co-curricular / Activities 
+        </span> 
             <h2 className="text-5xl sm:text-7xl font-black text-white mb-8 leading-tight">
               Get Involved. <br/>
               <span className="text-[#F5C330]">Get Inspired.</span>
