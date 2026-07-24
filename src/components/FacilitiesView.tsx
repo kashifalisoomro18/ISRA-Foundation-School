@@ -349,22 +349,27 @@ export default function FacilitiesView() {
   };
 
   return (
-    <div className="w-full space-y-0 fade-in" id="facilities-view-container">
+    <div className="w-full space-y-0 bg-white text-slate-800 font-sans" id="facilities-view-container">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap');
+
+        .facilities-hero-section * {
+          font-family: 'Inter', sans-serif;
+        }
+      `}</style>
 
       {/* ============================================================
           1. HERO SECTION
       ============================================================ */}
-      <section
-        className="relative h-[420px] lg:h-[430px] overflow-hidden"
-        style={{
-          backgroundImage: "url('/building-image1.jpg')",
-          backgroundAttachment: "fixed",
-          backgroundPosition: "center",
-          backgroundSize: "100%",
-          backgroundRepeat: "no-repeat",
-
-        }}
-      >
+       <section
+    className="facilities-hero-section relative h-[420px] lg:h-[430px] overflow-hidden"
+    style={{
+      backgroundImage: "url('/Campus.jpg')",
+      backgroundAttachment: "fixed",
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+    }}>
+          {/* Theme overlay: dark navy with subtle yellow accent at bottom */}
         <div
           className="absolute inset-0 z-[1]"
           style={{
@@ -372,17 +377,12 @@ export default function FacilitiesView() {
               "linear-gradient(90deg, rgba(11,32,63,0.80) 0%, rgba(11,32,63,0.55) 100%)",
           }}
         />
-        {/* yellow line divider */}
-        {/* <div
-          className="absolute bottom-0 left-0 right-0 h-[4px] z-[2]"
-          style={{
-            background:
-              "linear-gradient(90deg, transparent 0%, #F5C330 30%, #F5C330 70%, transparent 100%)",
-          }}
-        /> */}
+        {/* Yellow bottom accent line */}
+        <div className="absolute bottom-0 left-0 right-0 h-[4px] z-[2]" style={{ background: "linear-gradient(90deg, transparent 0%, #F5C330 30%, #F5C330 70%, transparent 100%)" }} />
 
         <div className="relative z-[3] max-w-7xl mx-auto h-full flex items-end px-8 lg:px-16 pb-12 lg:pb-16">
           <motion.div
+            className="-ml-20"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
@@ -393,15 +393,13 @@ export default function FacilitiesView() {
                 fontWeight: 750,
                 lineHeight: "1",
                 letterSpacing: "-3px",
-                color: "#ffffff",
+                color: "#ffffffff",
                 fontFamily: "Inter, sans-serif",
                 margin: 0,
-              }}
-            >
-            FACILITIES 
-            </h1>
+              }} > OUR FACILITIES </h1>
           </motion.div>
         </div>
+
       </section>
 
       {/* ============================================================

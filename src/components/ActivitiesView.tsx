@@ -163,12 +163,12 @@ export default function ActivitiesView() {
           align-items: center;
           justify-content: center;
           padding: 14px 32px;
-          background: #F5C330;
-          color: #ffffff;
+          background: #FFFFFF;
+          color: #0d1f3c;
           font-weight: 700;
           font-size: 1rem;
           letter-spacing: 0.02em;
-          box-shadow: 0 4px 14px rgba(245,195,48,0.25);
+         
           cursor: pointer;
           transition: color 0.35s ease, box-shadow 0.35s ease;
         }
@@ -579,7 +579,7 @@ export default function ActivitiesView() {
     </div>
 
     {/* Heading */}
-    <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#0D1F3C] leading-tight">
+    <h2 className="text-4xl sm:text-5xl lg:text-5xl font-black text-[#0D1F3C] leading-tight">
       A Vibrant  <br/>
       <span className="text-[#F5C330]">Community Spirit</span>
     </h2>
@@ -702,16 +702,16 @@ export default function ActivitiesView() {
                         <Gem className="w-8 h-8" />
                       </div> */}
                       <div>
-                        <p className="text-sm font-bold uppercase tracking-widest text-[#020816] mb-1">House of</p>
-                        <h3 className="text-4xl sm:text-5xl font-black text-[#016B4F] leading-none">Peridots</h3>
+                        <p className="text-sm font-bold uppercase tracking-widest text-[#020816] mb-1"> House of</p>
+                        <h3 className="text-4xl sm:text-5xl font-black text-[#016B4F] leading-none"> Peridots</h3>
                       </div>
                     </div>
                     
                     <p className="text-xl font-medium mb-6" style={{ color: "#016B4F" }}>
-                      "Growth, harmony & perseverance"
+                      "Growth,Harmony & Perseverance"
                     </p>
                     
-                    <p className="text-[#020816] text-lg leading-relaxed mb-8">
+                    <p className="text-[#020816]text-justify font-medium  mb-8">
                       The House of Peridots represents growth, harmony, and perseverance. We strive for excellence in all that we do and support one another to reach greater heights.
                     </p>
                     
@@ -774,16 +774,16 @@ export default function ActivitiesView() {
                         <Gem className="w-8 h-8" />
                       </div>*/}
                       <div>
-                        <p className="text-sm font-bold uppercase tracking-widest text-[#020816] mb-1">House of</p>
-                        <h3 className="text-4xl sm:text-5xl font-black text-[#0F4C81] leading-none">Celestites</h3>
+                        <p className="text-sm font-bold uppercase tracking-widest text-[#020816] mb-1"> House of</p>
+                        <h3 className="text-4xl sm:text-5xl font-black text-[#0F4C81] leading-none"> Celestites</h3>
                       </div>
                     </div>
                     
                     <p className="text-xl font-medium mb-6" style={{ color: "#0F4C81" }}>
-                      "Wisdom, harmony & calm leadership"
+                      "Wisdom,Harmony & Calm Leadership"
                     </p>
                     
-                    <p className="text-[#020816] text-lg leading-relaxed mb-8">
+                    <p className="text-[#020816] text-justify font-medium mb-8">
                       The House of Celestites represents wisdom, harmony, and calm leadership. We believe in working together with respect and unity to achieve greatness.
                     </p>
                     
@@ -846,16 +846,16 @@ export default function ActivitiesView() {
                         <Gem className="w-8 h-8" />
                       </div>*/}
                       <div>
-                        <p className="text-sm font-bold uppercase tracking-widest text-[#020816] mb-1">House of</p>
-                        <h3 className="text-4xl sm:text-5xl font-black text-[#7B0D17] leading-none">Garnets</h3>
+                        <p className="text-sm font-bold uppercase tracking-widest text-[#020816] mb-1"> House of</p>
+                        <h3 className="text-4xl sm:text-5xl font-black text-[#7B0D17] leading-none"> Garnets</h3>
                       </div>
                     </div>
                     
                     <p className="text-xl font-medium mb-6" style={{ color: "#7B0D17" }}>
-                      "Courage, determination & passion"
+                      "Courage, Determination & Passion"
                     </p>
                     
-                    <p className="text-[#020816] text-lg leading-relaxed mb-8">
+                    <p className="text-[#020816] text-justify font-medium mb-8">
                       The House of Garnets represents courage, determination, and passion. We face challenges with strength and lead with confidence.
                     </p>
                     
@@ -918,16 +918,16 @@ export default function ActivitiesView() {
                         <Gem className="w-8 h-8" />
                       </div>*/}
                       <div>
-                        <p className="text-sm font-bold uppercase tracking-widest text-[#020816] mb-1">House of</p>
-                        <h3 className="text-4xl sm:text-5xl font-black text-[#4B2E63] leading-none">Amethysts</h3>
+                        <p className="text-sm font-bold uppercase tracking-widest text-[#020816] mb-1"> House of</p>
+                        <h3 className="text-4xl sm:text-5xl font-black text-[#4B2E63] leading-none"> Amethysts</h3>
                       </div>
                     </div>
                     
                     <p className="text-xl font-medium mb-6" style={{ color: "#4B2E63" }}>
-                      "Creativity, imagination & innovation"
+                      "Creativity, Imagination & Innovation"
                     </p>
                     
-                    <p className="text-[#020816] text-lg leading-relaxed mb-8">
+                    <p className="text-[#020816] text-justify font-medium mb-8">
                       The House of Amethysts represents creativity, imagination, and innovation. We inspire ideas and turn them into impactful actions.
                     </p>
                     
@@ -1332,7 +1332,7 @@ export default function ActivitiesView() {
               Get Involved. <br/>
               <span className="text-[#F5C330]">Get Inspired.</span>
             </h2>
-            <p className="text-white/80 text-lg sm:text-xl mb-12 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-white font-medium text-lg mb-12 max-w-2xl mx-auto ">
               Every student belongs to a house and every term brings a new place
               to explore. Pick a colour, pack a bag, and be part of the moments
               that shape an IFS education.
@@ -1353,7 +1353,7 @@ export default function ActivitiesView() {
                 <span className="gold-btn-bg" />
                 <span className="gold-btn-content">
                   Find My House
-                  
+                
                 </span>
               </button>
               {/*<button className="bg-transparent border-2 border-white text-white font-bold rounded-full px-8 py-[14px] hover:bg-white hover:text-[#0d1f3c] transition-all flex items-center gap-2">
