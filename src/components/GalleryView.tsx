@@ -11,6 +11,7 @@ import {
   Palette,
   Building2,
   CalendarDays,
+  MailWarningIcon,
 } from "lucide-react";
 import { div } from "framer-motion/client";
 
@@ -77,14 +78,24 @@ const PAGE_SIZE = 8;
 --------------------------------------------------------- */
 function GalleryHero() {
   return (
-    <section className="relative h-[320px] w-full overflow-hidden sm:h-[380px]">
+    <section className="relative h-[420px] lg:h-[430px] w-full overflow-hidden sm:h-[380px]">
       <div
         className="absolute inset-0 bg-cover bg-center bg-fixed"
         style={{ backgroundImage: "url('https://picsum.photos/seed/school-hero-banner/1600/800')" }}
       />
       <div className="absolute inset-0 bg-gradient-to-br from-[#020816]/95 via-[#0b1a3a]/85 to-[#020816]/65" />
       <div className="relative z-10 flex h-full flex-col justify-center px-6 sm:px-12 lg:px-20">
-        <h1 className="animate-[fadeUp_0.7s_ease-out] text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+        <h1 className="animate-[fadeUp_0.7s_ease-out] "              
+        style={{
+                fontSize: "clamp(56px, 7vw, 80px)",
+                fontWeight: 750,
+                lineHeight: "1",
+                letterSpacing: "-3px",
+                color: "#ffffffff",
+                fontFamily: "Inter, sans-serif",
+                marginTop: 270,
+                marginLeft:60,
+              }}>
           Gallery
         </h1>
 
@@ -366,13 +377,13 @@ function LoadMoreButton({ hasMore, showLess, onLoadMore, onLoadLess }) {
 
       )}
       {showLess && (
-        <button
-          type="button"
-          onClick={onLoadLess}
-          className=" border border-[#020816] text-[#020816] px-8 py-3 text-sm font-semibold transition-colors duration-300 hover:bg-[#020816] hover:text-white"
-        >
-          Show Less
-        </button>
+      <button
+        type="button"
+        onClick={onLoadLess}
+        className="relative overflow-hidden border border-[#020816] text-[#020816] px-8 py-3 text-sm font-semibold transition-colors duration-300 before:absolute before:inset-0 before:start-0 before:w-0 before:bg-[#F5C330] before:transition-all before:duration-400 hover:text-[#020816] hover:before:w-full cursor-pointer"
+      >
+        <span className="relative z-10">Show Less</span>
+      </button>
       )}
     </div>
   );

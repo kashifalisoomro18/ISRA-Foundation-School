@@ -868,8 +868,8 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
               "linear-gradient(90deg, rgba(11,32,63,0.80) 0%, rgba(11,32,63,0.55) 100%)",
           }}
         />
-        {/* Yellow bottom accent line */}
-        <div className="absolute bottom-0 left-0 right-0 h-[4px] z-[2]" style={{ background: "linear-gradient(90deg, transparent 0%, #F5C330 30%, #F5C330 70%, transparent 100%)" }} />
+        {/* Yellow bottom accent line
+        <div className="absolute bottom-0 left-0 right-0 h-[4px] z-[2]" style={{ background: "linear-gradient(90deg, transparent 0%, #F5C330 30%, #F5C330 70%, transparent 100%)" }} /> */}
 
         <div className="relative z-[3] max-w-7xl mx-auto h-full flex items-end px-8 lg:px-16 pb-12 lg:pb-16">
           <motion.div
