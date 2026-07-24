@@ -53,14 +53,21 @@ function useReveal(threshold = 0.15) {
    - Falls back to a clean icon/color block if no image is given, or
      if the image fails to load (no more broken-image icon).
    - If `images` (1 or more) is provided, hovering shows a "view
-     photos" hint with an arrow, and clicking opens a full-screen
-     gallery lightbox with next/prev + dot navigation.
+     photos" hint, and clicking expands the photo in place, hiding
+     the title/description.
+   - Whether a card is expanded is controlled by the PARENT
+     (`FacilitiesView`) via `isExpanded` + `onToggle`, instead of each
+     card managing its own local boolean. That's what makes opening
+     one card automatically close whichever other card was open —
+     only one `id` can be the "expanded" one at a time, see the
+     `expandedCard` state in `FacilitiesView` below.
    - When a card has multiple images and isn't expanded, the photo
      auto-advances every few seconds (auto-cycling carousel). Manual
      next/prev interaction pauses auto-play briefly so it doesn't
      fight the user, then resumes.
 ================================================================ */
 type FacilityCardProps = {
+  id: string;
   icon: LucideIcon;
   name: string;
   description: string;
@@ -68,6 +75,8 @@ type FacilityCardProps = {
   imagePlaceholderColor?: string;
   needsPhoto?: boolean;
   delay?: number;
+  isExpanded: boolean;
+  onToggle: () => void;
 };
 
 function FacilityCard({
@@ -78,10 +87,11 @@ function FacilityCard({
   imagePlaceholderColor = "bg-slate-50",
   needsPhoto = false,
   delay = 0,
+  isExpanded,
+  onToggle,
 }: FacilityCardProps) {
   const [failedIndexes, setFailedIndexes] = useState<Set<number>>(new Set());
   const [cardIndex, setCardIndex] = useState(0);
-  const [expanded, setExpanded] = useState(false);
   const [autoPlayPaused, setAutoPlayPaused] = useState(false);
 
   const validImages = images.filter((_, i) => !failedIndexes.has(i));
@@ -89,9 +99,9 @@ function FacilityCard({
   const hasMultiple = validImages.length > 1;
   const coverImage = hasImages ? validImages[cardIndex % validImages.length] : null;
 
-  const toggleExpand = () => {
+  const handlePhotoClick = () => {
     if (!hasImages) return;
-    setExpanded((v) => !v);
+    onToggle();
   };
 
   // Arrows cycle the photo — stopPropagation so they never also
@@ -111,7 +121,7 @@ function FacilityCard({
   // so they don't all flip at the exact same time, then cycles every 5s.
   // Pauses while expanded or manually interacted with.
   useEffect(() => {
-    if (!hasMultiple || expanded || autoPlayPaused) return;
+    if (!hasMultiple || isExpanded || autoPlayPaused) return;
 
     let intervalTimer: ReturnType<typeof setInterval>;
 
@@ -123,13 +133,13 @@ function FacilityCard({
       intervalTimer = setInterval(() => {
         setCardIndex((i) => (i + 1) % validImages.length);
       }, 5000);
-    }, 4000 + (delay * 1000)); // 3s base delay + stagger
+    }, 4000 + delay * 1000); // 3s base delay + stagger
 
     return () => {
       clearTimeout(initialTimer);
       if (intervalTimer) clearInterval(intervalTimer);
     };
-  }, [hasMultiple, expanded, autoPlayPaused, validImages.length, delay]);
+  }, [hasMultiple, isExpanded, autoPlayPaused, validImages.length, delay]);
 
   // Resume auto-play a few seconds after a manual interaction.
   useEffect(() => {
@@ -145,7 +155,7 @@ function FacilityCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.5, delay }}
-      whileHover={!expanded ? { y: -8, boxShadow: "0 20px 35px rgba(11,32,63,0.18)" } : {}}
+      whileHover={!isExpanded ? { y: -8, boxShadow: "0 20px 35px rgba(11,32,63,0.18)" } : {}}
       layout
     >
       {/* Photo area — this is the part that grows to fill the whole
@@ -153,14 +163,14 @@ function FacilityCard({
           change animates instead of jumping. */}
       <motion.div
         className="relative w-full flex-shrink-0"
-        animate={{ height: expanded ? 480 : 280 }}
+        animate={{ height: isExpanded ? 480 : 280 }}
         transition={{ duration: 0.4, ease: "easeInOut" }}
       >
         <div
           className={`w-full h-full overflow-hidden ${hasImages ? "cursor-pointer" : ""}`}
-          onClick={toggleExpand}
+          onClick={handlePhotoClick}
           role={hasImages ? "button" : undefined}
-          aria-label={hasImages ? (expanded ? `Collapse ${name} photo` : `Expand ${name} photo`) : undefined}
+          aria-label={hasImages ? (isExpanded ? `Collapse ${name} photo` : `Expand ${name} photo`) : undefined}
         >
           <AnimatePresence mode="wait">
             {coverImage ? (
@@ -173,7 +183,7 @@ function FacilityCard({
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.5 }}
                 className={`w-full h-full object-cover transition-transform duration-500 ease-out ${
-                  !expanded ? "group-hover:scale-110" : ""
+                  !isExpanded ? "group-hover:scale-110" : ""
                 }`}
                 onError={() =>
                   setFailedIndexes((prev) => new Set(prev).add(cardIndex))
@@ -189,7 +199,7 @@ function FacilityCard({
 
         {/* Needs-photo badge — only shown in the normal (collapsed) state */}
         <AnimatePresence>
-          {needsPhoto && !expanded && (
+          {needsPhoto && !isExpanded && (
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -203,7 +213,7 @@ function FacilityCard({
         </AnimatePresence>
 
         {/* Photo count badge — top-left, only when there are multiple photos and not expanded */}
-        {hasMultiple && !expanded && (
+        {hasMultiple && !isExpanded && (
           <span
             className="absolute top-2 left-2 z-10 text-white text-[11px] font-bold px-2.5 py-1 flex items-center gap-1.5 shadow-sm"
             style={{
@@ -220,7 +230,7 @@ function FacilityCard({
 
         {/* Collapse ("x") button — only while expanded */}
         <AnimatePresence>
-          {expanded && (
+          {isExpanded && (
             <motion.button
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -228,7 +238,7 @@ function FacilityCard({
               aria-label={`Collapse ${name} photo`}
               onClick={(e) => {
                 e.stopPropagation();
-                setExpanded(false);
+                onToggle();
               }}
               className="absolute top-3 right-3 z-20 w-8 h-8 bg-slate-950/60 text-white flex items-center justify-center transition-colors duration-200 hover:bg-[#F5C330] hover:text-[#0d1f3c]"
             >
@@ -238,14 +248,15 @@ function FacilityCard({
         </AnimatePresence>
 
         {/* Prev / next arrows — visible on hover when collapsed,
-            always visible while expanded so you can browse the gallery */}
+            always visible while expanded so you can browse the gallery.
+            Hover state turns them yellow (brand primary) instead of white. */}
         {hasMultiple && (
           <>
             <button
               aria-label="Previous photo"
               onClick={cardPrev}
-              className={`absolute left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 bg-white/90 shadow flex items-center justify-center transition-opacity duration-200 hover:bg-white ${
-                expanded ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+              className={`absolute left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 bg-white/90 shadow flex items-center justify-center transition-all duration-200 hover:bg-[#F5C330] hover:scale-110 ${
+                isExpanded ? "opacity-100" : "opacity-0 group-hover:opacity-100"
               }`}
             >
               <ChevronLeft className="w-4 h-4 text-slate-900" />
@@ -253,8 +264,8 @@ function FacilityCard({
             <button
               aria-label="Next photo"
               onClick={cardNext}
-              className={`absolute right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 bg-white/90 shadow flex items-center justify-center transition-opacity duration-200 hover:bg-white ${
-                expanded ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+              className={`absolute right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 bg-white/90 shadow flex items-center justify-center transition-all duration-200 hover:bg-[#F5C330] hover:scale-110 ${
+                isExpanded ? "opacity-100" : "opacity-0 group-hover:opacity-100"
               }`}
             >
               <ChevronRight className="w-4 h-4 text-slate-900" />
@@ -274,18 +285,24 @@ function FacilityCard({
           </>
         )}
 
-        {hasImages && !expanded && (
-          <Plus
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-12 h-12 text-[#60BADC] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            strokeWidth={2}
-            style={{ filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.6))" }}
-            aria-hidden="true"
-          />
+        {/* Blue hover tint + zoom icon — the overlay that appears over the
+            photo on hover, same idea as the green-tinted "click to view"
+            treatment, just in the brand blue instead of green. */}
+        {hasImages && !isExpanded && (
+          <>
+            <div
+              className="absolute inset-0 z-[5] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              style={{ background: "rgba(96, 186, 220, 0.45)" }}
+            />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white/95 shadow-md flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100">
+              <Plus className="w-5 h-5 text-[#0d1f3c]" strokeWidth={2.5} aria-hidden="true" />
+            </div>
+          </>
         )}
 
         {/* Floating icon badge — hidden while expanded so it doesn't
             float awkwardly over a full-bleed photo */}
-        {!expanded && (
+        {!isExpanded && (
           <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 z-10 w-11 h-11 rounded-full bg-secondary ring-4 ring-white shadow-md flex items-center justify-center transition-transform duration-300 ease-out group-hover:scale-110">
             <Icon className="w-5 h-5 text-white" strokeWidth={2} />
           </div>
@@ -294,7 +311,7 @@ function FacilityCard({
 
       {/* Text — collapses away (height + opacity) when the photo expands */}
       <AnimatePresence initial={false}>
-        {!expanded && (
+        {!isExpanded && (
           <motion.div
             key="text"
             initial={{ height: 0, opacity: 0 }}
@@ -321,6 +338,16 @@ function FacilityCard({
 export default function FacilitiesView() {
   const { ref: ctaRef, visible: ctaVisible } = useReveal();
 
+  // Tracks which single card (by id) is currently expanded, across the
+  // whole grid. Opening a new card just changes this value, which
+  // automatically makes the previously-open card collapse — because
+  // its `isExpanded` prop (expandedCard === its own id) becomes false.
+  const [expandedCard, setExpandedCard] = useState<string | null>(null);
+
+  const handleToggle = (id: string) => {
+    setExpandedCard((current) => (current === id ? null : id));
+  };
+
   return (
     <div className="w-full space-y-0 fade-in" id="facilities-view-container">
 
@@ -335,7 +362,7 @@ export default function FacilitiesView() {
           backgroundPosition: "center",
           backgroundSize: "100%",
           backgroundRepeat: "no-repeat",
-         
+
         }}
       >
         <div
@@ -370,7 +397,7 @@ export default function FacilitiesView() {
                 margin: 0,
               }}
             >
-              OUR FACILITIES
+            FACILITIES 
             </h1>
           </motion.div>
         </div>
@@ -444,79 +471,105 @@ export default function FacilitiesView() {
           {/* ── Facility cards — each one written out separately ─── */}
           {/* To add photos to a card: pass images={["/path/one.jpg", "/path/two.jpg"]}.
               Leave images empty/omitted and it shows a clean icon placeholder instead
-              of a broken image — no need for the file to exist yet. */}
+              of a broken image — no need for the file to exist yet.
+              Each card also needs a unique `id` — that's what the "only one card
+              expanded at a time" behavior uses to know which one is open. */}
           <div className="flex flex-wrap items-start justify-center gap-8" id="facilities-grid">
 
             {/* Card 1 — Science / Laboratories: physics, chemistry and biology labs. Flagged as needing real photos. */}
             <FacilityCard
+              id="science"
               icon={Flame}
               name="Science/ Laboratories"
               description="Well-equipped Physics, Chemistry, and Biology labs with modern apparatus for hands-on experiments (."
               images={["/lab1.jpg", "/lab2.jpg", "/lab3.jpg", "/lab4.jpg"]}
               delay={0.2}
+              isExpanded={expandedCard === "science"}
+              onToggle={() => handleToggle("science")}
             />
 
             {/* Card 2 — Library: reading zone with 2,000+ books and reference materials. Flagged as needing real photos. */}
             <FacilityCard
+              id="library"
               icon={BookOpen}
               name="Library"
               description="Quiet learning zone holding 2,000+ books, reference materials, and reading nooks."
               images={["/g1.jpg", "/g3.jpg", "/g4.jpg"]}
               delay={0.1}
+              isExpanded={expandedCard === "library"}
+              onToggle={() => handleToggle("library")}
             />
 
             {/* Card 3 — Sports / Playground: outdoor grounds plus indoor sports room. Flagged as needing real photos. */}
             <FacilityCard
+              id="sports"
               icon={Flame}
               name="Sports / Playground"
               description="Secured campus ground for football, cricket, basketball court in addition to an indoor sports room."
-              images={["/play/jpg","/play2.jpg","/play1.jpg","/playground1.jpg","/playground2.jpg","/playground3.jpg","/playground4.jpg","/playground5.jpg"]}
+              images={["/play/jpg", "/play2.jpg", "/play1.jpg", "/playground1.jpg", "/playground2.jpg", "/playground3.jpg", "/playground4.jpg", "/playground5.jpg"]}
               delay={0.2}
+              isExpanded={expandedCard === "sports"}
+              onToggle={() => handleToggle("sports")}
             />
 
             {/* Card 4 — Auditorium: multipurpose hall for events, performances and assemblies. */}
             <FacilityCard
+              id="auditorium"
               icon={Tv}
               name="Auditorium"
               description="Multipurpose auditorium for events, performances, seminars, and student activities."
-              images={["/audi1.jpg","/audi2.jpg","/audi3.jpg","/audi4.jpg"]}
+              images={["/audi1.jpg", "/audi2.jpg", "/audi3.jpg", "/audi4.jpg"]}
               delay={0.3}
+              isExpanded={expandedCard === "auditorium"}
+              onToggle={() => handleToggle("auditorium")}
             />
 
             {/* Card 5 — Cafeteria: hygienic, school-monitored lunch service. */}
             <FacilityCard
+              id="cafeteria"
               icon={Coffee}
               name="Cafeteria"
               description="Hygienic, school-monitored cafeteria providing nutritious lunch items for students."
               images={["/cafe1.jpg"]}
               delay={0.4}
+              isExpanded={expandedCard === "cafeteria"}
+              onToggle={() => handleToggle("cafeteria")}
             />
 
             {/* Card 6 — Transport: managed van routes across the city. */}
             <FacilityCard
+              id="transport"
               icon={Truck}
               name="Transport"
               description="Managed school van routes covering safe pick-and-drop options across major city zones."
-              images={["kid1.jpg","kid2.jpg","kid3.jpg","kid4.jpg"]}
+              images={["kid1.jpg", "kid2.jpg", "kid3.jpg", "kid4.jpg"]}
               delay={0.5}
+              isExpanded={expandedCard === "transport"}
+              onToggle={() => handleToggle("transport")}
             />
 
             {/* Card 7 — Security / CCTV: guards, gated entry and full camera coverage. */}
             <FacilityCard
+              id="security"
               icon={ShieldCheck}
               name="Security / CCTV"
               description="24/7 security perimeter guards, walk-through gates, and comprehensive CCTV monitoring network."
-              images={["/g3.jpg","g2.jpg","g7.jpg","/play/jpg","/play1.jpg"]}
+              images={["/g3.jpg", "g2.jpg", "g7.jpg", "/play/jpg", "/play1.jpg"]}
               delay={0.6}
+              isExpanded={expandedCard === "security"}
+              onToggle={() => handleToggle("security")}
             />
 
             {/* Card 8 — Classrooms. */}
             <FacilityCard
+              id="classrooms"
               icon={ShieldCheck}
               name="Classrooms"
               description="Air-conditioned, well-lit classrooms with digital boards and comfortable seating."
-              images={["/classroom1.jpg","/classroom2.jpg","/classroom3.jpg","/classroom4.jpg","/classroom5.jpg","/classroom6.jpg","classroom7.jpg","/classroom8.jpg","/classroom9.jpg"]}
+              images={["/classroom1.jpg", "/classroom2.jpg", "/classroom3.jpg", "/classroom4.jpg", "/classroom5.jpg", "/classroom6.jpg", "classroom7.jpg", "/classroom8.jpg", "/classroom9.jpg"]}
               delay={0.6}
+              isExpanded={expandedCard === "classrooms"}
+              onToggle={() => handleToggle("classrooms")}
             />
 
           </div>
