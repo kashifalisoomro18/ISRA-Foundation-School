@@ -256,13 +256,12 @@ export default function Header({
             <Underline active={currentView === "facilities"} />
           </button>
 
-          {/* Student Life (Activities) */}
+          {/* ACTIVITIES (Activities) */}
           <button
             onClick={() => handleNav("activities")}
             className={`group ${navLinkBase} ${navLinkColor("activities")}`}
           >
-            Student Life
-            <Underline active={currentView === "activities"} />
+            Activities            <Underline active={currentView === "activities"} />
           </button>
 
           {/* News & Events Link */}

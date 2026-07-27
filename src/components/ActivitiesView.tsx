@@ -585,7 +585,7 @@ export default function ActivitiesView() {
     </h2>
 
     {/* Accent Line */}
-    <div className="w-25 h-1 bg-[#60BADC] mx-auto mt-8 mb-8 " />
+    <div className="w-18 h-1 bg-[#60BADC] mx-auto mt-8 mb-15 " />
 
     {/* Paragraphs wrapper — squiggle lives only here, scoped to this block */}
     <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[#F3F5FA] py-20">
@@ -675,9 +675,9 @@ export default function ActivitiesView() {
                 >
                   <h2 className="text-4xl sm:text-5xl font-black text-[#020816] mb-6">
                     Four Houses <br />
-                    <span className="text-[#60BADC]">One School , One Family</span>
+                    <span className="text-[#60BADC] mt-2 inline-block">One School , One Family</span>
                   </h2>
-                  <p className="text-[#020816] text-lg max-w-2xl mx-auto">
+                  <p className="text-[#020816] text-lg max-w-2xl mx-auto text-justify">
                     At Isra Foundation School, we believe that life outside the
                     classroom is just as important as the learning that happens
                     inside it. Our House System and carefully curated
@@ -992,12 +992,20 @@ export default function ActivitiesView() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: index * 0.1, duration: 0.5 }}
-                      className="flex flex-col items-center justify-center text-center px-6"
+                      className="flex flex-col items-center justify-center text-center px-6 group cursor-pointer"
                     >
-                      <Icon className="w-9 h-9 text-white mb-5" strokeWidth={1.6} />
+                      {/* Icon: Sirf is par hover effect rahega (Color change aur position shift) */}
+                      <Icon 
+                        className="w-9 h-9 text-white mb-5 transition-all duration-300 ease-out group-hover:text-[#F5C330] group-hover:-translate-y-2" 
+                        strokeWidth={1.6} 
+                      />
+                      
+                      {/* Numbers: Hover effect remove kar diya hai, yeh hamesha white rahega */}
                       <h2 className="text-4xl md:text-5xl font-black text-white mb-2">
                         <AnimatedCounter value={item.value} suffix={item.suffix} />
                       </h2>
+                      
+                      {/* Label: Hover effect remove kar diya hai, yeh hamesha white/70 rahega */}
                       <p className="text-xs md:text-sm uppercase tracking-[0.3em] font-bold text-white/70">
                         {item.label}
                       </p>
@@ -1006,6 +1014,8 @@ export default function ActivitiesView() {
                 })}
               </div>
             </div>
+
+
           </motion.div>
         ) : (
           <motion.div
@@ -1029,9 +1039,9 @@ export default function ActivitiesView() {
                 >
                   <h2 className="text-4xl sm:text-5xl font-black text-[#020816] mb-6">
                     Learning Beyond <br />
-                    <span className="text-[#F5C330]">The Classroom</span>
+                    <span className="text-[#F5C330] mt-2 inline-block">The Classroom</span>
                   </h2>
-                  <p className="text-[#020816] text-lg max-w-2xl mx-auto">
+                  <p className="text-[#020816] text-lg max-w-2xl mx-auto text-justify" >
                     Our educational trips transform classroom lessons into
                     unforgettable real-world experiences through exploration and
                     discovery. Click any trip to view its gallery in full size.

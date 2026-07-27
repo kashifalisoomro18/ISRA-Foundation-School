@@ -324,7 +324,16 @@ function FacilityCard({
               <h3 className="font-serif font-bold text-slate-900 text-base leading-snug">
                 {name}
               </h3>
-              <p className="text-slate-500 text-xs leading-relaxed mt-2">
+              <p
+                className="text-slate-600 text-xs leading-relaxed mt-2"
+                style={{
+                  minHeight: "3.75rem", // reserves space for 3 lines so cards stay level
+                  display: "-webkit-box",
+                  WebkitLineClamp: 3,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                }}
+              >
                 {description}
               </p>
             </div>
@@ -349,7 +358,7 @@ export default function FacilitiesView() {
   };
 
   return (
-    <div className="w-full space-y-0 bg-white text-slate-800 font-sans" id="facilities-view-container">
+    <div className="w-full space-y-0 bg-[#f8fafc] text-slate-800 font-sans" id="facilities-view-container">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap');
 
@@ -378,7 +387,7 @@ export default function FacilitiesView() {
           }}
         />
         {/* Yellow bottom accent line */}
-        <div className="absolute bottom-0 left-0 right-0 h-[4px] z-[2]" style={{ background: "linear-gradient(90deg, transparent 0%, #F5C330 30%, #F5C330 70%, transparent 100%)" }} />
+        {/* <div className="absolute bottom-0 left-0 right-0 h-[4px] z-[2]" style={{ background: "linear-gradient(90deg, transparent 0%, #F5C330 30%, #F5C330 70%, transparent 100%)" }} /> */}
 
         <div className="relative z-[3] max-w-7xl mx-auto h-full flex items-end px-8 lg:px-16 pb-12 lg:pb-16">
           <motion.div
@@ -396,7 +405,7 @@ export default function FacilitiesView() {
                 color: "#ffffffff",
                 fontFamily: "Inter, sans-serif",
                 margin: 0,
-              }} > OUR FACILITIES </h1>
+              }} > FACILITIES </h1>
           </motion.div>
         </div>
 
@@ -405,7 +414,7 @@ export default function FacilitiesView() {
       {/* ============================================================
           2. FACILITIES GRID SECTION
       ============================================================ */}
-      <section id="facilities-grid-section" style={{ background: "#f8fafc", padding: "180px 32px 64px" }}>
+      <section id="facilities-grid-section" style={{ background: "#f8fafc", padding: "200px 32px 64px" }}>
         <div style={{ maxWidth: "1440px", margin: "0 auto" }}>
 
           {/* ── Section header ─────────────────────────────────── */}
@@ -480,7 +489,7 @@ export default function FacilitiesView() {
               id="science"
               icon={Flame}
               name="Science/ Laboratories"
-              description="Well-equipped Physics, Chemistry, and Biology labs with modern apparatus for hands-on experiments (."
+              description="Well-equipped Physics, Chemistry, and Biology labs with modern apparatus for hands-on experiments."
               images={["/lab1.jpg", "/lab2.jpg", "/lab3.jpg", "/lab4.jpg"]}
               delay={0.2}
               isExpanded={expandedCard === "science"}

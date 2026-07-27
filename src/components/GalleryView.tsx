@@ -14,7 +14,8 @@ import {
   MailWarningIcon,
 } from "lucide-react";
 import { div } from "framer-motion/client";
-
+// -------------------------------------
+// -------------------------------------
 /* ---------------------------------------------------------
    Data — swap `src` values for real school photography.
    `size` controls the card's aspect ratio in the masonry grid.
@@ -93,7 +94,7 @@ function GalleryHero() {
                 letterSpacing: "-3px",
                 color: "#ffffffff",
                 fontFamily: "Inter, sans-serif",
-                marginTop: 270,
+                marginTop: 230,
                 marginLeft:60,
               }}>
           Gallery
@@ -437,3 +438,4 @@ export default function GalleryPreview() {
     </main>
   );
 }
+// ---------------------------------------------------------
