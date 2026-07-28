@@ -117,9 +117,9 @@ const AnimatedCounter = ({ value, suffix = "" }: { value: number; suffix?: strin
    MAIN VIEW
 ============================================================ */
 
-export default function ActivitiesView() {
+export default function ActivitiesView({ setView }: { setView?: (view: string) => void }) {
   const [activeTab, setActiveTab] = useState<"house" | "trips">("house");
-  
+
   // Lightbox State
   const [lightboxTrip, setLightboxTrip] = useState<Trip | null>(null);
   const [lightboxPhotoIndex, setLightboxPhotoIndex] = useState(0);
@@ -443,14 +443,14 @@ export default function ActivitiesView() {
             className="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center p-4 sm:p-8"
           >
             <div className="relative w-full max-w-5xl h-full flex flex-col items-center justify-center">
-              
+
               <div className="absolute top-4 right-4 z-50 text-white/70 bg-black/50 p-3 rounded-full hover:text-white transition-colors cursor-pointer" onClick={() => setLightboxTrip(null)}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
               </div>
 
               {lightboxTrip.photos.length > 1 && (
                 <>
-                  <button 
+                  <button
                     className="absolute left-4 z-50 text-white/70 bg-black/50 p-3  hover:text-white transition-colors"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -459,7 +459,7 @@ export default function ActivitiesView() {
                   >
                     <ChevronLeft className="w-8 h-8" />
                   </button>
-                  <button 
+                  <button
                     className="absolute right-4 z-50 text-white/70 bg-black/50 p-3  hover:text-white transition-colors"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -481,10 +481,10 @@ export default function ActivitiesView() {
                   src={lightboxTrip.photos[lightboxPhotoIndex]}
                   alt="Full size view"
                   className="max-w-full max-h-[80vh] object-contain  shadow-2xl"
-                  onClick={(e) => e.stopPropagation()} 
+                  onClick={(e) => e.stopPropagation()}
                 />
               </AnimatePresence>
-              
+
               <div className="text-white mt-6 text-center">
                 <h3 className="text-2xl font-bold mb-1">{lightboxTrip.label}</h3>
                 <p className="text-white/70">Image {lightboxPhotoIndex + 1} of {lightboxTrip.photos.length}</p>
@@ -544,72 +544,72 @@ export default function ActivitiesView() {
           </motion.div>
         </div>
       </section>
-   {/* ============================================================
+      {/* ============================================================
           2. INTRO
       ============================================================ */}
-   <section className="py-20 px-6 lg:px-12">
+      <section className="py-20 px-6 lg:px-12">
 
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className="max-w-4xl mx-auto text-center"
-  >
-    {/* Section Label */}
-    <div className="flex items-center justify-center gap-3 mb-8">
-      <span className="w-8 h-px bg-[#020618]" />
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="max-w-4xl mx-auto text-center"
+        >
+          {/* Section Label */}
+          <div className="flex items-center justify-center gap-3 mb-8">
+            <span className="w-8 h-px bg-[#020618]" />
 
-      <span
-        style={{
-          fontFamily:
-            "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
-          display: "inline-block",
-          color: "#020816",
-          fontSize: "12px ",
-          fontWeight: 800,
-          letterSpacing: "0.18em",
-          textTransform: "uppercase",
-        }}
-      >
-        CO-CURRICULAR ACTIVITIES
-      </span>
+            <span
+              style={{
+                fontFamily:
+                  "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+                display: "inline-block",
+                color: "#020816",
+                fontSize: "12px ",
+                fontWeight: 800,
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+              }}
+            >
+              CO-CURRICULAR ACTIVITIES
+            </span>
 
-      <span className="w-8 h-px bg-[#020618]" />
-    </div>
+            <span className="w-8 h-px bg-[#020618]" />
+          </div>
 
-    {/* Heading */}
-    <h2 className="text-4xl sm:text-5xl lg:text-5xl font-black text-[#0D1F3C] leading-tight">
-      A Vibrant  <br/>
-      <span className="text-[#F5C330]">Community Spirit</span>
-    </h2>
+          {/* Heading */}
+          <h2 className="text-4xl sm:text-5xl lg:text-5xl font-black text-[#0D1F3C] leading-tight">
+            A Vibrant  <br />
+            <span className="text-[#F5C330]">Community Spirit</span>
+          </h2>
 
-    {/* Accent Line */}
-    <div className="w-18 h-1 bg-[#60BADC] mx-auto mt-8 mb-15 " />
+          {/* Accent Line */}
+          <div className="w-18 h-1 bg-[#60BADC] mx-auto mt-8 mb-15 " />
 
-    {/* Paragraphs wrapper — squiggle lives only here, scoped to this block */}
-    <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[#F3F5FA] py-20">
-      <div className="max-w-4xl mx-auto px-8">
+          {/* Paragraphs wrapper — squiggle lives only here, scoped to this block */}
+          <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[#F3F5FA] py-20">
+            <div className="max-w-4xl mx-auto px-8">
 
-        {/* Description */}
-        <p className="text-[#020816] text-justify text-lg leading-8 mb-6 relative z-10">
-          Learning at Isra Foundation School extends well beyond the classroom.
-          Our co-curricular programme is built on two pillars: a House System
-          that channels healthy competition into teamwork and leadership, and a
-          calendar of educational trips that turns lessons into real-world
-          experiences.
-        </p>
+              {/* Description */}
+              <p className="text-[#020816] text-justify text-lg leading-8 mb-6 relative z-10">
+                Learning at Isra Foundation School extends well beyond the classroom.
+                Our co-curricular programme is built on two pillars: a House System
+                that channels healthy competition into teamwork and leadership, and a
+                calendar of educational trips that turns lessons into real-world
+                experiences.
+              </p>
 
-        <p className="text-[#020816] text-justify text-lg leading-8 relative z-10">
-          Together, these programmes give every student a stage to compete,
-          create, explore, and lead — building the confidence and character
-          that carry them well beyond their school years.
-        </p>
-      </div>
-    </div>
-  </motion.div>
-</section>
-     
+              <p className="text-[#020816] text-justify text-lg leading-8 relative z-10">
+                Together, these programmes give every student a stage to compete,
+                create, explore, and lead — building the confidence and character
+                that carry them well beyond their school years.
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
       {/* ============================================================
           3. TAB SWITCHER
       ============================================================ */}
@@ -662,7 +662,7 @@ export default function ActivitiesView() {
             {/* ============================================================
                 4a. HOUSE SYSTEM (4 Distinct Cards Unrolled)
             ============================================================ */}
-           <section id="house-system" className="pb-24 px-6 lg:px-12 mt-6">
+            <section id="house-system" className="pb-24 px-6 lg:px-12 mt-6">
               <div className="max-w-7xl mx-auto">
 
                 {/* ── Section header ─────────────────────────────────── */}
@@ -686,302 +686,378 @@ export default function ActivitiesView() {
                   </p>
                 </motion.div>
 
-              <div className="space-y-24">
+                <div className="space-y-40">
 
-                {/* House 1: Peridots */}
-                <motion.div 
-                  className="house-block flex flex-col lg:flex-row items-stretch"
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.7 }}
-                >
-                  <div className="p-10 md:p-14 lg:p-16 flex-1 flex flex-col justify-center order-2 lg:order-1">
-                    <div className="flex items-center gap-4 mb-6">
-                      {/* <div className="house-gem-icon" style={{ background: "#016B4F" }}>
+                  {/* House 1: Peridots */}
+                  <motion.div
+                    className="house-block flex flex-col lg:flex-row items-stretch"
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.7 }}
+                  >
+                    <div className="p-10 md:p-14 lg:p-16 flex-1 flex flex-col justify-center order-2 lg:order-1">
+                      <div className="flex items-center gap-4 mb-6">
+                        {/* <div className="house-gem-icon" style={{ background: "#016B4F" }}>
                         <Gem className="w-8 h-8" />
                       </div> */}
-                      <div>
-                        <p className="text-sm font-bold uppercase tracking-widest text-[#020816] mb-1"> House of</p>
-                        <h3 className="text-4xl sm:text-5xl font-black text-[#016B4F] leading-none"> Peridots</h3>
-                      </div>
-                    </div>
-                    
-                    <p className="text-xl font-medium mb-6" style={{ color: "#016B4F" }}>
-                      "Growth,Harmony & Perseverance"
-                    </p>
-                    
-                    <p className="text-[#020816]text-justify font-medium  mb-8">
-                      The House of Peridots represents growth, harmony, and perseverance. We strive for excellence in all that we do and support one another to reach greater heights.
-                    </p>
-                    
-                    <div className="grid grid-cols-2 gap-4 mb-10">
-                      {["Inter-house Sports", "Cultural Celebrations", "Quiz & Debate", "Student Leadership", "Science & Art Exhibitions", "Annual House Championship"].map((a, i) => (
-                        <div key={i} className="flex items-center gap-3">
-                          <div className="w-2 h-2 " style={{ background: "#016B4F" }} />
-                          <span className="text-sm font-semibold text-[#020816]">{a}</span>
+                        <div>
+                          <p className="text-sm font-bold uppercase tracking-widest text-[#020816] mb-1"> House of</p>
+                          <h3 className="text-4xl sm:text-5xl font-black text-[#016B4F] leading-none"> Peridots</h3>
                         </div>
-                      ))}
-                    </div>
-                    
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-8 border-t border-[#016B4F]">
-                      <div>
-                        <Trophy className="w-6 h-6 mb-2" style={{ color: "#016B4F" }} />
-                        <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={22} suffix="" /></p>
-                        <p className="text-xs font-bold uppercase text-[#016B4F] tracking-wider">Sports Wins</p>
                       </div>
-                      <div>
-                        <Calendar className="w-6 h-6 mb-2" style={{ color: "#016B4F" }} />
-                        <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={34} suffix="" /></p>
-                        <p className="text-xs font-bold uppercase text-[#016B4F] tracking-wider">Events</p>
-                      </div>
-                      <div>
-                        <Users className="w-6 h-6 mb-2" style={{ color: "#016B4F" }} />
-                        <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={280} suffix="+" /></p>
-                        <p className="text-xs font-bold uppercase text-[#016B4F] tracking-wider">Members</p>
-                      </div>
-                      <div>
-                        <Award className="w-6 h-6 mb-2" style={{ color: "#016B4F" }} />
-                        <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={16} suffix="" /></p>
-                        <p className="text-xs font-bold uppercase text-[#016B4F] tracking-wider">Leadership Awards</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex-1 order-1 lg:order-2 min-h-[400px] lg:min-h-full relative">
-                    <div className="house-image-wrapper">
-                      <img src="/Peridot.png" alt="House of Peridots" />
-                      <div className="house-image-overlay" />
-                      {/*<div className="absolute bottom-8 left-8">
-                        <span className="px-6 py-2 rounded-full text-white text-sm font-bold uppercase tracking-widest backdrop-blur-md" style={{ background: "#16a34a99" }}>
-                          Peridots
-                        </span>
-                      </div>*/}
-                    </div>
-                  </div>
-                </motion.div>
 
-                {/* House 2: Celestites */}
-                <motion.div 
-                  className="house-block flex flex-col lg:flex-row items-stretch"
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.7 }}
-                >
-                  <div className="p-10 md:p-14 lg:p-16 flex-1 flex flex-col justify-center order-2 lg:order-2">
-                    <div className="flex items-center gap-4 mb-6">
-                     {/* <div className="house-gem-icon" style={{ background: "#0F4C81" }}>
+                      <p className="text-xl font-medium mb-6" style={{ color: "#016B4F" }}>
+                        "Growth,Harmony & Perseverance"
+                      </p>
+
+                      <p className="text-[#020816]text-justify font-medium  mb-8">
+                        The House of Peridots represents growth, harmony, and perseverance. We strive for excellence in all that we do and support one another to reach greater heights.
+                      </p>
+
+                      <div className="grid grid-cols-2 gap-4 mb-10">
+                        {["Inter-house Sports", "Cultural Celebrations", "Quiz & Debate", "Student Leadership", "Science & Art Exhibitions", "Annual House Championship"].map((a, i) => (
+                          <div key={i} className="flex items-center gap-3">
+                            <div className="w-2 h-2 " style={{ background: "#016B4F" }} />
+                            <span className="text-sm font-semibold text-[#020816]">{a}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-8 border-t border-[#016B4F]">
+                        <div>
+                          <Trophy className="w-6 h-6 mb-2" style={{ color: "#016B4F" }} />
+                          <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={22} suffix="" /></p>
+                          <p className="text-xs font-bold uppercase text-[#016B4F] tracking-wider">Sports Wins</p>
+                        </div>
+                        <div>
+                          <Calendar className="w-6 h-6 mb-2" style={{ color: "#016B4F" }} />
+                          <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={34} suffix="" /></p>
+                          <p className="text-xs font-bold uppercase text-[#016B4F] tracking-wider">Events</p>
+                        </div>
+                        <div>
+                          <Users className="w-6 h-6 mb-2" style={{ color: "#016B4F" }} />
+                          <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={280} suffix="+" /></p>
+                          <p className="text-xs font-bold uppercase text-[#016B4F] tracking-wider">Members</p>
+                        </div>
+                        <div>
+                          <Award className="w-6 h-6 mb-2" style={{ color: "#016B4F" }} />
+                          <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={16} suffix="" /></p>
+                          <p className="text-xs font-bold uppercase text-[#016B4F] tracking-wider">Leadership Awards</p>
+                        </div>
+                        {/* Gallery button */}
+                        <div className="mt-10">
+                          <button
+                            onClick={() => {
+                              if (setView) {
+                                setView("gallery");
+                                setTimeout(() => {
+                                  const el = document.getElementById("houses-gallery-section");
+                                  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+                                }, 100);
+                              }
+                            }}
+                            className="flex items-center justify-center gap-3 px-10 py-4 text-white text-base font-bold uppercase tracking-widest rounded-none transition-all duration-300 hover:gap-4"
+                            style={{ background: "#016B4F", minWidth: "220px" }}
+                            onMouseEnter={(e) => (e.currentTarget.style.background = "#014f3a")}
+                            onMouseLeave={(e) => (e.currentTarget.style.background = "#016B4F")}
+                          >
+                            View Gallery
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex-1 order-1 lg:order-2 min-h-[400px] lg:min-h-full relative">
+                      <div className="house-image-wrapper">
+                        <img src="/Peridot.png" alt="House of Peridots" />
+                        <div className="house-image-overlay" />
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* House 2: Celestites */}
+                  <motion.div
+                    className="house-block flex flex-col lg:flex-row items-stretch"
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.7 }}
+                  >
+                    <div className="p-10 md:p-14 lg:p-16 flex-1 flex flex-col justify-center order-2 lg:order-2">
+                      <div className="flex items-center gap-4 mb-6">
+                        {/* <div className="house-gem-icon" style={{ background: "#0F4C81" }}>
                         <Gem className="w-8 h-8" />
                       </div>*/}
-                      <div>
-                        <p className="text-sm font-bold uppercase tracking-widest text-[#020816] mb-1"> House of</p>
-                        <h3 className="text-4xl sm:text-5xl font-black text-[#0F4C81] leading-none"> Celestites</h3>
-                      </div>
-                    </div>
-                    
-                    <p className="text-xl font-medium mb-6" style={{ color: "#0F4C81" }}>
-                      "Wisdom,Harmony & Calm Leadership"
-                    </p>
-                    
-                    <p className="text-[#020816] text-justify font-medium mb-8">
-                      The House of Celestites represents wisdom, harmony, and calm leadership. We believe in working together with respect and unity to achieve greatness.
-                    </p>
-                    
-                    <div className="grid grid-cols-2 gap-4 mb-10">
-                      {["Inter-house Sports", "Cultural Celebrations", "Quiz & Debate", "Student Leadership", "Science & Art Exhibitions", "Annual House Championship"].map((a, i) => (
-                        <div key={i} className="flex items-center gap-3">
-                          <div className="w-2 h-2 " style={{ background: "#0F4C81" }} />
-                          <span className="text-sm font-semibold text-[#020816]">{a}</span>
+                        <div>
+                          <p className="text-sm font-bold uppercase tracking-widest text-[#020816] mb-1"> House of</p>
+                          <h3 className="text-4xl sm:text-5xl font-black text-[#0F4C81] leading-none"> Celestites</h3>
                         </div>
-                      ))}
+                      </div>
+
+                      <p className="text-xl font-medium mb-6" style={{ color: "#0F4C81" }}>
+                        "Wisdom,Harmony & Calm Leadership"
+                      </p>
+
+                      <p className="text-[#020816] text-justify font-medium mb-8">
+                        The House of Celestites represents wisdom, harmony, and calm leadership. We believe in working together with respect and unity to achieve greatness.
+                      </p>
+
+                      <div className="grid grid-cols-2 gap-4 mb-10">
+                        {["Inter-house Sports", "Cultural Celebrations", "Quiz & Debate", "Student Leadership", "Science & Art Exhibitions", "Annual House Championship"].map((a, i) => (
+                          <div key={i} className="flex items-center gap-3">
+                            <div className="w-2 h-2 " style={{ background: "#0F4C81" }} />
+                            <span className="text-sm font-semibold text-[#020816]">{a}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-8 border-t border-[#0F4C81]">
+                        <div>
+                          <Trophy className="w-6 h-6 mb-2" style={{ color: "#0F4C81" }} />
+                          <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={18} suffix="" /></p>
+                          <p className="text-xs font-bold uppercase text-[#0F4C81] tracking-wider">Sports Wins</p>
+                        </div>
+                        <div>
+                          <Calendar className="w-6 h-6 mb-2" style={{ color: "#0F4C81" }} />
+                          <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={29} suffix="" /></p>
+                          <p className="text-xs font-bold uppercase text-[#0F4C81] tracking-wider">Events</p>
+                        </div>
+                        <div>
+                          <Users className="w-6 h-6 mb-2" style={{ color: "#373838" }} />
+                          <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={250} suffix="+" /></p>
+                          <p className="text-xs font-bold uppercase text-[#0F4C81] tracking-wider">Members</p>
+                        </div>
+                        <div>
+                          <Award className="w-6 h-6 mb-2" style={{ color: "#0F4C81" }} />
+                          <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={14} suffix="" /></p>
+                          <p className="text-xs font-bold uppercase text-[#0F4C81] tracking-wider">Leadership Awards</p>
+                        </div>
+                        {/* Gallery button */}
+                        <div className="mt-10">
+                          <button
+                            onClick={() => {
+                              if (setView) {
+                                setView("gallery");
+                                setTimeout(() => {
+                                  const el = document.getElementById("houses-gallery-section");
+                                  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+                                }, 100);
+                              }
+                            }}
+                            className="flex items-center justify-center gap-3 px-10 py-4 text-white text-base font-bold uppercase tracking-widest rounded-none transition-all duration-300 hover:gap-4"
+                            style={{ background: "#0F4C81", minWidth: "220px" }}
+                            onMouseEnter={(e) => (e.currentTarget.style.background = "#0b3a66")}
+                            onMouseLeave={(e) => (e.currentTarget.style.background = "#0F4C81")}
+                          >
+                            View Gallery
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                    
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-8 border-t border-[#0F4C81]">
-                      <div>
-                        <Trophy className="w-6 h-6 mb-2" style={{ color: "#0F4C81" }} />
-                        <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={18} suffix="" /></p>
-                        <p className="text-xs font-bold uppercase text-[#0F4C81] tracking-wider">Sports Wins</p>
-                      </div>
-                      <div>
-                        <Calendar className="w-6 h-6 mb-2" style={{ color: "#0F4C81" }} />
-                        <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={29} suffix="" /></p>
-                        <p className="text-xs font-bold uppercase text-[#0F4C81] tracking-wider">Events</p>
-                      </div>
-                      <div>
-                        <Users className="w-6 h-6 mb-2" style={{ color: "#0F4C81" }} />
-                        <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={250} suffix="+" /></p>
-                        <p className="text-xs font-bold uppercase text-[#0F4C81] tracking-wider">Members</p>
-                      </div>
-                      <div>
-                        <Award className="w-6 h-6 mb-2" style={{ color: "#0F4C81" }} />
-                        <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={14} suffix="" /></p>
-                        <p className="text-xs font-bold uppercase text-[#0F4C81] tracking-wider">Leadership Awards</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex-1 order-1 lg:order-1 min-h-[400px] lg:min-h-full relative">
-                    <div className="house-image-wrapper">
-                      <img src="/Celestite.png" alt="House of Celestites" />
-                      <div className="house-image-overlay" />
-                     {/* <div className="absolute bottom-8 left-8">
+                    <div className="flex-1 order-1 lg:order-1 min-h-[400px] lg:min-h-full relative">
+                      <div className="house-image-wrapper">
+                        <img src="/Celestite.png" alt="House of Celestites" />
+                        <div className="house-image-overlay" />
+                        {/* <div className="absolute bottom-8 left-8">
                         <span className="px-6 py-2 rounded-full text-white text-sm font-bold uppercase tracking-widest backdrop-blur-md" style={{ background: "#2563eb99" }}>
                           Celestites
                         </span>
                       </div> */}
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
+                  </motion.div>
 
-                {/* House 3: Garnets */}
-                <motion.div 
-                  className="house-block flex flex-col lg:flex-row items-stretch"
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.7 }}
-                >
-                  <div className="p-10 md:p-14 lg:p-16 flex-1 flex flex-col justify-center order-2 lg:order-1">
-                    <div className="flex items-center gap-4 mb-6">
-                     {/* <div className="house-gem-icon" style={{ background: "#7B0D17" }}>
+                  {/* House 3: Garnets */}
+                  <motion.div
+                    className="house-block flex flex-col lg:flex-row items-stretch"
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.7 }}
+                  >
+                    <div className="p-10 md:p-14 lg:p-16 flex-1 flex flex-col justify-center order-2 lg:order-1">
+                      <div className="flex items-center gap-4 mb-6">
+                        {/* <div className="house-gem-icon" style={{ background: "#7B0D17" }}>
                         <Gem className="w-8 h-8" />
                       </div>*/}
-                      <div>
-                        <p className="text-sm font-bold uppercase tracking-widest text-[#020816] mb-1"> House of</p>
-                        <h3 className="text-4xl sm:text-5xl font-black text-[#7B0D17] leading-none"> Garnets</h3>
-                      </div>
-                    </div>
-                    
-                    <p className="text-xl font-medium mb-6" style={{ color: "#7B0D17" }}>
-                      "Courage, Determination & Passion"
-                    </p>
-                    
-                    <p className="text-[#020816] text-justify font-medium mb-8">
-                      The House of Garnets represents courage, determination, and passion. We face challenges with strength and lead with confidence.
-                    </p>
-                    
-                    <div className="grid grid-cols-2 gap-4 mb-10">
-                      {["Inter-house Sports", "Cultural Celebrations", "Quiz & Debate", "Student Leadership", "Science & Art Exhibitions", "Annual House Championship"].map((a, i) => (
-                        <div key={i} className="flex items-center gap-3">
-                          <div className="w-2 h-2 " style={{ background: "#7B0D17" }} />
-                          <span className="text-sm font-semibold text-[#020816]">{a}</span>
+                        <div>
+                          <p className="text-sm font-bold uppercase tracking-widest text-[#020816] mb-1"> House of</p>
+                          <h3 className="text-4xl sm:text-5xl font-black text-[#7B0D17] leading-none"> Garnets</h3>
                         </div>
-                      ))}
+                      </div>
+
+                      <p className="text-xl font-medium mb-6" style={{ color: "#7B0D17" }}>
+                        "Courage, Determination & Passion"
+                      </p>
+
+                      <p className="text-[#020816] text-justify font-medium mb-8">
+                        The House of Garnets represents courage, determination, and passion. We face challenges with strength and lead with confidence.
+                      </p>
+
+                      <div className="grid grid-cols-2 gap-4 mb-10">
+                        {["Inter-house Sports", "Cultural Celebrations", "Quiz & Debate", "Student Leadership", "Science & Art Exhibitions", "Annual House Championship"].map((a, i) => (
+                          <div key={i} className="flex items-center gap-3">
+                            <div className="w-2 h-2 " style={{ background: "#7B0D17" }} />
+                            <span className="text-sm font-semibold text-[#020816]">{a}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-8 border-t border-[#7B0D17]">
+                        <div>
+                          <Trophy className="w-6 h-6 mb-2" style={{ color: "7B0D17" }} />
+                          <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={25} suffix="" /></p>
+                          <p className="text-xs font-bold uppercase text-[#7B0D17] tracking-wider">Sports Wins</p>
+                        </div>
+                        <div>
+                          <Calendar className="w-6 h-6 mb-2" style={{ color: "7B0D17" }} />
+                          <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={36} suffix="" /></p>
+                          <p className="text-xs font-bold uppercase text-[#7B0D17] tracking-wider">Events</p>
+                        </div>
+                        <div>
+                          <Users className="w-6 h-6 mb-2" style={{ color: "7B0D17" }} />
+                          <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={300} suffix="+" /></p>
+                          <p className="text-xs font-bold uppercase text-[#7B0D17] tracking-wider">Members</p>
+                        </div>
+                        <div>
+                          <Award className="w-6 h-6 mb-2" style={{ color: "7B0D17" }} />
+                          <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={20} suffix="" /></p>
+                          <p className="text-xs font-bold uppercase text-[#7B0D17] tracking-wider">Leadership Awards</p>
+                        </div>
+                        {/* Gallery button */}
+                        <div className="mt-10">
+                         <button
+                            onClick={() => {
+                              if (setView) {
+                                setView("gallery");
+                                setTimeout(() => {
+                                  const el = document.getElementById("houses-gallery-section");
+                                  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+                                }, 100);
+                              }
+                            }}
+                            className="flex items-center justify-center gap-3 px-10 py-4 text-white text-base font-bold uppercase tracking-widest rounded-none transition-all duration-300 hover:gap-4"
+                            style={{ background: "#7B0D17", minWidth: "220px" }}
+                            onMouseEnter={(e) => (e.currentTarget.style.background = "#5a0a10")}
+                            onMouseLeave={(e) => (e.currentTarget.style.background = "#7B0D17")}
+                          >
+                            View Gallery
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                    
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-8 border-t border-[#7B0D17]">
-                      <div>
-                        <Trophy className="w-6 h-6 mb-2" style={{ color: "7B0D17" }} />
-                        <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={25} suffix="" /></p>
-                        <p className="text-xs font-bold uppercase text-[#7B0D17] tracking-wider">Sports Wins</p>
-                      </div>
-                      <div>
-                        <Calendar className="w-6 h-6 mb-2" style={{ color: "7B0D17" }} />
-                        <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={36} suffix="" /></p>
-                        <p className="text-xs font-bold uppercase text-[#7B0D17] tracking-wider">Events</p>
-                      </div>
-                      <div>
-                        <Users className="w-6 h-6 mb-2" style={{ color: "7B0D17" }} />
-                        <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={300} suffix="+" /></p>
-                        <p className="text-xs font-bold uppercase text-[#7B0D17] tracking-wider">Members</p>
-                      </div>
-                      <div>
-                        <Award className="w-6 h-6 mb-2" style={{ color: "7B0D17" }} />
-                        <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={20} suffix="" /></p>
-                        <p className="text-xs font-bold uppercase text-[#7B0D17] tracking-wider">Leadership Awards</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex-1 order-1 lg:order-2 min-h-[400px] lg:min-h-full relative">
-                    <div className="house-image-wrapper">
-                      <img src="/Garnet.jpg" alt="House of Garnets" />
-                      <div className="house-image-overlay" />
-                      {/*<div className="absolute bottom-8 left-8">
+                    <div className="flex-1 order-1 lg:order-2 min-h-[400px] lg:min-h-full relative">
+                      <div className="house-image-wrapper">
+                        <img src="/Garnet.jpg" alt="House of Garnets" />
+                        <div className="house-image-overlay" />
+                        {/*<div className="absolute bottom-8 left-8">
                         <span className="px-6 py-2 rounded-full text-white text-sm font-bold uppercase tracking-widest backdrop-blur-md" style={{ background: "#dc262699" }}>
                           Garnets
                         </span>
                       </div>*/}
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
+                  </motion.div>
 
-                {/* House 4: Amethysts */}
-                <motion.div 
-                  className="house-block flex flex-col lg:flex-row items-stretch"
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.7 }}
-                >
-                  <div className="p-10 md:p-14 lg:p-16 flex-1 flex flex-col justify-center order-2 lg:order-2">
-                    <div className="flex items-center gap-4 mb-6">
-                     {/* <div className="house-gem-icon" style={{ background: "#4B2E63" }}>
+                  {/* House 4: Amethysts */}
+                  <motion.div
+                    className="house-block flex flex-col lg:flex-row items-stretch"
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.7 }}
+                  >
+                    <div className="p-10 md:p-14 lg:p-16 flex-1 flex flex-col justify-center order-2 lg:order-2">
+                      <div className="flex items-center gap-4 mb-6">
+                        {/* <div className="house-gem-icon" style={{ background: "#4B2E63" }}>
                         <Gem className="w-8 h-8" />
                       </div>*/}
-                      <div>
-                        <p className="text-sm font-bold uppercase tracking-widest text-[#020816] mb-1"> House of</p>
-                        <h3 className="text-4xl sm:text-5xl font-black text-[#4B2E63] leading-none"> Amethysts</h3>
-                      </div>
-                    </div>
-                    
-                    <p className="text-xl font-medium mb-6" style={{ color: "#4B2E63" }}>
-                      "Creativity, Imagination & Innovation"
-                    </p>
-                    
-                    <p className="text-[#020816] text-justify font-medium mb-8">
-                      The House of Amethysts represents creativity, imagination, and innovation. We inspire ideas and turn them into impactful actions.
-                    </p>
-                    
-                    <div className="grid grid-cols-2 gap-4 mb-10">
-                      {["Inter-house Sports", "Cultural Celebrations", "Quiz & Debate", "Student Leadership", "Science & Art Exhibitions", "Annual House Championship"].map((a, i) => (
-                        <div key={i} className="flex items-center gap-3">
-                          <div className="w-2 h-2 " style={{ background: "#4B2E63" }} />
-                          <span className="text-sm font-semibold text-[#020816]">{a}</span>
+                        <div>
+                          <p className="text-sm font-bold uppercase tracking-widest text-[#020816] mb-1"> House of</p>
+                          <h3 className="text-4xl sm:text-5xl font-black text-[#4B2E63] leading-none"> Amethysts</h3>
                         </div>
-                      ))}
+                      </div>
+
+                      <p className="text-xl font-medium mb-6" style={{ color: "#4B2E63" }}>
+                        "Creativity, Imagination & Innovation"
+                      </p>
+
+                      <p className="text-[#020816] text-justify font-medium mb-8">
+                        The House of Amethysts represents creativity, imagination, and innovation. We inspire ideas and turn them into impactful actions.
+                      </p>
+
+                      <div className="grid grid-cols-2 gap-4 mb-10">
+                        {["Inter-house Sports", "Cultural Celebrations", "Quiz & Debate", "Student Leadership", "Science & Art Exhibitions", "Annual House Championship"].map((a, i) => (
+                          <div key={i} className="flex items-center gap-3">
+                            <div className="w-2 h-2 " style={{ background: "#4B2E63" }} />
+                            <span className="text-sm font-semibold text-[#020816]">{a}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-8 border-t border-[#4B2E63]">
+                        <div>
+                          <Trophy className="w-6 h-6 mb-2" style={{ color: "#4B2E63" }} />
+                          <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={20} suffix="" /></p>
+                          <p className="text-xs font-bold uppercase text-[#4B2E63] tracking-wider">Sports Wins</p>
+                        </div>
+                        <div>
+                          <Calendar className="w-6 h-6 mb-2" style={{ color: "#4B2E63" }} />
+                          <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={31} suffix="" /></p>
+                          <p className="text-xs font-bold uppercase text-[#4B2E63] tracking-wider">Events</p>
+                        </div>
+                        <div>
+                          <Users className="w-6 h-6 mb-2" style={{ color: "#4B2E63" }} />
+                          <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={270} suffix="+" /></p>
+                          <p className="text-xs font-bold uppercase text-[#4B2E63] tracking-wider">Members</p>
+                        </div>
+                        <div>
+                          <Award className="w-6 h-6 mb-2" style={{ color: "#4B2E63" }} />
+                          <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={18} suffix="" /></p>
+                          <p className="text-xs font-bold uppercase text-[#4B2E63] tracking-wider">Leadership Awards</p>
+                        </div>
+                        {/* Gallery button */}
+                        <div className="mt-10">
+                          <button
+                            onClick={() => {
+                              if (setView) {
+                                setView("gallery");
+                                setTimeout(() => {
+                                  const el = document.getElementById("houses-gallery-section");
+                                  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+                                }, 100);
+                              }
+                            }}
+                            className="flex items-center justify-center gap-3 px-10 py-4 text-white text-base font-bold uppercase tracking-widest rounded-none transition-all duration-300 hover:gap-4"
+                            style={{ background: "#4B2E63", minWidth: "220px" }}
+                            onMouseEnter={(e) => (e.currentTarget.style.background = "#3a1f4d")}
+                            onMouseLeave={(e) => (e.currentTarget.style.background = "#4B2E63")}
+                          >
+                            View Gallery
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                    
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-8 border-t border-[#4B2E63]">
-                      <div>
-                        <Trophy className="w-6 h-6 mb-2" style={{ color: "#4B2E63" }} />
-                        <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={20} suffix="" /></p>
-                        <p className="text-xs font-bold uppercase text-[#4B2E63] tracking-wider">Sports Wins</p>
-                      </div>
-                      <div>
-                        <Calendar className="w-6 h-6 mb-2" style={{ color: "#4B2E63" }} />
-                        <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={31} suffix="" /></p>
-                        <p className="text-xs font-bold uppercase text-[#4B2E63] tracking-wider">Events</p>
-                      </div>
-                      <div>
-                        <Users className="w-6 h-6 mb-2" style={{ color: "#4B2E63" }} />
-                        <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={270} suffix="+" /></p>
-                        <p className="text-xs font-bold uppercase text-[#4B2E63] tracking-wider">Members</p>
-                      </div>
-                      <div>
-                        <Award className="w-6 h-6 mb-2" style={{ color: "#4B2E63" }} />
-                        <p className="text-2xl font-black text-[#020816] mb-1"><AnimatedCounter value={18} suffix="" /></p>
-                        <p className="text-xs font-bold uppercase text-[#4B2E63] tracking-wider">Leadership Awards</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex-1 order-1 lg:order-1 min-h-[400px] lg:min-h-full relative">
-                    <div className="house-image-wrapper">
-                      <img src="/Amethyst.png" alt="House of Amethysts" />
-                      <div className="house-image-overlay" />
-                      {/*<div className="absolute bottom-8 left-8">
+                    <div className="flex-1 order-1 lg:order-1 min-h-[400px] lg:min-h-full relative">
+                      <div className="house-image-wrapper">
+                        <img src="/Amethyst.png" alt="House of Amethysts" />
+                        <div className="house-image-overlay" />
+                        {/*<div className="absolute bottom-8 left-8">
                         <span className="px-6 py-2 rounded-full text-white text-sm font-bold uppercase tracking-widest backdrop-blur-md" style={{ background: "#7c3aed99" }}>
                           Amethysts
                         </span>
                       </div>*/}
+                      </div>
                     </div>
-                  </div>  
-                </motion.div>
+                  </motion.div>
 
-              </div>
+                </div>
               </div>
             </section>
 
             {/* Overall House System stats bar */}
-            <div className="stats-ticker py-20 px-6">
+            <div className="stats-ticker mt-24 py-20 px-6">
               <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-y-10 md:gap-y-0 md:divide-x divide-white/10">
                 {overallStats.map((item, index) => {
                   const Icon = item.icon;
@@ -995,16 +1071,16 @@ export default function ActivitiesView() {
                       className="flex flex-col items-center justify-center text-center px-6 group cursor-pointer"
                     >
                       {/* Icon: Sirf is par hover effect rahega (Color change aur position shift) */}
-                      <Icon 
-                        className="w-9 h-9 text-white mb-5 transition-all duration-300 ease-out group-hover:text-[#F5C330] group-hover:-translate-y-2" 
-                        strokeWidth={1.6} 
+                      <Icon
+                        className="w-9 h-9 text-white mb-5 transition-all duration-300 ease-out group-hover:text-[#F5C330] group-hover:-translate-y-2"
+                        strokeWidth={1.6}
                       />
-                      
+
                       {/* Numbers: Hover effect remove kar diya hai, yeh hamesha white rahega */}
                       <h2 className="text-4xl md:text-5xl font-black text-white mb-2">
                         <AnimatedCounter value={item.value} suffix={item.suffix} />
                       </h2>
-                      
+
                       {/* Label: Hover effect remove kar diya hai, yeh hamesha white/70 rahega */}
                       <p className="text-xs md:text-sm uppercase tracking-[0.3em] font-bold text-white/70">
                         {item.label}
@@ -1062,10 +1138,10 @@ export default function ActivitiesView() {
                         onClick={() => { setLightboxTrip(trip); setLightboxPhotoIndex(0); }}
                       >
                         <img src={trip.photos[0]} alt={trip.label} />
-                        
+
                         <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5  flex items-center gap-1.5 z-10">
-                           <ImageIcon className="w-3.5 h-3.5" />
-                           {trip.photos.length} 
+                          <ImageIcon className="w-3.5 h-3.5" />
+                          {trip.photos.length}
                         </div>
 
                         <div className="premium-trip-overlay">
@@ -1092,7 +1168,7 @@ export default function ActivitiesView() {
       {/* ============================================================
           WHAT STUDENTS GAIN (Benefits & Services Style)
       ============================================================ */}
-      <section className="py-24 px-6 lg:px-12 bg-slate-50 border-t border-[#020816]">
+      <section className="py-40 px-6 lg:px-12 bg-slate-50 border-t border-[#020816]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <div className="flex items-center justify-center gap-4 mb-4">
@@ -1114,9 +1190,9 @@ export default function ActivitiesView() {
               </span>
               <span className="w-8 h-px bg-[#020618]" />
             </div>
-           <h2 className="text-4xl sm:text-5xl font-black text-[#020816] mb-4">
-  What <span className="text-[#F5C330]">Students</span> Gain
-</h2>
+            <h2 className="text-4xl sm:text-5xl font-black text-[#020816] mb-4">
+              What <span className="text-[#F5C330]">Students</span> Gain
+            </h2>
             <div className="w-16 h-1 bg-[#60BADC] mx-auto"></div>
           </div>
 
@@ -1168,7 +1244,7 @@ export default function ActivitiesView() {
                   style={{
                     position: "relative",
                     background: "#ffffff",
-                    
+
                     paddingTop: "52px",
                     paddingBottom: "24px",
                     paddingLeft: "24px",
@@ -1243,7 +1319,7 @@ export default function ActivitiesView() {
                       width: "32px",
                       height: "3px",
                       background: accent,
-                      
+
                       margin: "10px 0 0",
                       transition: "background 0.3s ease",
                     }}
@@ -1302,7 +1378,7 @@ export default function ActivitiesView() {
           5. CTA 
       ============================================================ */}
       <section className="relative py-32 px-6 lg:px-12 overflow-hidden">
-        <motion.div 
+        <motion.div
           className="absolute inset-0 z-0"
           initial={{ scale: 1.1 }}
           whileInView={{ scale: 1 }}
@@ -1316,7 +1392,7 @@ export default function ActivitiesView() {
           />
           <div className="absolute inset-0 bg-[#0d1f3c]/80 mix-blend-multiply" />
         </motion.div>
-        
+
         <div className="relative z-10 w-full text-center max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -1324,22 +1400,22 @@ export default function ActivitiesView() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-          <span
-          style={{
-            display: "inline-block",
-            color: "#ffffff",
-            fontSize: "12px",
-            fontWeight: 800,
-            padding: "2px 14px",
-            borderRadius: 10,
-            letterSpacing: "0.12em",
-            textTransform: "uppercase",
-          }}
-        >
-          EXPLORE Co-curricular / Activities 
-        </span> 
+            <span
+              style={{
+                display: "inline-block",
+                color: "#ffffff",
+                fontSize: "12px",
+                fontWeight: 800,
+                padding: "2px 14px",
+                borderRadius: 10,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+              }}
+            >
+              EXPLORE Co-curricular / Activities
+            </span>
             <h2 className="text-5xl sm:text-7xl font-black text-white mb-8 leading-tight">
-              Get Involved. <br/>
+              Get Involved. <br />
               <span className="text-[#F5C330]">Get Inspired.</span>
             </h2>
             <p className="text-white font-medium text-lg mb-12 max-w-2xl mx-auto ">
@@ -1363,7 +1439,7 @@ export default function ActivitiesView() {
                 <span className="gold-btn-bg" />
                 <span className="gold-btn-content">
                   Find My House
-                
+
                 </span>
               </button>
               {/*<button className="bg-transparent border-2 border-white text-white font-bold rounded-full px-8 py-[14px] hover:bg-white hover:text-[#0d1f3c] transition-all flex items-center gap-2">

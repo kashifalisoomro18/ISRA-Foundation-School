@@ -805,7 +805,7 @@ function HousesGallery() {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full" id="houses-gallery-section">
       <section style={{ background: "#F8FAFC" }} className="px-6 py-16 sm:py-20 lg:px-12">
         <div className="mx-auto mb-12 flex max-w-7xl flex-col justify-between gap-8 lg:flex-row lg:items-end">
           <div className="max-w-xl">

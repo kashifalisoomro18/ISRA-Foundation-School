@@ -67,7 +67,7 @@ export default function App() {
               <AcademicsView subView={academicsSubView} setSubView={setAcademicsSubView} />
             )}
             {currentView === "facilities" && <FacilitiesView />}
-            {currentView === "activities" && <ActivitiesView />}
+          {currentView === "activities" && <ActivitiesView setView={setView} />}  
             {currentView === "news-events" && <NewsEventsView />}
             {currentView === "gallery" && <GalleryView />}
             {currentView === "careers" && <CareersView />}
