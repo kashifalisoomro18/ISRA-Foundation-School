@@ -15,13 +15,12 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+
 const COLORS = {
   ink: "#0d1f3c",
   gold: "#F5C330",
   blue: "#60BADC",
 };
-
-import AcademictHero from "./AcademicHero";
 
 function useReveal(threshold = 0.3) {
   const ref = useRef<HTMLDivElement>(null);
@@ -170,8 +169,8 @@ function SectionHeading({
           marginBottom: "16px",
         }}
       >
-        <span style={{ width: "32px", height: "1px", background: "#020816" }} />
-        <span
+      <span style={{ width: "32px", borderTop: "1px solid #020816" }} />       
+       <span
           style={{
             display: "inline-block",
             color: "#020816",
@@ -183,11 +182,11 @@ function SectionHeading({
             textTransform: "uppercase",
             marginBottom: "6px",
           }}
-        >
-          {eyebrow}
-        </span>
-        <span style={{ width: "32px", height: "1px", background: "#0d1f3c" }} />
+        > {eyebrow}</span>
+      <span style={{ width: "32px", borderTop: "1px solid #020816" }} />
+
       </div>
+
       <h2
         style={{
           fontSize: "clamp(2rem, 3.5vw, 3rem)",
@@ -200,7 +199,17 @@ function SectionHeading({
         {heading}
         {accent}
       </h2>
-      <div className="section-divider mx-auto" style={dividerColor ? { background: dividerColor } : undefined} />
+      {/* Divider — color is set per-section via the dividerColor prop below */}
+      <div
+        className="mx-auto"
+        style={{
+          width: "64px",
+          height: "4px",
+          borderRadius: "0px",
+          marginTop: "16px",
+          background: dividerColor || "#F5C330",
+        }}
+      />
       {description && (
         <p className="text-sm sm:text-base text-[#020816] leading-relaxed text-justify max-w-2xl mx-auto mt-4">
           {description}
@@ -208,7 +217,7 @@ function SectionHeading({
       )}
       {subDescription && (
         <p className="text-xs sm:text-sm text-[#020816] leading-relaxed text-justify max-w-2xl mx-auto mt-2">
-  {subDescription}
+          {subDescription}
         </p>
       )}
     </div>
@@ -221,18 +230,19 @@ function SectionHeading({
 
 function OverviewSection() {
   return (
-      <div className="space-y-8 pt-10" id="academics-overview">
-     <SectionHeading
-  eyebrow={
-    <span style={{ fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>
-      Academic Program
-    </span>
-  }
-  heading= "Curriculum"
-  accent={<span style={{ color: "#60BADC" }}> Overview</span>}
-  description="The curriculum focuses on a rigorous and creative academic foundation that aims at developing intellectual curiosity, critical thinking, and problem-solving skills amongst our students."
-  subDescription="Our renowned curriculum and devoted faculty uphold the high standards we have maintained for nearly four decades."
-/>
+    <div className="space-y-8" id="academics-overview">
+      <SectionHeading
+        eyebrow={
+          <span style={{ fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>
+            Academic Program
+          </span>
+        }
+        heading="Curriculum"
+        accent={<span style={{ color: "#60BADC" }}> Overview</span>}
+        description="The curriculum focuses on a rigorous and creative academic foundation that aims at developing intellectual curiosity, critical thinking, and problem-solving skills amongst our students."
+        subDescription="Our renowned curriculum and devoted faculty uphold the high standards we have maintained for nearly four decades."
+        dividerColor="#f5c330"
+      />
 
       <div className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen bg-slate-100 ">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center p-8 sm:p-10">
@@ -291,12 +301,17 @@ const dualCore = [
 ];
 function DualAcademicCoreSection() {
   return (
-  <div className="space-y-10 pt-20" id="dual-academic-blocks">
+    <div className="space-y-10 pt-20" id="dual-academic-blocks">
       <SectionHeading
-      eyebrow={ <span style={{ fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>
-        Dual Curriculum</span> } 
-      heading="Academic"
-      accent={<span style={{ color: "#F5C330" }}> Excellence</span>}
+        eyebrow={
+          <span style={{ fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>
+            Dual Curriculum
+          </span>
+        }
+        
+        heading="Academic"
+        accent={<span style={{ color: "#F5C330" }}> Excellence</span>}
+        dividerColor="#60BADC"
       />
       <div className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen">
         <div className="max-w-[1600px] mx-auto px-6 sm:px-12 space-y-8 md:space-y-20">
@@ -322,7 +337,7 @@ function DualAcademicCoreSection() {
                 >
                   <img src={image} alt={title} className="absolute inset-0 w-full h-full object-cover" />
                   <div className={`absolute inset-0 opacity-40 ${isBlue ? 'bg-[#60BADC]' : 'bg-[#F5C330]'}`}></div>
-                  
+
                   {/* SVG overlay to create the curve */}
                   {isFirst ? (
                     <svg className="absolute inset-y-0 -right-[1px] h-full w-16 sm:w-32 text-white hidden sm:block" preserveAspectRatio="none" viewBox="0 0 100 100">
@@ -349,7 +364,7 @@ function DualAcademicCoreSection() {
                       <svg className="absolute bottom-10 left-10 w-14 h-14 text-yellow-100/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
                     </>
                   )}
-                  
+
                   <div className="flex items-center">
                     <Icon />
                     <span
@@ -379,7 +394,6 @@ function DualAcademicCoreSection() {
     </div>
   );
 }
-
 /* ------------------------------------------------------------------ */
 /* TEACHING METHODOLOGY                                                */
 /* ------------------------------------------------------------------ */
@@ -413,6 +427,7 @@ function TeachingMethodologySection() {
         }
         heading="How We Bring Learning"
         accent={<span style={{ color: "#60BADC" }}> <br />To Life</span>}
+        dividerColor="#f5c330"
       />
 
       {/* Methodology cards - EXACT "Why Choose Isra Foundation" card style from HomeView */}
@@ -466,7 +481,6 @@ function TeachingMethodologySection() {
     </div>
   );
 }
-
 /* ------------------------------------------------------------------ */
 /* ACADEMICS HERO BANNER — added after Teaching Methodology            */
 /* ------------------------------------------------------------------ */
@@ -511,7 +525,7 @@ function AcademicsHeroBanner() {
           marginBottom: 20,
         }}
       >
-       
+
         <span
           style={{
             display: "inline-block",
@@ -525,7 +539,7 @@ function AcademicsHeroBanner() {
         >
           Admissions Open 2026&ndash;27
         </span>
-       
+
       </div>
 
       {/* Heading */}
@@ -560,8 +574,8 @@ function AcademicsHeroBanner() {
 
       {/* CTAs */}
       <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
-        <a 
-          href="#academics-curriculum" 
+        <a
+          href="#academics-curriculum"
           className="curriculum-btn"
           onClick={(e) => {
             e.preventDefault();
@@ -589,8 +603,8 @@ function AcademicsHeroBanner() {
         >
           <span className="curriculum-btn-bg"></span>
           <span className="curriculum-btn-content">
-            Explore Curriculum 
-           
+            Explore Curriculum
+
           </span>
         </a>
       </div>
@@ -614,14 +628,15 @@ function SchoolLevelsShowcaseSection({ setSubView }: SchoolLevelsShowcaseSection
 
   return (
     <section className="space-y-30 overflow-visible pt-20" id="fps-school-levels-showcase">
-          <SectionHeading
-      eyebrow={
-      <span style={{ fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>
-        Academic Pathways
-      </span>
-}
+      <SectionHeading
+        eyebrow={
+          <span style={{ fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>
+            Academic Pathways
+          </span>
+        }
         heading="Levels "
-        accent={<span style={{ color: "#60BADC" }}> Offered</span>}
+        accent={<span style={{ color: "#f5c330" }}> Offered</span>}
+        dividerColor="#60BADC"
       />
         {/* 1. Senior School Block (Sky Blue Theme - Match Reference Image 3) */}
         <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 my-30" id="senior-level-card">
@@ -728,7 +743,7 @@ function SchoolLevelsShowcaseSection({ setSubView }: SchoolLevelsShowcaseSection
                 <p className="text-slate-800 text-base sm:text-lg leading-relaxed font-normal max-w-md">
                   <strong className="text-slate-950 font-bold">IFS Senior</strong> schools strike a perfect harmony between a rigorous curriculum and an active co-curricular program. The aim of the senior school is to prepare our students for A Level, university and beyond.
                 </p>
-                
+
                 </motion.div>
             </motion.div>
           </div>
@@ -736,7 +751,7 @@ function SchoolLevelsShowcaseSection({ setSubView }: SchoolLevelsShowcaseSection
 
         {/* 2. Junior School Block (Yellow Theme - Match Reference Image 2) */}
         <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 my-50" id="junior-level-card">
-          <div className="relative">  
+          <div className="relative">
 
             {/* Background depth layers behind the whole card */}
             <motion.div
@@ -923,7 +938,7 @@ function SchoolLevelsShowcaseSection({ setSubView }: SchoolLevelsShowcaseSection
             </motion.div>
           </div>
         </div>
-        
+
         {/* 4. A-Level / Sixth Form Block (Violet Theme - matches Elementary/Junior/Senior pattern) */}
         <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 my-50" id="alevel-level-card">
           <div className="relative">
@@ -1032,21 +1047,14 @@ export default function AcademicsView({
   setSubView,
 }: AcademicsViewProps) {
   return (
-    <div className="w-full space-y-0 fade-in" id="academics-view-container">
-      <style>{`
+    <div className="w-full space-y-0 bg-white text-slate-800 font-sans" id="academics-view-container">
+        <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
         #academics-view-container * {
           font-family: 'Inter', sans-serif;
         }
 
-        .section-divider {
-          width: 64px;
-          height: 4px;
-          background: #F5C330;
-          border-radius:0px;
-          margin-top: 16px;
-        }
 
        .about-nav-tab {
         padding: 10px 10px;
@@ -1078,7 +1086,7 @@ export default function AcademicsView({
   color: #ffffff;
 }
 
-        /* Hover button matching AboutView section 5 */
+  /* Hover button matching AboutView section 5 */
 .curriculum-btn {
   position: relative;
   overflow: hidden;
@@ -1135,11 +1143,50 @@ export default function AcademicsView({
   transition: .3s;
 }
       `}</style>
+
       {/* Immersive hero — matches About's hero exactly (image + navy gradient + gold accent line) */}
-      <AcademictHero />
+      <section
+        className="academics-hero-section relative h-[420px] lg:h-[430px] overflow-hidden"
+        style={{
+          backgroundImage: "url('/building-image1.jpg')",
+          backgroundAttachment: "fixed",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+        }}
+      >
+        <div
+          className="absolute inset-0 z-[1]"
+          style={{
+            background:
+              "linear-gradient(90deg, rgba(11,32,63,0.80) 0%, rgba(11,32,63,0.55) 100%)",
+          }}
+        />
 
+        <div className="relative z-[3] max-w-7xl mx-auto h-full flex items-end px-8 lg:px-16 pb-12 lg:pb-16">
+          <motion.div
+            className="-ml-20"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+          >
+            <h1
+              style={{
+                fontSize: "clamp(56px, 7vw, 80px)",
+                fontWeight: 750,
+                lineHeight: "1",
+                letterSpacing: "-3px",
+                color: "#ffffff",
+                fontFamily: "Inter, sans-serif",
+                margin: 0,
+              }}
+            >
+              ACADEMICS
+            </h1>
+          </motion.div>
+        </div>
+      </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         {/* Sub-nav  */}
         <div className="flex justify-center mb-10" id="academics-nav">
           <div className="flex w-full max-w-3xl bg-[#0d1f3c] p-2">
@@ -1182,7 +1229,7 @@ export default function AcademicsView({
           </div>
         </div>
 
-        {/* ============================================================
+       {/* ============================================================
             1. CURRICULUM OVERVIEW
         ============================================================ */}
         {subView === "curriculum" && (
@@ -1230,15 +1277,20 @@ export default function AcademicsView({
           </div>
         )}
 
-        {/* ============================================================
+              {/* ============================================================
             2. SCHOOL TIMINGS
         ============================================================ */}
         {subView === "timings" && (
           <div className="max-w-4xl mx-auto space-y-10 animate-fadeIn" id="academics-timings">
             <SectionHeading
-              eyebrow="Daily Hours"
+               eyebrow={
+          <span style={{ fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>
+            Daily Hours
+          </span>
+        }
               heading="School Hours & "
-              accent={<span style={{ color: "#F5C330" }}>Office Timings</span>}
+              accent={<span style={{ color: "#60BADC" }}>Office Timings</span>}
+              dividerColor="#F5C330"
             />
 
             <div className="bg-white border border-slate-100 rounded-sm shadow-sm overflow-hidden border-t-4 border-[#F5C330] shadow-md">
@@ -1273,7 +1325,7 @@ export default function AcademicsView({
               </div>
             </div>
 
-            <div className="p-6 border border-slate-100 bg-slate-50 border-l-4 border-[#F5C330] rounded-sm text-xs text-slate-600 leading-relaxed text-center">
+            <div className="p-6 border  bg-slate-50 border-l-4 border-[#F5C330] rounded-sm text-xs text-slate-600 leading-relaxed text-center">
               <strong>Parental Note:</strong> Please ensure children arrive by 8:20 AM to participate in the
               morning assembly, national flag-hoisting, and moral recitation guidelines.
             </div>
@@ -1286,9 +1338,14 @@ export default function AcademicsView({
         {subView === "calendar" && (
           <div className="space-y-10 animate-fadeIn" id="academics-calendar">
             <SectionHeading
-              eyebrow="Yearly Milestones"
+            eyebrow={
+          <span style={{ fontFamily: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>
+            Yearly Milestones
+          </span>
+        }
               heading="Academic Term "
               accent={<span style={{ color: "#F5C330" }}>Schedules</span>}
+              dividerColor="#60BADC"
             />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
