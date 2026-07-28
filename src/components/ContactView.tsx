@@ -121,7 +121,7 @@ export default function ContactView() {
       ============================================================ */}
       <section className="relative h-[420px] sm:h-[480px] w-full overflow-hidden flex items-center">
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-0 bg-cover bg-center bg-fixed"
           style={{
             backgroundImage:
               "url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=80')",
