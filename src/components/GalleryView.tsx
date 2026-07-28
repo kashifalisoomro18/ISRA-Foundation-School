@@ -1,6 +1,12 @@
-import { useEffect, useMemo, useState, useCallback } from "react";
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { useEffect, useMemo, useState, useCallback, useRef } from "react";
+import { createPortal } from "react-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  Home,
   ChevronRight,
   ChevronLeft,
   X,
@@ -11,11 +17,17 @@ import {
   Palette,
   Building2,
   CalendarDays,
-  MailWarningIcon,
+  Camera,
+  ArrowRight,
 } from "lucide-react";
-import { div } from "framer-motion/client";
-// -------------------------------------
-// -------------------------------------
+
+/* ---------------------------------------------------------
+   Design tokens
+--------------------------------------------------------- */
+const NAVY = "#020816";
+const SKY = "#60BADC";
+const GOLD = "#F5C330";
+
 /* ---------------------------------------------------------
    Data — swap `src` values for real school photography.
    `size` controls the card's aspect ratio in the masonry grid.
@@ -56,12 +68,12 @@ const categories = [
   { id: "events", label: "Events", icon: CalendarDays },
 ];
 
-const categoryLabel = {
-  academics: "Academics",
-  sports: "Sports",
-  cultural: "Cultural",
-  campus: "Campus",
-  events: "Events",
+const categoryMeta = {
+  academics: { label: "Academics", color: SKY },
+  sports: { label: "Sports", color: "#E24C4C" },
+  cultural: { label: "Cultural", color: "#F08A2B" },
+  campus: { label: "Campus", color: "#4FAE6E" },
+  events: { label: "Events", color: "#8A63D2" },
 };
 
 const aspectMap = {
@@ -79,29 +91,91 @@ const PAGE_SIZE = 8;
 --------------------------------------------------------- */
 function GalleryHero() {
   return (
-    <section className="relative h-[420px] lg:h-[430px] w-full overflow-hidden sm:h-[380px]">
+    <section className="relative w-full overflow-hidden" style={{ background: NAVY }}>
+      {/* dot grid texture, top-left */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-fixed"
-        style={{ backgroundImage: "url('https://picsum.photos/seed/school-hero-banner/1600/800')" }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-br from-[#020816]/95 via-[#0b1a3a]/85 to-[#020816]/65" />
-      <div className="relative z-10 flex h-full flex-col justify-center px-6 sm:px-12 lg:px-20">
-        <h1 className="animate-[fadeUp_0.7s_ease-out] "              
+        className="absolute left-0 top-0 h-full w-full opacity-[0.06]"
         style={{
-                fontSize: "clamp(56px, 7vw, 80px)",
-                fontWeight: 750,
-                lineHeight: "1",
-                letterSpacing: "-3px",
-                color: "#ffffffff",
-                fontFamily: "Inter, sans-serif",
-                marginTop: 230,
-                marginLeft:60,
-              }}>
-          Gallery
-        </h1>
+          backgroundImage: "radial-gradient(circle, #ffffff 1px, transparent 1px)",
+          backgroundSize: "18px 18px",
+        }}
+      />
 
+      {/* school photo, right half, blended into navy */}
+      <div
+        className="absolute inset-0 hidden sm:block"
+        style={{
+          backgroundImage: "url('https://picsum.photos/seed/school-hero-banner/1600/900')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed",
+        }}
+      />
+      {/* mobile fallback: fixed backgrounds behave inconsistently on touch devices, so use a static cover image there */}
+      <div
+        className="absolute inset-0 sm:hidden"
+        style={{
+          backgroundImage: "url('https://picsum.photos/seed/school-hero-banner/1600/900')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(90deg, #020816 0%, rgba(2,8,22,0.88) 20%, rgba(2,8,22,0.55) 48%, rgba(2,8,22,0.7) 100%)",
+        }}
+      />
+      <div
+        className="absolute inset-0"
+        style={{ background: "linear-gradient(180deg, rgba(2,8,22,0.15) 0%, rgba(2,8,22,0.35) 100%)" }}
+      />
+
+      {/* decorative arc, top-right */}
+      <svg
+        className="pointer-events-none absolute -right-16 -top-24 hidden h-72 w-72 sm:block lg:h-96 lg:w-96"
+        viewBox="0 0 400 400"
+        fill="none"
+      >
+        <circle cx="200" cy="200" r="199" stroke={GOLD} strokeWidth="1.5" strokeOpacity="0.55" />
+      </svg>
+
+      <div className="relative z-10 px-6 py-20 sm:px-12 sm:py-24 lg:px-20 lg:py-28">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="max-w-xl"
+        >
+          <div className="mb-6 flex items-center gap-3">
+            <span className="h-px w-8" style={{ background: GOLD }} />
+            <span
+              className="text-[11px] font-bold uppercase tracking-[0.22em]"
+              style={{ color: GOLD, fontFamily: "'JetBrains Mono', ui-monospace, monospace" }}
+            >
+              Around the Campus
+            </span>
+          </div>
+
+          <h1
+            className="font-extrabold text-white"
+            style={{
+              fontSize: "clamp(48px, 6.5vw, 82px)",
+              lineHeight: 0.98,
+              letterSpacing: "-0.03em",
+            }}
+          >
+            Gallery
+          </h1>
+
+          <div className="mb-6 mt-5 h-[3px] w-16" style={{ background: SKY }} />
+
+          <p className="max-w-sm text-[15px] leading-relaxed text-white/70">
+            Capturing the moments, memories and milestones that make our school special.
+          </p>
+        </motion.div>
       </div>
-      <style>{`@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }`}</style>
     </section>
   );
 }
@@ -111,43 +185,28 @@ function GalleryHero() {
 --------------------------------------------------------- */
 function GalleryHeader() {
   return (
-        <div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.5 }}
+    <motion.div
+      className="mb-10 mt-16 text-center"
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.4 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="mb-4 flex items-center justify-center gap-3">
+        {/* <span className="h-px w-8" style={{ background: NAVY }} />
+        <span
+          className="text-[11px] font-extrabold uppercase tracking-[0.2em]"
+          style={{ color: NAVY, fontFamily: "'JetBrains Mono', ui-monospace, monospace" }}
         >
-          <div className="flex items-center justify-center gap-3 mb-9 mt-30">
-            <span className="w-8 h-px bg-[#020618]" />
-            <span
-              style={{
-                fontFamily:
-                  "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
-                color: "#020816",
-                fontSize: "0.72rem",
-                fontWeight: 800,
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-              }}
-            >
-              Around the Campus
-            </span>
-            <span className="w-8 h-px bg-[#020618]" />
-          </div>
-          <h2
-            style={{
-              fontSize: "clamp(1.75rem, 4vw, 2.5rem)",
-              fontWeight: 800,
-              color: "#020816",
-              margin: "0 0 12px",
-              lineHeight: 1.15,
-            }}
-          >
-            School <span style={{ color: "#F5C330" }}>Gallery</span>
-          </h2>
-          <div style={{ width: "64px", height: "4px", background: "#60BADC", margin: "0 auto" }} />
-        </div>
+          Around the Campus
+        </span>
+        <span className="h-px w-8" style={{ background: NAVY }} /> */}
+      </div>
+      <h2 className="text-[clamp(1.75rem,4vw,2.5rem)] font-extrabold leading-tight" style={{ color: NAVY }}>
+        School <span style={{ color: GOLD }}>Gallery</span>
+      </h2>
+      <div className="mx-auto mt-3 h-1 w-16" style={{ background: SKY }} />
+    </motion.div>
   );
 }
 
@@ -156,8 +215,8 @@ function GalleryHeader() {
 --------------------------------------------------------- */
 function GalleryFilters({ active, onChange }) {
   return (
-    <div className="flex justify-center px-4">
-      <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 border-b border-gray-200">
+<div className="flex justify-center px-4">
+      <div className="flex flex-wrap items-center justify-center gap-2 border border-slate-100 bg-white p-2 shadow-[0_8px_30px_-12px_rgba(2,8,22,0.15)]">
         {categories.map(({ id, label, icon: Icon }) => {
           const isActive = active === id;
           return (
@@ -165,17 +224,28 @@ function GalleryFilters({ active, onChange }) {
               key={id}
               type="button"
               onClick={() => onChange(id)}
-              className={`group relative flex items-center gap-2 pb-4 text-sm font-medium transition-colors duration-300 ${
-                isActive ? "text-[#111827]" : "text-gray-500 hover:text-[#111827]"
-              }`}
+              className="relative flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-colors duration-300"
+              style={{
+                color: isActive ? "#ffffff" : "#475569",
+                background: isActive ? NAVY : "transparent",
+              }}
             >
-              <Icon size={16} />
+              <Icon size={15} />
               {label}
-              <span
-                className={`absolute -bottom-px left-0 h-[2px] bg-[#F5C330] transition-all duration-300 ${
-                  isActive ? "w-full" : "w-0 group-hover:w-full"
-                }`}
-              />
+              
+              {isActive && (
+                <motion.span
+                  layoutId="filterUnderline"
+                  className="absolute -bottom-[6px] left-1/2 h-[3px] w-6 -translate-x-1/2"
+                  style={{ background: GOLD }}
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: 120, // Speed ko slow karne ke liye (pehle 300 tha)
+                    damping: 20,    // Smoothness control karne ke liye
+                    delay: 0.15     // Click ke baad 0.15 seconds ka halt/delay dene ke liye
+                  }}
+                />
+              )}
             </button>
           );
         })}
@@ -188,12 +258,16 @@ function GalleryFilters({ active, onChange }) {
    Card
 --------------------------------------------------------- */
 function GalleryCard({ item, onClick, index, stretch }) {
+  const meta = categoryMeta[item.category];
   return (
-    <button
+    <motion.button
       onClick={onClick}
       type="button"
-      style={{ animation: `fadeUp 0.4s ease-out ${Math.min(index * 0.04, 0.4)}s both` }}
-      className={`group relative block w-full cursor-pointer overflow-hidden  shadow-sm shadow-black/5 ${
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.45, delay: Math.min(index * 0.04, 0.4) }}
+      className={`group relative block w-full cursor-pointer overflow-hidden bg-slate-100 shadow-[0_10px_30px_-14px_rgba(2,8,22,0.35)] transition-shadow duration-300 hover:shadow-[0_18px_40px_-14px_rgba(2,8,22,0.45)] ${
         stretch ? "min-h-0 flex-1" : aspectMap[item.size].cls
       }`}
     >
@@ -201,19 +275,32 @@ function GalleryCard({ item, onClick, index, stretch }) {
         src={item.src}
         alt={item.alt}
         loading="lazy"
-        className="h-full w-full object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.08]"
+        className="h-full w-full object-cover transition-transform duration-[500ms] ease-out group-hover:scale-[1.08]"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#020816]/85 via-[#020816]/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-      <span className="absolute left-4 top-4 -translate-y-1.5  bg-white/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-[#020816] opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-        {categoryLabel[item.category]}
+      {/* sky-blue tinted gradient overlay on hover */}
+      <div
+        className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          background:
+            "linear-gradient(to top, rgba(2,8,22,0.88) 0%, rgba(96,186,220,0.28) 55%, rgba(96,186,220,0.05) 100%)",
+        }}
+      />
+      <span
+        className="absolute left-3.5 top-3.5 -translate-y-1.5 px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-white opacity-0 shadow-sm transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100"
+        style={{ background: meta.color }}
+      >
+        {meta.label}
       </span>
-      <span className="absolute right-4 top-4 flex h-9 w-9 -translate-y-1.5 items-center justify-center  bg-[#F5C330] text-[#020816] opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+      <span
+        className="absolute right-3.5 top-3.5 flex h-9 w-9 -translate-y-1.5 items-center justify-center opacity-0 shadow-sm transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100"
+        style={{ background: GOLD, color: NAVY }}
+      >
         <Eye size={16} />
       </span>
       <p className="absolute bottom-4 left-4 right-4 translate-y-2 text-left text-sm font-semibold text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
         {item.title}
       </p>
-    </button>
+    </motion.button>
   );
 }
 
@@ -282,7 +369,7 @@ function GalleryGrid({ items, onSelect }) {
 }
 
 /* ---------------------------------------------------------
-   Lightbox modal
+   Lightbox modal (masonry gallery)
 --------------------------------------------------------- */
 function GalleryModal({ items, activeIndex, onClose, onNavigate }) {
   const isOpen = activeIndex !== null;
@@ -309,53 +396,73 @@ function GalleryModal({ items, activeIndex, onClose, onNavigate }) {
     return () => window.removeEventListener("keydown", handleKey);
   }, [isOpen, goPrev, goNext, onClose]);
 
-  if (!isOpen || !item) return null;
-
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-[#020816]/90 px-4 backdrop-blur-sm animate-[fadeUp_0.2s_ease-out]"
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-      aria-label={item.title}
-    >
-      <button
-        type="button"
-        onClick={onClose}
-        aria-label="Close"
-        className="absolute right-5 top-5 flex h-11 w-11 items-center justify-center  bg-white/10 text-white transition-colors duration-300 hover:bg-[#F5C330] hover:text-[#020816]"
-      >
-        <X size={20} />
-      </button>
+    <AnimatePresence>
+      {isOpen && item && (
+        <motion.div
+          className="fixed inset-0 z-50 flex items-center justify-center px-4 backdrop-blur-md"
+          style={{ background: "rgba(2,8,22,0.92)" }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+          role="dialog"
+          aria-modal="true"
+          aria-label={item.title}
+        >
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close"
+            className="absolute right-5 top-5 flex h-11 w-11 items-center justify-center bg-white/10 text-white transition-colors duration-300 hover:text-[#020816]"
+            onMouseEnter={(e) => (e.currentTarget.style.background = GOLD)}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "")}
+          >
+            <X size={20} />
+          </button>
 
-      <button
-        type="button"
-        onClick={(e) => { e.stopPropagation(); goPrev(); }}
-        aria-label="Previous image"
-        className="absolute left-3 flex h-11 w-11 items-center justify-center  bg-white/10 text-white transition-colors duration-300 hover:bg-[#F5C330] hover:text-[#020816] sm:left-6"
-      >
-        <ChevronLeft size={22} />
-      </button>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); goPrev(); }}
+            aria-label="Previous image"
+            className="absolute left-3 flex h-11 w-11 items-center justify-center bg-white/10 text-white transition-colors duration-300 hover:text-[#020816] sm:left-6"
+            onMouseEnter={(e) => (e.currentTarget.style.background = GOLD)}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "")}
+          >
+            <ChevronLeft size={22} />
+          </button>
 
-      <div
-        onClick={(e) => e.stopPropagation()}
-        className="max-h-[80vh] max-w-3xl overflow-hidden "
-      >
-        <img src={item.src} alt={item.alt} className="max-h-[80vh] w-auto object-contain" />
-        <div className="bg-[#020816] px-5 py-3 text-center">
-          <p className="text-sm font-semibold text-white">{item.title}</p>
-        </div>
-      </div>
+          <motion.div
+            key={item.id}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.25 }}
+            onClick={(e) => e.stopPropagation()}
+            className="max-h-[80vh] max-w-3xl overflow-hidden"
+          >
+            <img src={item.src} alt={item.alt} className="max-h-[80vh] w-auto object-contain" />
+            <div className="flex items-center justify-between px-5 py-3" style={{ background: NAVY }}>
+              <p className="text-sm font-semibold text-white">{item.title}</p>
+              <p className="text-xs font-mono uppercase tracking-widest text-white/50">
+                {activeIndex + 1} / {items.length}
+              </p>
+            </div>
+          </motion.div>
 
-      <button
-        type="button"
-        onClick={(e) => { e.stopPropagation(); goNext(); }}
-        aria-label="Next image"
-        className="absolute right-3 flex h-11 w-11 items-center justify-center  bg-white/10 text-white transition-colors duration-300 hover:bg-[#F5C330] hover:text-[#020816] sm:right-6"
-      >
-        <ChevronRight size={22} />
-      </button>
-    </div>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); goNext(); }}
+            aria-label="Next image"
+            className="absolute right-3 flex h-11 w-11 items-center justify-center bg-white/10 text-white transition-colors duration-300 hover:text-[#020816] sm:right-6"
+            onMouseEnter={(e) => (e.currentTarget.style.background = GOLD)}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "")}
+          >
+            <ChevronRight size={22} />
+          </button>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -367,31 +474,408 @@ function LoadMoreButton({ hasMore, showLess, onLoadMore, onLoadLess }) {
   return (
     <div className="flex justify-center gap-4 pb-20 pt-10">
       {hasMore && (
-      <button
-        type="button"
-        onClick={onLoadMore}
-        className="relative overflow-hidden px-8 py-3 bg-[#020816] text-sm font-bold text-white  shadow-lg transition-colors duration-300 before:absolute before:inset-0 before:start-0 before:w-0 before:bg-[#60BADC] before:transition-all before:duration-400 before:delay-150 hover:text-[#020816] hover:before:w-full"
-      >
-        <span className="relative z-10">Load More Photos</span>
-      </button>
-
-
+        <button
+          type="button"
+          onClick={onLoadMore}
+          className="group relative overflow-hidden px-8 py-3.5 text-sm font-bold uppercase tracking-wide text-white  transition-colors duration-300"
+          style={{ background: NAVY }}
+        >
+          <span
+            className="absolute inset-0 -z-0 w-0 transition-all duration-400 group-hover:w-full"
+            style={{ background: SKY }}
+          />
+          <span className="relative z-10 flex items-center gap-2 transition-colors duration-300 group-hover:text-[#020816]">
+            Load More Photos
+          </span>
+        </button>
       )}
       {showLess && (
-      <button
-        type="button"
-        onClick={onLoadLess}
-        className="relative overflow-hidden border border-[#020816] text-[#020816] px-8 py-3 text-sm font-semibold transition-colors duration-300 before:absolute before:inset-0 before:start-0 before:w-0 before:bg-[#F5C330] before:transition-all before:duration-400 hover:text-[#020816] hover:before:w-full cursor-pointer"
-      >
-        <span className="relative z-10">Show Less</span>
-      </button>
+        <button
+          type="button"
+          onClick={onLoadLess}
+          className="group relative cursor-pointer overflow-hidden px-8 py-3.5 text-sm font-semibold transition-colors duration-300"
+          style={{ color: NAVY, border: `1.5px solid ${NAVY}` }}
+        >
+          <span
+            className="absolute inset-0 -z-0 w-0 transition-all duration-400 group-hover:w-full"
+            style={{ background: GOLD }}
+          />
+          <span className="relative z-10">Show Less</span>
+        </button>
       )}
     </div>
   );
 }
 
+/* ================================================================
+   HOUSES SECTION — data, lightbox, previews and house sections
+================================================================ */
+const HOUSES = [
+  {
+    id: "peridots",
+    name: "House of Peridots",
+    gem: "Peridot",
+    tagline: "Growth • Curiosity • Resilience",
+    description:
+      "Peridots channel their energy into inquiry, championing curiosity in every classroom, lab and field they enter.",
+    color: "#6E9B3A",
+    tint: "#EEF5E4",
+    icon: "/public/Peridot.png",
+    images: [
+      { id: "per-1", src: "https://picsum.photos/seed/peridot-house-1/900/700", caption: "House assembly", category: "student-life" },
+      { id: "per-2", src: "https://picsum.photos/seed/peridot-house-2/900/700", caption: "Science fair build", category: "events" },
+      { id: "per-3", src: "https://picsum.photos/seed/peridot-house-3/900/700", caption: "Inter-house football", category: "sports" },
+      { id: "per-4", src: "https://picsum.photos/seed/peridot-house-4/900/700", caption: "Green wing corridor", category: "facilities" },
+      { id: "per-5", src: "https://picsum.photos/seed/peridot-house-5/900/700", caption: "Study circle", category: "student-life" },
+      { id: "per-6", src: "https://picsum.photos/seed/peridot-house-6/900/700", caption: "Annual prize giving", category: "events" },
+    ],
+  },
+  {
+    id: "celestites",
+    name: "House of Celestites",
+    gem: "Celestite",
+    tagline: "Calm • Clarity • Cooperation",
+    description:
+      "Celestites bring a steady, collaborative spirit to everything from debate finals to the quiet corners of the library.",
+    color: "#4E8FB8",
+    tint: "#E7F1F7",
+    icon: "/public/Celestite.png",
+    images: [
+      { id: "cel-1", src: "https://picsum.photos/seed/celestite-house-1/900/700", caption: "Debate finals", category: "events" },
+      { id: "cel-2", src: "https://picsum.photos/seed/celestite-house-2/900/700", caption: "Basketball practice", category: "sports" },
+      { id: "cel-3", src: "https://picsum.photos/seed/celestite-house-3/900/700", caption: "Blue wing library nook", category: "facilities" },
+      { id: "cel-4", src: "https://picsum.photos/seed/celestite-house-4/900/700", caption: "House orientation", category: "student-life" },
+      { id: "cel-5", src: "https://picsum.photos/seed/celestite-house-5/900/700", caption: "Robotics workshop", category: "events" },
+      { id: "cel-6", src: "https://picsum.photos/seed/celestite-house-6/900/700", caption: "Morning house huddle", category: "student-life" },
+    ],
+  },
+  {
+    id: "garnets",
+    name: "House of Garnets",
+    gem: "Garnet",
+    tagline: "Courage • Drive • Discipline",
+    description:
+      "Garnets lead with grit — first on the track, loudest at the finals, and always first to volunteer.",
+    color: "#A13D3D",
+    tint: "#F6E7E5",
+    icon: "/public/Garnet.jpg",
+    images: [
+      { id: "gar-1", src: "https://picsum.photos/seed/garnet-house-1/900/700", caption: "Track & field day", category: "sports" },
+      { id: "gar-2", src: "https://picsum.photos/seed/garnet-house-2/900/700", caption: "Debate & MUN expo", category: "events" },
+      { id: "gar-3", src: "https://picsum.photos/seed/garnet-house-3/900/700", caption: "Red wing common room", category: "facilities" },
+      { id: "gar-4", src: "https://picsum.photos/seed/garnet-house-4/900/700", caption: "Cricket finals", category: "sports" },
+      { id: "gar-5", src: "https://picsum.photos/seed/garnet-house-5/900/700", caption: "House captain briefing", category: "student-life" },
+      { id: "gar-6", src: "https://picsum.photos/seed/garnet-house-6/900/700", caption: "Founders' day march", category: "events" },
+    ],
+  },
+  {
+    id: "amethyst",
+    name: "House of Amethyst",
+    gem: "Amethyst",
+    tagline: "Creativity • Expression • Imagination",
+    description:
+      "Amethysts turn every hallway into a canvas, bringing colour, music and story to campus life.",
+    color: "#7B4FA0",
+    tint: "#F1E9F7",
+    icon: "/public/Amethyst.png",
+    images: [
+      { id: "ame-1", src: "https://picsum.photos/seed/amethyst-house-1/900/700", caption: "Art & culture expo", category: "events" },
+      { id: "ame-2", src: "https://picsum.photos/seed/amethyst-house-2/900/700", caption: "Drama rehearsal", category: "student-life" },
+      { id: "ame-3", src: "https://picsum.photos/seed/amethyst-house-3/900/700", caption: "Purple wing studio", category: "facilities" },
+      { id: "ame-4", src: "https://picsum.photos/seed/amethyst-house-4/900/700", caption: "Badminton meet", category: "sports" },
+      { id: "ame-5", src: "https://picsum.photos/seed/amethyst-house-5/900/700", caption: "Music showcase", category: "events" },
+      { id: "ame-6", src: "https://picsum.photos/seed/amethyst-house-6/900/700", caption: "House bonding day", category: "student-life" },
+    ],
+  },
+];
+
+function HouseLightbox({ images, title, accentColor, index, onClose, onNext, onPrev }) {
+  const img = images[index];
+
+  useEffect(() => {
+    const original = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = original;
+    };
+  }, []);
+
+  return createPortal(
+    <motion.div
+      className="fixed inset-0 z-[100] flex items-center justify-center px-4 backdrop-blur-md"
+      style={{ background: "rgba(2,8,22,0.92)" }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
+      <button
+        aria-label="Close"
+        onClick={onClose}
+        className="absolute right-5 top-5 flex h-10 w-10 items-center justify-center bg-white/10 text-white transition-colors hover:bg-white/20 sm:right-8 sm:top-8"
+      >
+        <X className="h-5 w-5" />
+      </button>
+
+      <button
+        aria-label="Previous photo"
+        onClick={(e) => { e.stopPropagation(); onPrev(); }}
+        className="absolute left-3 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center bg-white/10 text-white transition-colors hover:bg-white/20 sm:left-8"
+      >
+        <ChevronLeft className="h-5 w-5" />
+      </button>
+      <button
+        aria-label="Next photo"
+        onClick={(e) => { e.stopPropagation(); onNext(); }}
+        className="absolute right-3 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center bg-white/10 text-white transition-colors hover:bg-white/20 sm:right-8"
+      >
+        <ChevronRight className="h-5 w-5" />
+      </button>
+
+      <motion.div
+        key={img.id}
+        initial={{ opacity: 0, scale: 0.96 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.96 }}
+        transition={{ duration: 0.25 }}
+        className="w-full max-w-4xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="overflow-hidden shadow-2xl">
+          <img src={img.src} alt={img.caption} className="max-h-[75vh] w-full object-cover" />
+        </div>
+        <div className="mt-4 flex items-center justify-between px-1">
+          <div className="flex items-center gap-2">
+            <span className="h-2.5 w-2.5" style={{ background: accentColor }} />
+            <p className="text-sm font-semibold text-white">{img.caption}</p>
+          </div>
+          <p className="font-mono text-xs uppercase tracking-widest text-white/50">
+            {index + 1} / {images.length} — {title}
+          </p>
+        </div>
+      </motion.div>
+    </motion.div>,
+    document.body
+  );
+}
+
+function HouseSection({ house, delay }) {
+  const [lightboxIndex, setLightboxIndex] = useState(null);
+
+  return (
+    <section id={`house-${house.id}`} className="scroll-mt-24 px-6 py-16 sm:py-20 lg:px-12" style={{ background: house.tint }}>
+      <div className="mx-auto max-w-7xl">
+        <motion.div
+          className="mb-12 flex flex-col justify-between gap-8 lg:flex-row lg:items-end"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.55, delay }}
+        >
+          <div>
+            <div className="mb-5 flex items-center gap-3">
+              <span
+                className="flex h-15 w-15 flex-shrink-0 items-center justify-center shadow-sm"
+                style={{ background: house.color }}
+              >
+                <img src={house.icon} alt={`${house.name} crest`} className="h-15 w-15 object-contain" />
+              </span>
+              <span
+                className="text-[11px] font-extrabold uppercase tracking-[0.18em]"
+                style={{ color: house.color, fontFamily: "'JetBrains Mono', ui-monospace, monospace" }}
+              >
+                {house.tagline}
+              </span>
+            </div>
+
+            <h2 className="text-[clamp(1.75rem,3.4vw,2.5rem)] font-extrabold leading-tight" style={{ color: NAVY }}>
+              {house.name}
+            </h2>
+            <div className="mt-3 h-1 w-16" style={{ background: house.color }} />
+          </div>
+
+          {/* <p className="max-w-md text-sm leading-relaxed text-slate-600">{house.description}</p> */}
+        </motion.div>
+
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {house.images.map((img, i) => (
+            <motion.div
+              key={img.id}
+              className="group relative cursor-pointer overflow-hidden border-t-4 bg-white shadow-sm transition-shadow hover:shadow-xl"
+              style={{ borderTopColor: house.color }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.45, delay: 0.05 * i }}
+              whileHover={{ y: -6 }}
+              onClick={() => setLightboxIndex(i)}
+            >
+              <div className="relative h-56 overflow-hidden">
+                <img
+                  src={img.src}
+                  alt={img.caption}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-slate-950/0 transition-colors group-hover:bg-slate-950/30" />
+                <Camera className="absolute right-3 top-3 h-4 w-4 text-white/0 transition-colors group-hover:text-white/90" />
+              </div>
+              <div className="px-4 py-3">
+                <p className="text-sm font-semibold text-slate-800">{img.caption}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {lightboxIndex !== null && (
+          <HouseLightbox
+            images={house.images}
+            title={house.name}
+            accentColor={house.color}
+            index={lightboxIndex}
+            onClose={() => setLightboxIndex(null)}
+            onNext={() => setLightboxIndex((i) => (i === null ? 0 : (i + 1) % house.images.length))}
+            onPrev={() => setLightboxIndex((i) => (i === null ? 0 : (i - 1 + house.images.length) % house.images.length))}
+          />
+        )}
+      </AnimatePresence>
+    </section>
+  );
+}
+
+function HousePreviewCard({ house, onView, delay }) {
+  return (
+    <motion.div
+      className="group border border-slate-100 bg-white p-6 shadow-[0_8px_30px_-16px_rgba(2,8,22,0.25)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_-16px_rgba(2,8,22,0.3)]"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.45, delay }}
+    >
+      <div className="mb-1 flex items-center gap-3">
+        <span
+          className="flex h-11 w-11 flex-shrink-0 items-center justify-center"
+          style={{ background: `${house.color}17` }}
+        >
+          <img src={house.icon} alt={`${house.name} crest`} className="h-11 w-11 object-contain" />
+        </span>
+        <h3 className="text-[15px] font-extrabold leading-tight" style={{ color: house.color }}>
+          {house.name}
+        </h3>
+      </div>
+      <p className="mb-4 ml-[3.5rem] text-xs font-medium text-slate-500">{house.tagline}</p>
+
+      <div className="mb-5 grid grid-cols-4 gap-2">
+        {house.images.slice(0, 4).map((img) => (
+          <div key={img.id} className="relative aspect-square overflow-hidden bg-slate-100">
+            <img src={img.src} alt={img.caption} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110" />
+            <div
+              className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              style={{ background: `${house.color}99` }}
+            />
+          </div>
+        ))}
+      </div>
+      
+      {/* comment button for temporary */}
+      {/* <button
+        type="button"
+        onClick={onView}
+        className="flex w-full items-center justify-center gap-2 py-2.5 text-xs font-bold uppercase tracking-wide text-white shadow-sm transition-transform duration-200 hover:scale-[1.02]"
+        style={{ background: house.color }}
+      >
+        View Moments <ArrowRight size={14} />
+      </button> */}
+    </motion.div>
+  );
+}
+
+function HousesGallery() {
+  const [activeHouse, setActiveHouse] = useState("all");
+
+  const visibleHouses = activeHouse === "all" ? HOUSES : HOUSES.filter((h) => h.id === activeHouse);
+
+  const scrollToHouse = (id) => {
+    setActiveHouse(id);
+    requestAnimationFrame(() => {
+      const el = document.getElementById(`house-${id}`);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
+
+  return (
+    <div className="w-full">
+      <section style={{ background: "#F8FAFC" }} className="px-6 py-16 sm:py-20 lg:px-12">
+        <div className="mx-auto mb-12 flex max-w-7xl flex-col justify-between gap-8 lg:flex-row lg:items-end">
+          <div className="max-w-xl">
+            <div className="mb-4 flex items-center gap-3">
+              <span className="h-px w-8" style={{ background: SKY }} />
+              <span
+                className="text-[11px] font-bold uppercase tracking-[0.18em]"
+                style={{ color: SKY, fontFamily: "'JetBrains Mono', ui-monospace, monospace" }}
+              >
+                Four Houses, One School
+              </span>
+            </div>
+
+            <h2 className="text-[clamp(1.75rem,4vw,2.5rem)] font-extrabold leading-tight" style={{ color: NAVY }}>
+              Life Across Our <span style={{ color: SKY }}>Houses</span>
+            </h2>
+            <div className="mb-5 mt-3 h-1 w-16" style={{ background: GOLD }} />
+            <p className="text-sm leading-relaxed text-slate-500">
+              Every student belongs to one of four houses — Peridots, Celestites, Garnets, and
+              Amethyst — each with its own spirit, colours, and moments captured here.
+            </p>
+          </div>
+
+          {/* segmented house tabs */}
+          <div className="flex flex-wrap gap-1.5 p-1.5 lg:flex-nowrap" style={{ background: NAVY }}>
+            {[{ id: "all", name: "All Houses", color: GOLD }, ...HOUSES.map((h) => ({ id: h.id, name: h.name.replace("House of ", ""), color: h.color }))].map((h) => {
+              const isActive = activeHouse === h.id;
+              return (
+                <button
+                  key={h.id}
+                  onClick={() => setActiveHouse(h.id)}
+                  className="relative overflow-hidden px-5 py-2.5 text-xs font-semibold uppercase tracking-wider sm:text-sm"
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeHouseTab"
+                      className="absolute inset-0 z-0"
+                      style={{ background: h.color, border: h.id === "all" ? `1.5px solid ${GOLD}` : "none" }}
+                      transition={{ type: "spring", stiffness: 260, damping: 28 }}
+                    />
+                  )}
+                  <span
+                    className="relative z-10 transition-colors duration-300"
+                    style={{ color: isActive ? "#ffffff" : "rgba(255,255,255,0.65)" }}
+                  >
+                    {h.name}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* preview cards */}
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {HOUSES.map((house, i) => (
+            <HousePreviewCard key={house.id} house={house} delay={i * 0.05} onView={() => scrollToHouse(house.id)} />
+          ))}
+        </div>
+      </section>
+
+      {visibleHouses.map((house, i) => (
+        <HouseSection key={house.id} house={house} delay={i * 0.05} />
+      ))}
+    </div>
+  );
+}
+
 /* ---------------------------------------------------------
-   Page
+   Page — masonry gallery + houses section together
 --------------------------------------------------------- */
 export default function GalleryPreview() {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -419,7 +903,7 @@ export default function GalleryPreview() {
       <GalleryHeader />
       <GalleryFilters active={activeCategory} onChange={handleCategoryChange} />
 
-      <section className="mx-auto max-w-7xl px-6 pt-12 sm:px-10 lg:px-12">
+      <section className="mx-auto max-w-[1350px] px-4 pt-12 sm:px-6 lg:px-8">
         <GalleryGrid items={visibleItems} onSelect={setActiveIndex} />
         <LoadMoreButton
           hasMore={visibleCount < filteredItems.length}
@@ -435,7 +919,8 @@ export default function GalleryPreview() {
         onClose={() => setActiveIndex(null)}
         onNavigate={setActiveIndex}
       />
+
+      <HousesGallery />
     </main>
   );
 }
-// ---------------------------------------------------------

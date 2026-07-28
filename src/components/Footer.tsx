@@ -184,7 +184,7 @@ export default function Footer({
           <h4 className="font-display font-bold text-base text-white tracking-wider uppercase border-b-2 border-primary/40 pb-2 inline-block">
             Reach Us
           </h4>
-          <div className="space-y-2 text-sm">
+          <div className="space-y-8 text-sm mt-5">
             <p className="flex items-start gap-2 text-gray-300">
               <MapPin className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
               <span className="leading-snug">
@@ -202,8 +202,7 @@ export default function Footer({
           </div>
 
           {/* Clean Google Maps Embed */}
-          <div className="w-full h-28  overflow-hidden border border-slate-800 relative bg-slate-900 shadow">
-            {/* The real map embed pointed to Hyderabad Bypass */}
+          {/* <div className="w-full h-28  overflow-hidden border border-slate-800 relative bg-slate-900 shadow">
             <iframe
               title="Isra Foundation Schools Location Map"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3604.2885973795115!2d68.3971207!3d25.4118335!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x394c71ef694c925d%3A0xc3cf9363a0279a29!2sIsra%20University!5e0!3m2!1sen!2spk!4v1700000000000!5m2!1sen!2spk"
@@ -214,7 +213,8 @@ export default function Footer({
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
-          </div>
+          </div> */}
+
         </div>
       </div>
 

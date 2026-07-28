@@ -226,7 +226,6 @@ export default function VerticalCardSlider({
           letter-spacing: 0.14em;
           text-transform: uppercase;
           padding: 5px 14px;
-          border-radius: 100px;
           margin-bottom: 18px;
           width: fit-content;
         }
@@ -251,7 +250,6 @@ export default function VerticalCardSlider({
         .vcs-divider {
           width: 40px;
           height: 3px;
-          border-radius: 10px;
           margin-bottom: 20px;
         }
         .vcs-bio {
@@ -260,6 +258,7 @@ export default function VerticalCardSlider({
           line-height: 1.75;
           max-width: 380px;
           margin-bottom: 32px;
+          text-align: justify;
         }
           
       .vcs-read-btn {
@@ -502,7 +501,8 @@ export default function VerticalCardSlider({
           <p className="vcs-designation">{member.designation}</p>
           <div className="vcs-divider" style={{ background: accent }} />
           <p className="vcs-bio">"{member.bio}"</p>
-          <button
+          {/* comment for temporary */}
+          {/* <button
             className="vcs-read-btn"
             style={{ borderColor: accent, color: "#0d1f3c" }}
           >
@@ -515,7 +515,7 @@ export default function VerticalCardSlider({
               Read More
               <ArrowRight size={14} />
             </span>
-          </button>
+          </button> */}
         </div>
 
         {/* NAV — line-style Up / Down arrows (matches reference screenshot) */}
