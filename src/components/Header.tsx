@@ -282,6 +282,15 @@ export default function Header({
             <Underline active={currentView === "gallery"} />
           </button>
 
+          {/* Policies Link */}
+          <button
+            onClick={() => handleNav("gallery")}
+            className={`group ${navLinkBase} ${navLinkColor("gallery")}`}
+          >
+            Policies
+            <Underline active={currentView === "gallery"} />
+          </button>
+
           {/* Careers Link */}
           <button
             onClick={() => handleNav("careers")}

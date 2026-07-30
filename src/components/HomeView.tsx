@@ -520,7 +520,7 @@ export default function HomeView({
                       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.75 }}
                     >
                       <div className="shrink-0 w-1  mt-1" style={{ height: 52, background: heroSlides[activeSlide].accent }} />
-                      <p className="text-white leading-relaxed" style={{ fontSize: "clamp(0.85rem, 1.3vw, 1.15rem)", maxWidth: 600 }}>
+                      <p className="text-white/80 leading-relaxed" style={{ fontSize: "clamp(0.85rem, 1.3vw, 1.15rem)", maxWidth: 600 }}>
                         {heroSlides[activeSlide].sub}
                       </p>
                     </motion.div>
