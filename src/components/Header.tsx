@@ -80,8 +80,10 @@ export default function Header({
   const isOpen = activeDropdown !== null && isMounted;
 
   // Shared classes for top-level nav buttons
+  // NOTE: tightened horizontal padding + font-size at the xl breakpoint so 11 nav
+  // items + logo comfortably fit between 1280px-1535px without wrapping/cutting off.
   const navLinkBase =
-    "relative px-2 xl:px-2.5 py-2 text-sm font-semibold whitespace-nowrap transition-colors duration-300 ease-out";
+    "relative px-1.5 xl:px-2 2xl:px-2.5 py-2 text-[13px] xl:text-sm font-semibold whitespace-nowrap transition-colors duration-300 ease-out";
   const navLinkColor = (view: MainView) =>
     currentView === view
       ? "text-primary-dark"
@@ -126,45 +128,41 @@ export default function Header({
     <header className="sticky top-0 z-50 w-full bg-white shadow-md border-b border-gray-100">
       {/* Top Banner Bar */}
       <div className="bg-slate-900 text-white text-xs py-2 px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-2">
-        <div className="flex items-center gap-4">
-          <span className="flex items-center gap-1 text-gray-300">
-            <Phone className="w-3.5 h-3.5 text-primary" />
+        <div className="flex items-center gap-4 flex-wrap justify-center sm:justify-start">
+          <span className="flex items-center gap-1 text-gray-300 whitespace-nowrap">
+            <Phone className="w-3.5 h-3.5 text-primary flex-shrink-0" />
             +92 317 3700049 / 022 111 111 IFS
           </span>
           <span className="hidden md:inline text-gray-400">|</span>
-          <span className="hidden md:inline text-primary">
-          <marquee>Admissions Open 2026-2027</marquee>
+          <span className="hidden md:inline text-primary whitespace-nowrap">
+            <marquee>Admissions Open 2026-2027</marquee>
           </span>
         </div>
 
+        {/* Main Parent Container jo dono blocks ko sath layega */}
+        {/* Moved from lg: to xl: so it only appears once there's enough room
+            alongside the phone number + marquee (matches nav breakpoint below) */}
+        <div className="hidden xl:flex items-center gap-4 flex-shrink-0">
+          {/* 1. Affiliations Block */}
+          <div className="flex items-center gap-2">
+            <span className="text-gray-300 font-medium whitespace-nowrap">Affiliations:</span>
+            <span className="bg-primary/20 text-primary px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider whitespace-nowrap">
+              Cambridge (CAIE)
+            </span>
+            <span className="bg-secondary/20 text-secondary px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider whitespace-nowrap">
+              Finland HEI
+            </span>
+          </div>
 
-
-      {/* Main Parent Container jo dono blocks ko sath layega */}
-      <div className="hidden lg:flex items-center gap-6 flex-shrink-0">
-        
-        {/* 1. Affiliations Block */}
-        <div className="flex items-center gap-4">
-          <span className="text-gray-300 font-medium">Affiliations:</span>
-          <span className="bg-primary/20 text-primary px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider">
-            Cambridge (CAIE)
-          </span>
-          <span className="bg-secondary/20 text-secondary px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider">
-            Finland HEI
-          </span>
+          {/* 2. LMS Portal Highlight Action Button */}
+          <button
+            onClick={() => window.open("https://moodle26.ifs.edu.pk/", "_blank")}
+            className="flex items-center gap-1.5 bg-slate-900 text-primary hover:bg-primary/20 border-2 border-primary/40 px-3 py-1.5 text-xs font-semibold transition-all duration-300 shadow hover:shadow-md cursor-pointer select-none whitespace-nowrap"
+          >
+            <GraduationCap className="w-4 h-4 text-primary flex-shrink-0" />
+            Student LMS Portal
+          </button>
         </div>
-
-        {/* 2. LMS Portal Highlight Action Button */}
-        <button
-          onClick={() => window.open("https://moodle26.ifs.edu.pk/", "_blank")}
-          className="flex items-center gap-1.5 bg-slate-900 text-primary hover:bg-primary/20 border-2 border-primary/40 px-4 py-2.5 text-sm font-semibold transition-all duration-300 shadow hover:shadow-md cursor-pointer select-none"
-        >
-          <GraduationCap className="w-4 h-4 text-primary" />
-          Student LMS Portal
-        </button>
-
-      </div>
-
-
       </div>
 
       {/* Main Header Row */}
@@ -181,22 +179,24 @@ export default function Header({
           <img
             src="assets/images/logo.png"
             alt="School Logo"
-            className="logo w-15 h-15 object-contain transition-transform duration-300 group-hover:scale-105"
+            className="logo w-12 h-12 xl:w-15 xl:h-15 object-contain transition-transform duration-300 group-hover:scale-105"
             id="school-logo-img"
           />
           <div className="flex flex-col">
-            <h1 className="font-serif text-lg sm:text-xl font-bold tracking-tight text-slate-900 transition-colors leading-none mb-0.5">
+            <h1 className="font-serif text-base xl:text-xl font-bold tracking-tight text-slate-900 transition-colors leading-none mb-0.5 whitespace-nowrap">
               ISRA FOUNDATION
             </h1>
-            <span className="text-[9px] tracking-[0.2em] uppercase font-semibold text-black">
+            <span className="text-[8px] xl:text-[9px] tracking-[0.2em] uppercase font-semibold text-black whitespace-nowrap">
               Schools & Academies
             </span>
           </div>
         </div>
 
         {/* Desktop Navigation */}
+        {/* Switched from lg:flex to xl:flex — 11 nav items don't fit at 1024px,
+            so we now show the hamburger menu all the way up to 1279px */}
         <nav
-          className="hidden lg:flex flex-1 items-center justify-end gap-0.5 xl:gap-1 ml-10 xl:ml-20 mr-6"
+          className="hidden xl:flex flex-1 items-center justify-end gap-0 2xl:gap-1 ml-6 2xl:ml-12 mr-4"
           id="desktop-navigation-menu"
         >
           {/* Home Link */}
@@ -261,7 +261,8 @@ export default function Header({
             onClick={() => handleNav("activities")}
             className={`group ${navLinkBase} ${navLinkColor("activities")}`}
           >
-            Activities            <Underline active={currentView === "activities"} />
+            Activities
+            <Underline active={currentView === "activities"} />
           </button>
 
           {/* News & Events Link */}
@@ -310,12 +311,11 @@ export default function Header({
           </button>
         </nav>
 
-
-
         {/* Mobile Menu Button */}
+        {/* Now shows up to 1279px (xl:hidden instead of lg:hidden) to match nav switch */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-2 text-slate-800 hover:bg-slate-50 rounded-lg border border-gray-100 transition-colors duration-300"
+          className="xl:hidden p-2 text-slate-800 hover:bg-slate-50 rounded-lg border border-gray-100 transition-colors duration-300"
           aria-label="Toggle Menu"
         >
           {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -327,7 +327,7 @@ export default function Header({
         <div
           onMouseEnter={() => openDropdown(activeDropdown)}
           onMouseLeave={closeDropdownDelayed}
-          className={`hidden lg:block absolute left-0 top-full w-full bg-white border-b border-gray-100 shadow-xl transition-all duration-300 ease-out ${
+          className={`hidden xl:block absolute left-0 top-full w-full bg-white border-b border-gray-100 shadow-xl transition-all duration-300 ease-out ${
             isOpen
               ? "opacity-100 scale-y-100 translate-y-0 pointer-events-auto"
               : "opacity-0 scale-y-95 -translate-y-2 pointer-events-none"
@@ -373,8 +373,9 @@ export default function Header({
       )}
 
       {/* Mobile Drawer Navigation */}
+      {/* Now covers up to 1279px (xl:hidden instead of lg:hidden) to match the button above */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-t border-gray-100 shadow-lg absolute top-full left-0 w-full max-h-[calc(100vh-80px)] overflow-y-auto px-4 py-4 space-y-2 fade-in">
+        <div className="xl:hidden bg-white border-t border-gray-100 shadow-lg absolute top-full left-0 w-full max-h-[calc(100vh-80px)] overflow-y-auto px-4 py-4 space-y-2 fade-in">
           {/* Home */}
           <button
             onClick={() => handleNav("home")}
