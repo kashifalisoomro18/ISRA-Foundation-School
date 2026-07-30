@@ -135,7 +135,7 @@ export default function Header({
           </span>
           <span className="hidden md:inline text-gray-400">|</span>
           <span className="hidden md:inline text-primary whitespace-nowrap">
-            <marquee>Admissions Open 2026-2027</marquee>
+            <marquee scrollamount="3">Admissions Open 2026-2027</marquee>
           </span>
         </div>
 
@@ -518,7 +518,7 @@ export default function Header({
           {/* Student Portal Mobile */}
           <div className="pt-4">
             <button
-              onClick={() => handleNav("lms-portal")}
+              onClick={() => window.open("https://moodle26.ifs.edu.pk/", "_blank")}
               className="w-full flex items-center justify-center gap-2 bg-slate-900 text-primary hover:bg-slate-800 py-3 rounded-lg text-sm font-bold shadow border border-primary/40 transition-colors duration-200"
             >
               <GraduationCap className="w-5 h-5 text-primary" />
