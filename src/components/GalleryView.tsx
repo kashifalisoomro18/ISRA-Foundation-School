@@ -171,7 +171,7 @@ function GalleryHero() {
 
           <div className="mb-6 mt-5 h-[3px] w-16" style={{ background: SKY }} />
 
-          <p className="max-w-sm text-[15px] leading-relaxed text-white/70">
+          <p className="max-w-sm text-[15px] leading-relaxed text-white/80">
             Capturing the moments, memories and milestones that make our school special.
           </p>
         </motion.div>

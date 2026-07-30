@@ -1,56 +1,98 @@
 import { motion } from "motion/react";
+import RibbonPathwaysSection from "./RibbonPathways";
+
+const NAVY = "#0d1f3c";
+const GOLD = "#F5C330";
+const SKY = "#60BADC";
 
 export default function AdmissionsHero() {
   return (
-    <section
-      id="admissions-hero"
-      className="relative h-[420px] lg:h-[430px] overflow-hidden"
-      style={{
-        backgroundImage: "url('https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=2070&auto=format&fit=crop')",
-        backgroundAttachment: "fixed",
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-      }}
-    >
-      {/* Theme overlay: dark navy with subtle yellow accent at bottom */}
+      <section className="relative w-full overflow-hidden" style={{ background: NAVY }}>
+      {/* dot grid texture, top-left */}
       <div
-        className="absolute inset-0 z-[1]"
+        className="absolute left-0 top-0 h-full w-full opacity-[0.06]"
         style={{
-          background:
-            "linear-gradient(90deg, rgba(11,32,63,0.80) 0%, rgba(11,32,63,0.55) 100%)",
+          backgroundImage: "radial-gradient(circle, #ffffff 1px, transparent 1px)",
+          backgroundSize: "18px 18px",
         }}
       />
-      {/* Yellow bottom accent line */}
-      {/* <div
-        className="absolute bottom-0 left-0 right-0 h-[4px] z-[2]"
+
+      {/* building photo, right half, blended into navy */}
+      <div
+        className="absolute inset-0 hidden sm:block"
+        style={{
+          backgroundImage: "url('building-image1.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed",
+        }}
+      />
+      {/* mobile fallback: fixed backgrounds behave inconsistently on touch devices, so use a static cover image there */}
+      <div
+        className="absolute inset-0 sm:hidden"
+        style={{
+          backgroundImage: "url('building-image1.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+      <div
+        className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(90deg, transparent 0%, #F5C330 30%, #F5C330 70%, transparent 100%)",
+            "linear-gradient(90deg, #020816 0%, rgba(2,8,22,0.88) 20%, rgba(2,8,22,0.55) 48%, rgba(2,8,22,0.7) 100%)",
         }}
-      /> */}
+      />
+      <div
+        className="absolute inset-0"
+        style={{ background: "linear-gradient(180deg, rgba(2,8,22,0.15) 0%, rgba(2,8,22,0.35) 100%)" }}
+      />
 
-      <div className="relative z-[3] max-w-7xl mx-auto h-full flex items-end px-8 lg:px-16 pb-12 lg:pb-16">
+      {/* decorative arc, top-right */}
+      <svg
+        className="pointer-events-none absolute -right-16 -top-24 hidden h-72 w-72 sm:block lg:h-96 lg:w-96"
+        viewBox="0 0 400 400"
+        fill="none"
+      >
+        <circle cx="200" cy="200" r="199" stroke={GOLD} strokeWidth="1.5" strokeOpacity="0.55" />
+      </svg>
+
+      <div className="relative z-10 px-6 py-20 sm:px-12 sm:py-24 lg:px-20 lg:py-28">
         <motion.div
-          className="-ml-20"
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="max-w-xl"
         >
+          <div className="mb-6 flex items-center gap-3">
+            <span className="h-px w-8" style={{ background: GOLD }} />
+            <span
+              className="text-[11px] font-bold uppercase tracking-[0.22em]"
+              style={{ color: GOLD, fontFamily: "'JetBrains Mono', ui-monospace, monospace" }}
+            >
+              Start Your Journey
+            </span>
+          </div>
+
           <h1
+            className="font-extrabold text-white"
             style={{
-              fontSize: "clamp(48px, 7vw, 80px)",
-              fontWeight: 750,
-              lineHeight: "1",
-              letterSpacing: "-3px",
-              color: "#ffffffff",
-              fontFamily: "Inter, sans-serif",
-              margin: 0,
+              fontSize: "clamp(48px, 6.5vw, 82px)",
+              lineHeight: 0.98,
+              letterSpacing: "-0.03em",
             }}
           >
-            ADMISSIONS
+            Admissions
           </h1>
+
+          <div className="mb-6 mt-5 h-[3px] w-16" style={{ background: SKY }} />
+
+          <p className="max-w-sm text-[15px] leading-relaxed text-white/80 text-justify">
+           Apply with confidence and become part of an inspiring learning environment where innovation, excellence, and opportunity come together.
+          </p>
         </motion.div>
       </div>
-    </section>
+      </section>
+
   );
 }

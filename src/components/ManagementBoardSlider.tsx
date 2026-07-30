@@ -159,7 +159,6 @@ export default function ManagementBoardSlider({ members }: ManagementBoardSlider
           letter-spacing: 0.14em;
           text-transform: uppercase;
           padding: 5px 14px;
-          border-radius: 100px;
           margin-bottom: 14px;
           will-change: transform;
         }

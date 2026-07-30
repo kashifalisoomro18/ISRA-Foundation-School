@@ -156,7 +156,7 @@ export default function ContactView() {
             <h1 className="font-sans font-black text-white text-4xl sm:text-6xl tracking-tight leading-[1.02]">
               Get In <span className="text-[#F5C330]">Touch</span>
             </h1>
-            <p className="text-white text-sm sm:text-base leading-relaxed max-w-lg text-justify">
+            <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-lg text-justify">
               We're here to help and answer any question about admissions, campuses, or campus
               life. Our team looks forward to hearing from you.
             </p>
