@@ -903,42 +903,30 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
       />
 
       {/* decorative arc, top-right */}
-      <svg
-        className="pointer-events-none absolute -right-16 -top-24 hidden h-72 w-72 sm:block lg:h-96 lg:w-96"
-        viewBox="0 0 400 400"
-        fill="none"
-      >
-        <rect
-          x="70"
-          y="70"
-          width="260"
-          height="260"
-          transform="rotate(45 200 200)"
-          stroke={GOLD}
-          strokeWidth="1.5"
-          strokeOpacity="0.45"
-        />
-        <rect
-          x="105"
-          y="105"
-          width="190"
-          height="190"
-          transform="rotate(45 200 200)"
-          stroke={GOLD}
-          strokeWidth="1.2"
-          strokeOpacity="0.3"
-        />
-        <rect
-          x="140"
-          y="140"
-          width="120"
-          height="120"
-          transform="rotate(45 200 200)"
-          stroke={GOLD}
-          strokeWidth="1"
-          strokeOpacity="0.2"
-        />
-      </svg>
+  <svg
+  className="pointer-events-none absolute -right-20 -top-24 hidden h-80 w-80 sm:block lg:h-[28rem] lg:w-[28rem]"
+  viewBox="0 0 400 400"
+  fill="none"
+>
+  {[
+    [200, 60], [140, 100], [260, 100], [320, 60],
+    [80, 140], [200, 140], [320, 140],
+    [140, 180], [260, 180], [380, 180],
+    [80, 220], [200, 220], [320, 220],
+    [140, 260], [260, 260],
+    [200, 300], [320, 300],
+  ].map(([cx, cy], i) => {
+    const dist = Math.sqrt((cx - 200) ** 2 + (cy - 180) ** 2);
+    const opacity = Math.max(0.08, 0.55 - dist * 0.0028);
+    const pts = Array.from({ length: 6 })
+      .map((_, k) => {
+        const a = (k * 60 * Math.PI) / 180;
+        return `${cx + 34 * Math.cos(a)},${cy + 34 * Math.sin(a)}`;
+      })
+      .join(" ");
+    return <polygon key={i} points={pts} stroke={GOLD} strokeWidth="1.2" strokeOpacity={opacity} />;
+  })}
+</svg>
 
       <div className="relative z-10 px-6 py-20 sm:px-12 sm:py-24 lg:px-20 lg:py-28">
         <motion.div

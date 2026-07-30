@@ -1192,15 +1192,42 @@ export default function AcademicsView({
           style={{ background: "linear-gradient(180deg, rgba(2,8,22,0.15) 0%, rgba(2,8,22,0.35) 100%)" }}
         />
 
-        {/* decorative arc, top-right */}
-        <svg
-          className="pointer-events-none absolute -right-16 -top-24 hidden h-72 w-72 sm:block lg:h-96 lg:w-96"
-          viewBox="0 0 400 400"
-          fill="none"
-        >
-          <circle cx="200" cy="200" r="199" stroke={GOLD} strokeWidth="1.5" strokeOpacity="0.55" />
-        </svg>
-
+{/* decorative hexagon, top-right */}
+{/* decorative hexagon cluster, top-right */}
+{/* decorative hexagon cluster, top-right */}
+<svg
+  className="pointer-events-none absolute -right-16 -top-24 hidden h-72 w-72 sm:block lg:h-96 lg:w-96"
+  viewBox="0 0 400 400"
+  fill="none"
+>
+  {[
+    { cx: 290, cy: 70, opacity: 0.35 },
+    { cx: 230, cy: 130, opacity: 0.3 },
+    { cx: 350, cy: 130, opacity: 0.4 },
+    { cx: 170, cy: 190, opacity: 0.25 },
+    { cx: 290, cy: 190, opacity: 0.75, highlight: true },
+    { cx: 350, cy: 250, opacity: 0.3 },
+    { cx: 230, cy: 250, opacity: 0.3 },
+    { cx: 290, cy: 310, opacity: 0.35 },
+  ].map((hex, i) => {
+    const r = 40;
+    const pts = Array.from({ length: 6 })
+      .map((_, k) => {
+        const a = (k * 60 * Math.PI) / 180 - Math.PI / 2;
+        return `${hex.cx + r * Math.cos(a)},${hex.cy + r * Math.sin(a)}`;
+      })
+      .join(" ");
+    return (
+      <polygon
+        key={i}
+        points={pts}
+        stroke={GOLD}
+        strokeWidth={hex.highlight ? "2" : "1.5"}
+        strokeOpacity={hex.opacity}
+      />
+    );
+  })}
+</svg>
         <div className="relative z-10 px-6 py-20 sm:px-12 sm:py-24 lg:px-20 lg:py-28">
           <motion.div
             initial={{ opacity: 0, y: 24 }}

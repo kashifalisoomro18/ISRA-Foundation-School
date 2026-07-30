@@ -49,12 +49,41 @@ export default function AdmissionsHero() {
       />
 
       {/* decorative arc, top-right */}
-      <svg
+    <svg
         className="pointer-events-none absolute -right-16 -top-24 hidden h-72 w-72 sm:block lg:h-96 lg:w-96"
         viewBox="0 0 400 400"
         fill="none"
       >
-        <circle cx="200" cy="200" r="199" stroke={GOLD} strokeWidth="1.5" strokeOpacity="0.55" />
+        <rect
+          x="70"
+          y="70"
+          width="260"
+          height="260"
+          transform="rotate(45 200 200)"
+          stroke={GOLD}
+          strokeWidth="1.5"
+          strokeOpacity="0.45"
+        />
+        <rect
+          x="105"
+          y="105"
+          width="190"
+          height="190"
+          transform="rotate(45 200 200)"
+          stroke={GOLD}
+          strokeWidth="1.2"
+          strokeOpacity="0.3"
+        />
+        <rect
+          x="140"
+          y="140"
+          width="120"
+          height="120"
+          transform="rotate(45 200 200)"
+          stroke={GOLD}
+          strokeWidth="1"
+          strokeOpacity="0.2"
+        />
       </svg>
 
       <div className="relative z-10 px-6 py-20 sm:px-12 sm:py-24 lg:px-20 lg:py-28">

@@ -27,6 +27,9 @@ import {
   Image as ImageIcon,
   ChevronLeft
 } from "lucide-react";
+  const NAVY = "#0d1f3c";
+  const GOLD = "#F5C330";
+  const SKY = "#60BADC";
 
 /* ============================================================
    DATA FOR EDUCATIONAL TRIP
@@ -495,52 +498,109 @@ export default function ActivitiesView({ setView }: { setView?: (view: string) =
       </AnimatePresence>
 
       {/* ============================================================
-          1. HERO (Match AboutView)
+    1. HERO SECTION 
       ============================================================ */}
-      <section
-        className="relative h-[420px] lg:h-[430px] overflow-hidden"
-        style={{
-          backgroundImage: "url('building-image1.jpg')",
-          backgroundAttachment: "fixed",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-        }}
-      >
+      <section className="relative w-full overflow-hidden" style={{ background: NAVY }}>
+        {/* dot grid texture, top-left */}
         <div
-          className="absolute inset-0 z-[1]"
+          className="absolute left-0 top-0 h-full w-full opacity-[0.06]"
           style={{
-            background:
-              "linear-gradient(90deg, rgba(11,32,63,0.80) 0%, rgba(11,32,63,0.55) 100%)",
+            backgroundImage: "radial-gradient(circle, #ffffff 1px, transparent 1px)",
+            backgroundSize: "18px 18px",
           }}
         />
-        {/* yellow line divider */}
-        {/* <div
-          className="absolute bottom-0 left-0 right-0 h-[4px] z-[2]"
+
+        {/* activities photo, right half, blended into navy */}
+        <div
+          className="absolute inset-0 hidden sm:block"
+          style={{
+            backgroundImage: "url('building-image1.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundAttachment: "fixed",
+          }}
+        />
+        {/* mobile fallback: fixed backgrounds behave inconsistently on touch devices, so use a static cover image there */}
+        <div
+          className="absolute inset-0 sm:hidden"
+          style={{
+            backgroundImage: "url('building-image1.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <div
+          className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(90deg, transparent 0%, #F5C330 30%, #F5C330 70%, transparent 100%)",
+              "linear-gradient(90deg, #020816 0%, rgba(2,8,22,0.88) 20%, rgba(2,8,22,0.55) 48%, rgba(2,8,22,0.7) 100%)",
           }}
-        /> */}
-        <div className="relative z-[3] max-w-7xl mx-auto h-full flex items-end px-8 lg:px-16 pb-12 lg:pb-16">
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: "linear-gradient(180deg, rgba(2,8,22,0.15) 0%, rgba(2,8,22,0.35) 100%)" }}
+        />
+
+        {/* decorative arc, top-right */}
+       {/* decorative hexagon, top-right */}
+<svg
+  className="pointer-events-none absolute -right-16 -top-24 hidden h-72 w-72 sm:block lg:h-96 lg:w-96"
+  viewBox="0 0 400 400"
+  fill="none"
+>
+  {Array.from({ length: 6 }).map((_, row) =>
+    Array.from({ length: 6 }).map((_, col) => {
+      const dist = Math.sqrt((row - 2.5) ** 2 + (col - 2.5) ** 2);
+      const opacity = Math.max(0.05, 0.5 - dist * 0.1);
+      return (
+        <rect
+          key={`${row}-${col}`}
+          x={col * 60 + 20}
+          y={row * 60 + 20}
+          width="40"
+          height="40"
+          stroke={GOLD}
+          strokeWidth="1"
+          strokeOpacity={opacity}
+        />
+      );
+    })
+  )}
+</svg>
+
+        <div className="relative z-10 px-6 py-20 sm:px-12 sm:py-24 lg:px-20 lg:py-28">
           <motion.div
-            className="-ml-20"
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="max-w-xl"
           >
+            <div className="mb-6 flex items-center gap-3">
+              <span className="h-px w-8" style={{ background: GOLD }} />
+              <span
+                className="text-[11px] font-bold uppercase tracking-[0.22em]"
+                style={{ color: GOLD, fontFamily: "'JetBrains Mono', ui-monospace, monospace" }}
+              >
+                Beyond the Classroom
+              </span>
+            </div>
+
             <h1
+              className="font-extrabold text-white"
               style={{
-                fontSize: "clamp(56px, 7vw, 80px)",
-                fontWeight: 750,
-                lineHeight: "1",
-                letterSpacing: "-3px",
-                color: "#ffffffff",
-                fontFamily: "Inter, sans-serif",
-                margin: 0,
+                fontSize: "clamp(48px, 6.5vw, 82px)",
+                lineHeight: 0.98,
+                letterSpacing: "-0.03em",
               }}
             >
-              ACTIVITIES
+              Activities
             </h1>
+
+            <div className="mb-6 mt-5 h-[3px] w-16" style={{ background: SKY }} />
+
+            <p className="max-w-sm text-[15px] leading-relaxed text-white/70">
+              Sports, clubs, and events that build character, teamwork, and lifelong passions.
+            </p>
           </motion.div>
         </div>
       </section>
