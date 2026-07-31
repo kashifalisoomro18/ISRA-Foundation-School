@@ -424,7 +424,7 @@ export default function ManagementBoardSlider({ members }: ManagementBoardSlider
                   <h3 className="mbs-slide-name">{member.name}</h3>
                 </div>
                 <div data-swiper-parallax="-150" data-swiper-parallax-opacity="0">
-                  <p className="mbs-slide-desc">{member.description}</p>
+                  <p className="mbs-slide-desc text-justify">{member.description}</p>
                 </div>
               </div>
             </div>

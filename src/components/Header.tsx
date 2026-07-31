@@ -458,19 +458,19 @@ export default function Header({
             <div className="mt-1 space-y-1">
               <button
                 onClick={() => handleSubNav("academics", "curriculum")}
-                className="w-full text-left px-6 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded transition-colors duration-200"
+                className="w-full text-left px-6 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors duration-200"
               >
                 Curriculum Overview
               </button>
               <button
                 onClick={() => handleSubNav("academics", "timings")}
-                className="w-full text-left px-6 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded transition-colors duration-200"
+                className="w-full text-left px-6 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors duration-200"
               >
                 School Timings
               </button>
               <button
                 onClick={() => handleSubNav("academics", "calendar")}
-                className="w-full text-left px-6 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded transition-colors duration-200"
+                className="w-full text-left px-6 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors duration-200"
               >
                 Academic Calendar
               </button>

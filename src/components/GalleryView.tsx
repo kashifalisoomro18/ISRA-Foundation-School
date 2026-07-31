@@ -224,7 +224,7 @@ function GalleryFilters({ active, onChange }) {
               key={id}
               type="button"
               onClick={() => onChange(id)}
-              className="relative flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-colors duration-300"
+              className="relative flex items-center gap-2 px-4 py-2.5 text-sm font-semibold transition-colors duration-300 cursor-pointer"
               style={{
                 color: isActive ? "#ffffff" : "#475569",
                 background: isActive ? NAVY : "transparent",

@@ -1031,8 +1031,7 @@ export default function HomeView({
                 key={item.title}
                 variants={fadeUp}
                 whileHover={{ y: -10, transition: { duration: 0.25, ease: "easeOut" } }}
-                onClick={() => handleSubNav("news-events", "")}
-                className="group relative h-full flex flex-col bg-white border border-slate-100 shadow-sm hover:shadow-xl p-8 overflow-hidden transition-all duration-300 cursor-pointer z-10"
+                className="group relative h-full flex flex-col bg-white border border-slate-100 shadow-sm hover:shadow-xl p-8 overflow-hidden transition-all duration-300 cursor-default z-10"
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = "#f5c330";
                   e.currentTarget.style.backgroundColor = "rgba(245, 195, 48, 0.04)";
@@ -1076,13 +1075,20 @@ export default function HomeView({
                   {item.description}
                 </p>
 
-                <div
-                  className="learn-more-link flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-widest mt-6 transition-transform duration-300 group-hover:translate-x-1 "
-                  style={{ color: item.color }}
+                <button
+                  onClick={() => handleSubNav("news-events", "")}
+                  className="learn-more-link group/btn relative inline-flex w-fit  items-center gap-2 overflow-hidden border border-[#020816] px-4 py-2 text-xs font-bold uppercase tracking-widest text-[#020816] transition-all duration-300 cursor-pointer mt-5"
                 >
-                  Learn More
-                  <ArrowRight className="w-4 h-4" />
-                </div>
+                  {/* Hover Background */}
+                  <span className="absolute inset-0 origin-left scale-x-0 bg-[#F5C330] transition-transform duration-500 ease-out group-hover/btn:scale-x-100"></span>
+
+                  {/* Content */}
+                  <span className="relative z-10 flex items-center gap-2 text-[#020816]">
+                    Learn More
+                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
+                  </span>
+                </button>
+                
               </motion.div>
             ))}
           </motion.div>
@@ -1127,7 +1133,7 @@ export default function HomeView({
               className="group relative overflow-hidden bg-white text-slate-950 font-bold text-xs uppercase tracking-widest px-10 py-4 rounded-none shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
             >
               {/* Hover Background */}
-              <span className="absolute inset-0 bg-primary origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100"></span>
+              <span className="absolute inset-0 bg-primary origin-left scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100"></span>
 
               {/* Button Text */}
               <span className="relative z-10 transition-colors duration-300 group-hover:text-slate-950">

@@ -861,7 +861,7 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
       {/* ============================================================
           1. HERO SECTION
       ============================================================ */}
-      <section className="relative w-full overflow-hidden" style={{ background: NAVY }}>
+      <section  className="relative w-full overflow-hidden" style={{ background: NAVY }}>
       {/* dot grid texture, top-left */}
       <div
         className="absolute left-0 top-0 h-full w-full opacity-[0.06]"
@@ -935,9 +935,10 @@ export default function AboutView({ subView, setSubView }: AboutViewProps) {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="max-w-xl"
         >
-          <div className="mb-6 flex items-center gap-3">
+          <div
+            className="mb-6 flex items-center gap-3">
             <span className="h-px w-8" style={{ background: GOLD }} />
-            <span
+            <span 
               className="text-[11px] font-bold uppercase tracking-[0.22em]"
               style={{ color: GOLD, fontFamily: "'JetBrains Mono', ui-monospace, monospace" }}
             >
